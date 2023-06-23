@@ -7,6 +7,20 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <StackPanel>
+            <DockPanel>
+                <Button Name="Add" Content="Add" Height="40" Width="60" Margin="10 10 10 10" HorizontalAlignment="Left" VerticalAlignment="Stretch"></Button>
+                <Button Name="Delete" Content="Delete" Height="40" Width="60" Margin="10 10 10 10" HorizontalAlignment="Left" VerticalAlignment="Stretch"></Button>
+            </DockPanel>
+            <DataGrid Name="drugLedger" Margin="10 0 10 0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Sr." Width="30"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Name" Width="180"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Manufacturer" Width="180"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Quantity" Width="80"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Price" Width="100"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
     </Grid>
 </Window>
