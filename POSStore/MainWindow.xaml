@@ -12,13 +12,13 @@
                 <Button Name="Add" Content="Add" Height="40" Width="60" Margin="10 10 10 10" HorizontalAlignment="Left" VerticalAlignment="Stretch"></Button>
                 <Button Name="Delete" Content="Delete" Height="40" Width="60" Margin="10 10 10 10" HorizontalAlignment="Left" VerticalAlignment="Stretch"></Button>
             </DockPanel>
-            <DataGrid Name="drugLedger" Margin="10 0 10 0">
+            <DataGrid Name="drugLedger" Margin="10 10 10 10" ItemsSource="{Binding}" AutoGenerateColumns="False" PreviewKeyDown="drugLedger_PreviewKeyDown" SelectionUnit="FullRow">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Sr." Width="30"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Name" Width="180"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Manufacturer" Width="180"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Quantity" Width="80"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Price" Width="100"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Sr." Width="30" Binding="{Binding id}" ></DataGridTextColumn>
+                    <DataGridTextColumn Header="Name" Width="180" Binding="{Binding name}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Manufacturer" Width="180" Binding="{Binding manufacturer}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Quantity" Width="80" Binding="{Binding quantity}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Price" Width="100" Binding="{Binding Cost}"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
