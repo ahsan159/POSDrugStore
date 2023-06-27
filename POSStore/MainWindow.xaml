@@ -22,7 +22,7 @@
                     <DataGridTemplateColumn Header="View">
                         <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                             <Button Click="viewEntry">View</Button>
+                             <Button Click="viewEntry">Add/Update</Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
