@@ -12,13 +12,27 @@
                 <Button Name="Add" Content="Add" Height="40" Width="60" Margin="10 10 10 10" HorizontalAlignment="Left" VerticalAlignment="Stretch"></Button>
                 <Button Name="Delete" Content="Delete" Height="40" Width="60" Margin="10 10 10 10" HorizontalAlignment="Left" VerticalAlignment="Stretch"></Button>
             </DockPanel>
-            <DataGrid Name="drugLedger" Margin="10 10 10 10" ItemsSource="{Binding}" AutoGenerateColumns="False" PreviewKeyDown="drugLedger_PreviewKeyDown" SelectionUnit="FullRow">
+            <DataGrid Name="drugLedger" Margin="10 10 10 10" ItemsSource="{Binding}" AutoGenerateColumns="False" PreviewKeyDown="drugLedger_PreviewKeyDown" SelectionUnit="FullRow" CanUserSortColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Sr." Width="30" Binding="{Binding id}" ></DataGridTextColumn>
                     <DataGridTextColumn Header="Name" Width="180" Binding="{Binding name}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Manufacturer" Width="180" Binding="{Binding manufacturer}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Quantity" Width="80" Binding="{Binding quantity}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Price" Width="100" Binding="{Binding Cost}"></DataGridTextColumn>
+                    <DataGridTemplateColumn Header="View">
+                        <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                             <Button Click="viewEntry">View</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Delete">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Click="deleteEntry">Delete</Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

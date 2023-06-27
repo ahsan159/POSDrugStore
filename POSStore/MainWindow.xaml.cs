@@ -78,5 +78,59 @@ namespace POSStore
 
             }
         }
+                private void addDatatoTable(string cString)
+        {
+            // not only add data but also refresh the datagrid table
+            SqlCommand cmd = new SqlCommand(cString, connection);
+            cmd.Connection.Open();
+            cmd.ExecuteNonQuery();
+            dataAdapter = new SqlDataAdapter(queryString, connectionString);
+            DataTable dTable = new DataTable();
+            dataAdapter.Fill(dTable);
+            drugLedger.DataContext = null;            
+            drugLedger.DataContext = dTable.DefaultView;
+            connection.Close();
+        }
+
+        private void viewEntry(object sender, RoutedEventArgs e)
+        {
+            ///getting a data from the datagrid cell is very tricky
+            ///first get datagridcellinfo from selectedcells list
+            ///second convert datagridcell to cellcontent
+            ///third typecast cellcontect to textblock
+            ///forth get text from textblock which will be your required
+            ///data
+            ///
+            ///donot try to use selectedItem as if your are making new 
+            ///entry. it will not exist and throw exception
+                        
+            List<DataGridCellInfo> cells = drugLedger.SelectedCells.ToList();            
+            string[] newData = new string[5];
+            for (int i = 1; i < 5; i++)
+            {
+                var cellContent = cells[i].Column.GetCellContent(cells[i].Item);
+                TextBlock cellText = (TextBlock)cellContent;
+                newData[i] = cellText.Text;
+                //MessageBox.Show(newData[i] + Environment.NewLine + i.ToString());
+            }
+
+            string cString = @"insert into mainLedger(name,manufacturer,Cost,quantity) values ('" +
+            newData[1].ToString() + "','" +
+            newData[2].ToString() + "','" +
+            newData[3].ToString() + "','" +
+            newData[4].ToString() + "');";
+
+            //MessageBox.Show(cString);
+            addDatatoTable(cString);
+
+        }
+
+        private void deleteEntry(object sender, RoutedEventArgs e)
+        {            
+            DataRowView row = drugLedger.SelectedItem as DataRowView;
+            string cString = @"DELETE FROM mainLedger WHERE id='" + row[0].ToString() + "';";
+            //MessageBox.Show(cString);
+            addDatatoTable(cString);
+        }
     }
 }
