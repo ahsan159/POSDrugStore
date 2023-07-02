@@ -23,7 +23,8 @@ namespace POSStore
 
     public partial class MainWindow : Window
     {
-        public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
+        //public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
+        public string connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
         public string queryString = "SELECT * from mainLedger";
         public SqlConnection connection;
         public SqlDataAdapter dataAdapter;
@@ -31,11 +32,22 @@ namespace POSStore
         {
             InitializeComponent();
 
+            DataTable dTable = new DataTable();
+            try {
             connection = new SqlConnection(connectionString);
             dataAdapter = new SqlDataAdapter(queryString, connectionString);
-            DataTable dTable = new DataTable();
-            connection.Close();
             dataAdapter.Fill(dTable);
+            connection.Close();
+            } catch (Exception e)
+            {
+                MessageBox.Show("Connot Load Data from SQL database" +
+                 Environment.NewLine + e.Message +
+                 Environment.NewLine + e.Source,
+                 "Error",
+                 MessageBoxButton.OK,
+                 MessageBoxImage.Error
+                 );
+            }
             drugLedger.DataContext = dTable.DefaultView;
 
         }
@@ -133,6 +145,12 @@ namespace POSStore
             string cString = @"DELETE FROM mainLedger WHERE id='" + row[0].ToString() + "';";
             //MessageBox.Show(cString);
             addDatatoTable(cString);
+        }
+
+        public void viewDrugData(object sender, RoutedEventArgs e)
+        {
+            drugView dv = new drugView();
+            dv.ShowDialog();
         }
     }
 }

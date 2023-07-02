@@ -9,7 +9,7 @@
     <Grid>
         <StackPanel>
             <DockPanel>
-                <Button Name="Add" Content="Add" Height="40" Width="60" Margin="10 10 10 10" HorizontalAlignment="Left" VerticalAlignment="Stretch"></Button>
+                <Button Name="Add" Content="Add" Height="40" Width="60" Margin="10 10 10 10" HorizontalAlignment="Left" VerticalAlignment="Stretch" Click="viewDrugData"></Button>
                 <Button Name="Delete" Content="Delete" Height="40" Width="60" Margin="10 10 10 10" HorizontalAlignment="Left" VerticalAlignment="Stretch"></Button>
             </DockPanel>
             <DataGrid Name="drugLedger" Margin="10 10 10 10" ItemsSource="{Binding}" AutoGenerateColumns="False" PreviewKeyDown="drugLedger_PreviewKeyDown" SelectionUnit="FullRow" CanUserSortColumns="False">
