@@ -20,6 +20,7 @@
                         <Label Content="Formula" Height="30"></Label>
                         <Label Content="Quantity" Height="30"></Label>
                         <Label Content="Price" Height="30"></Label>
+                        <Label Content="Manufacturer" Height="30"></Label>
                         <Label Content="Expiry" Height="30"></Label>
                         <Label Content="Supplier" Height="30"></Label>
                         <Label Content="Purchase" Height="30"></Label>
@@ -31,6 +32,7 @@
                         <TextBox Name="formulaData" Width="100" Height="30"></TextBox>
                         <TextBox Name="quantityData" Width="100" Height="30"></TextBox>
                         <TextBox Name="priceData" Width="100" Height="30"></TextBox>
+                        <TextBox Name="manufacturerData" Width="100" Height="30"></TextBox>
                         <DatePicker Name="expiryData" Width="100" Height="30"></DatePicker>
                         <!--<TextBox Name="expiryData" Width="100" Height="30"></TextBox>-->
                         <TextBox Name="supplierData" Width="100" Height="30"></TextBox>
@@ -39,8 +41,8 @@
                 </Grid>
             </DockPanel>
             <DockPanel>
-                <Button Name="Update" Content="Update/Save" Margin="100,10,10,10" Height="60" Width="100" HorizontalAlignment="Right"></Button>
-                <Button Name="Cancel" Content="Cancel" Margin="10,10,100,10" Height="60" Width="100" HorizontalAlignment="Right"></Button>
+                <Button Name="Update" Content="Update/Save" Margin="100,10,10,10" Height="60" Width="100" HorizontalAlignment="Right" Click="update"></Button>
+                <Button Name="Close" Content="Close" Margin="10,10,100,10" Height="60" Width="100" HorizontalAlignment="Right" Click="close"></Button>
             </DockPanel>
         </StackPanel>
     </Grid>
