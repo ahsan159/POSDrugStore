@@ -23,8 +23,8 @@ namespace POSStore
 
     public partial class MainWindow : Window
     {
-        //public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
-        public string? connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
+        public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
+        // public string? connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
         public string queryString = "SELECT * from mainLedger";
         public SqlConnection? connection;
         public SqlDataAdapter? dataAdapter;
@@ -54,6 +54,28 @@ namespace POSStore
 
         }
 
+        private void refresh()
+        {
+            DataTable dTable = new DataTable();
+            try
+            {
+                // connection = new SqlConnection(connectionString);
+                dataAdapter = new SqlDataAdapter(queryString, connectionString);
+                dataAdapter.Fill(dTable);
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Connot Load Data from SQL database" +
+                 Environment.NewLine + e.Message +
+                 Environment.NewLine + e.Source,
+                 "Error",
+                 MessageBoxButton.OK,
+                 MessageBoxImage.Error
+                 );
+            }
+            drugLedger.DataContext = dTable.DefaultView;
+        }
         private void drugLedger_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             /*
@@ -93,12 +115,8 @@ namespace POSStore
             SqlCommand cmd = new SqlCommand(cString, connection);
             cmd.Connection.Open();
             cmd.ExecuteNonQuery();
-            dataAdapter = new SqlDataAdapter(queryString, connectionString);
-            DataTable dTable = new DataTable();
-            dataAdapter.Fill(dTable);
-            drugLedger.DataContext = null;
-            drugLedger.DataContext = dTable.DefaultView;
-            // connection.Close();
+            connection.Close();
+            refresh();
         }
         private bool validateEntry()
         {
@@ -129,77 +147,129 @@ namespace POSStore
             ///
             ///donot try to use selectedItem as if your are making new 
             ///entry. it will not exist and throw exception
-
-            List<DataGridCellInfo> cells = drugLedger.SelectedCells.ToList();
-            string[] newData = new string[5];
-            for (int i = 0; i < 5; i++)
+            try
             {
-                var cellContent = cells[i].Column.GetCellContent(cells[i].Item);
-                TextBlock cellText = (TextBlock)cellContent;
-                newData[i] = cellText.Text;
-                //MessageBox.Show(newData[i] + Environment.NewLine + i.ToString());
+                List<DataGridCellInfo> cells = drugLedger.SelectedCells.ToList();
+                string[] newData = new string[5];
+                for (int i = 0; i < 5; i++)
+                {
+                    var cellContent = cells[i].Column.GetCellContent(cells[i].Item);
+                    TextBlock cellText = (TextBlock)cellContent;
+                    newData[i] = cellText.Text;
+                    //MessageBox.Show(newData[i] + Environment.NewLine + i.ToString());
+                }
+
+                if (string.IsNullOrEmpty(newData[0].ToString().Trim()))
+                {
+                    string cString = @"insert into mainLedger(name,manufacturer,Cost,quantity) values ('" +
+                    newData[1].ToString() + "','" +
+                    newData[2].ToString() + "','" +
+                    newData[4].ToString() + "','" +
+                    newData[3].ToString() + "');";
+
+                    //MessageBox.Show(cString);
+                    addDatatoTable(cString);
+                }
+                else
+                {
+                    //MessageBox.Show("Possible Duplicate Entry")
+                }
+            }
+            catch (Exception exp)
+            {
+                MessageBox.Show(exp.Message + Environment.NewLine +
+                                exp.Source + Environment.NewLine +
+                                exp.StackTrace,
+                                "Error",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
             }
 
-            if (string.IsNullOrEmpty(newData[0].ToString().Trim()))
-            {
-                string cString = @"insert into mainLedger(name,manufacturer,Cost,quantity) values ('" +
-                newData[1].ToString() + "','" +
-                newData[2].ToString() + "','" +
-                newData[4].ToString() + "','" +
-                newData[3].ToString() + "');";
-
-                //MessageBox.Show(cString);
-                addDatatoTable(cString);
-            }
-            else
-            {
-                //MessageBox.Show("Possible Duplicate Entry")
-            }
 
         }
 
         private void deleteEntry(object sender, RoutedEventArgs e)
         {
-            if (validateEntry())
+            try
             {
-                DataRowView? row = drugLedger.SelectedItem as DataRowView;
-                string cString = @"DELETE FROM mainLedger WHERE id='" + row[0].ToString() + "';";
-                //MessageBox.Show(cString);
-                addDatatoTable(cString);
+                if (validateEntry())
+                {
+                    DataRowView? row = drugLedger.SelectedItem as DataRowView;
+                    string cString = @"DELETE FROM mainLedger WHERE id='" + row[0].ToString() + "';";
+                    //MessageBox.Show(cString);
+                    addDatatoTable(cString);
+                }
+            }
+            catch (Exception exp)
+            {
+                MessageBox.Show(exp.Message + Environment.NewLine +
+                                exp.Source + Environment.NewLine +
+                                exp.StackTrace,
+                                "Error",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
             }
         }
 
         public void viewDrugData(object sender, RoutedEventArgs evt)
         {
-            if (validateEntry())
+            try
             {
-                DataRowView? row = drugLedger.SelectedItem as DataRowView;
-                string idQuery = @"SELECT * FROM mainLedger WHERE id='" + row[0].ToString() + "';";
-                DataTable dTable = new DataTable();
-                try
+                if (validateEntry())
                 {
-                    connection = new SqlConnection(connectionString);
-                    dataAdapter = new SqlDataAdapter(idQuery, connectionString);
-                    dataAdapter.Fill(dTable);
-                    connection.Close();
+                    DataRowView? row = drugLedger.SelectedItem as DataRowView;
+                    string idQuery = @"SELECT * FROM mainLedger WHERE id='" + row[0].ToString() + "';";
+                    DataTable dTable = new DataTable();
+                    try
+                    {
+                        connection = new SqlConnection(connectionString);
+                        dataAdapter = new SqlDataAdapter(idQuery, connectionString);
+                        dataAdapter.Fill(dTable);
+                        connection.Close();
+                        drugView dv = new drugView(dTable);
+                        dv.ShowDialog();
+                        refresh();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("valid data error" +
+                         Environment.NewLine + e.Message +
+                         Environment.NewLine + e.Source,
+                         "Error",
+                         MessageBoxButton.OK,
+                         MessageBoxImage.Error
+                         );
+                    }
+
                 }
-                catch (Exception e)
-                {
-                    MessageBox.Show("valid data error" +
-                     Environment.NewLine + e.Message +
-                     Environment.NewLine + e.Source,
-                     "Error",
-                     MessageBoxButton.OK,
-                     MessageBoxImage.Error
-                     );
-                }
-                drugView dv = new drugView(dTable);
-                dv.ShowDialog();
             }
+            catch (Exception exp)
+            {
+                MessageBox.Show(exp.Message + Environment.NewLine +
+                                exp.Source + Environment.NewLine +
+                                exp.StackTrace,
+                                "Error",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+            }
+
         }
         public void addDrugData(object sender, RoutedEventArgs evt)
         {
-            viewEntry(this,new RoutedEventArgs());
+            try
+            {
+                viewEntry(this, new RoutedEventArgs());
+            }
+            catch (Exception)
+            {
+                viewDrugData(this, new RoutedEventArgs());
+            }
+            finally
+            {
+                drugView dv = new drugView();
+                dv.ShowDialog();
+                refresh();
+            }
         }
     }
 }
