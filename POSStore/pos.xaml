@@ -1,0 +1,44 @@
+﻿<Window x:Class="POSStore.pos"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:POSStore"
+        mc:Ignorable="d"
+        Title="drugStore: Point Of Sale" Height="600" Width="800">
+    <Grid>
+        <StackPanel MinHeight="600" MinWidth="800">
+            <DockPanel VerticalAlignment="Top">
+                <Button Margin="10,10,10,10" Width="80" Height="50" Content="New Sale" HorizontalAlignment="Left"></Button>
+                <Button Margin="10,10,10,10" Width="80" Height="50" Content="Last Sale" HorizontalAlignment="Left"></Button>
+                <Button Margin="10,10,10,10" Width="80" Height="50" Content="Drug List" HorizontalAlignment="Left"></Button>
+                <Button Margin="10,10,10,10" Width="80" Height="50" Content="Add" HorizontalAlignment="Left"></Button>
+                <Button Margin="10,10,10,10" Width="80" Height="50" Content="Return" HorizontalAlignment="Right"></Button>
+            </DockPanel>
+            <Grid Height="450">
+                <DataGrid>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Quanitity"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Price"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Discount %"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Discount %"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Sale Tax"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Total"></DataGridTextColumn>
+                        <DataGridTemplateColumn Header="Delete">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Delete" Width="50" Height="20"></Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>                
+            </Grid>
+            <DockPanel VerticalAlignment="Bottom">
+                <Button Margin="10,10,10,10" Width="80" Height="50" Content="Refresh" HorizontalAlignment="Left"></Button>
+                <Button Margin="10,10,10,10" Width="80" Height="50" Content="Close" HorizontalAlignment="Right"></Button>
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</Window>
