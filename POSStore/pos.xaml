@@ -16,24 +16,33 @@
                 <Button Margin="10,10,10,10" Width="80" Height="50" Content="Return" HorizontalAlignment="Right"></Button>
             </DockPanel>
             <Grid MinHeight="450" VerticalAlignment="Stretch">
-                <DataGrid>
+                <DataGrid 
+                    VerticalAlignment="Stretch"
+                    Name="saleTable"
+                    ItemsSource="{Binding}"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="True"
+                    SelectionUnit="FullRow"
+                    SelectedCellsChanged="saleTable_Selected">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Name"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Quanitity"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Price"></DataGridTextColumn>
+                        <DataGridComboBoxColumn 
+                            Header="Name">                            
+                        </DataGridComboBoxColumn>                        
+                        <DataGridTextColumn Header="Quantity" Binding="{Binding quantity}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Price" Binding="{Binding name}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Discount %"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Discount "></DataGridTextColumn>
+                        <DataGridTextColumn Header="Discount"></DataGridTextColumn>
                         <DataGridTextColumn Header="Sale Tax"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Total"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Total" Binding="{Binding Cost}"></DataGridTextColumn>
                         <DataGridTemplateColumn Header="Delete">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Delete" Width="50" Height="20"></Button>
+                                    <Button Content="Delete"></Button>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
-                </DataGrid>                
+                </DataGrid>
             </Grid>
             <DockPanel VerticalAlignment="Bottom">
                 <Button Margin="10,10,10,10" Width="80" Height="50" Content="Refresh" HorizontalAlignment="Left"></Button>

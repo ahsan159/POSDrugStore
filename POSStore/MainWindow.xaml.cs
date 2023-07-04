@@ -23,8 +23,8 @@ namespace POSStore
 
     public partial class MainWindow : Window
     {
-        // public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
-        public string? connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
+        public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
+        // public string? connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
         public string queryString = "SELECT * from mainLedger";
         public SqlConnection? connection;
         public SqlDataAdapter? dataAdapter;

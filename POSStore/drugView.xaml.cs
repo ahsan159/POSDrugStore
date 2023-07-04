@@ -22,6 +22,8 @@ namespace POSStore
     /// </summary>
     public partial class drugView : Window
     {
+        string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
+        // string? connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
         private int sqlID = -1;
         public drugView()
         {
@@ -129,8 +131,7 @@ namespace POSStore
 
         private void addDatatoTable(string cString)
         {
-            // string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
-            string? connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
+            
             SqlConnection connection = new SqlConnection(connectionString);
             SqlCommand cmd = new SqlCommand(cString, connection);
             cmd.Connection.Open();
