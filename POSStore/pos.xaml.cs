@@ -27,9 +27,10 @@ namespace POSStore
         public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
         // public string? connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
         public string queryString = "SELECT * from mainLedger";
-        
+        public string selectValueCombo;
         public SqlConnection connection;
         public SqlDataAdapter dataAdapter;
+        public List<string> dList = new List<string>();
         public pos()
         {
             InitializeComponent();
@@ -54,8 +55,9 @@ namespace POSStore
             }
             saleTable.DataContext = dTable.DefaultView;
             DataGridComboBoxColumn dgc = saleTable.Columns[0] as DataGridComboBoxColumn;
-            
-            (saleTable.Columns[0] as DataGridComboBoxColumn).ItemsSource = getDrugList();
+
+            dList = getDrugList();
+            (saleTable.Columns[0] as DataGridComboBoxColumn).ItemsSource = dList;
             //dgc.ItemsSource = getDrugList();
             
             
@@ -80,7 +82,9 @@ namespace POSStore
             //TextBlock cellText = (TextBlock)cellContent;            
             //string idData = cellContent.SelectedIndex.ToString();
             //MessageBox.Show(idData);
-            cellContent.SelectedIndex = 0;
+            //cellContent.SelectedIndex = 0;
+            selectValueCombo = cellContent.SelectedIndex.ToString();
+
         }
         private void getCell()
         {
@@ -90,6 +94,23 @@ namespace POSStore
         private void itemName_Selected(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MessageBox.Show(dList[int.Parse(selectValueCombo)]);
+            }
+            catch(Exception exp)
+            {
+                MessageBox.Show(exp.Message + Environment.NewLine +
+                    exp.StackTrace + Environment.NewLine +
+                    exp.Source,
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
     }
 }
