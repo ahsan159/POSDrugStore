@@ -30,6 +30,11 @@
                             ItemsSource="{Binding}"
                             SelectedItemBinding="{Binding selectedValueCombo}"                            
                             >
+                            <DataGridComboBoxColumn.EditingElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <EventSetter Event="SelectionChanged" Handler="ComboBox_SelectionChanged"></EventSetter>                                    
+                                </Style>
+                            </DataGridComboBoxColumn.EditingElementStyle>
                         </DataGridComboBoxColumn>                        
                         <DataGridTextColumn Header="Quantity" Binding="{Binding quantity}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Price" Binding="{Binding name}"></DataGridTextColumn>

@@ -55,7 +55,6 @@ namespace POSStore
             }
             saleTable.DataContext = dTable.DefaultView;
             DataGridComboBoxColumn dgc = saleTable.Columns[0] as DataGridComboBoxColumn;
-
             dList = getDrugList();
             (saleTable.Columns[0] as DataGridComboBoxColumn).ItemsSource = dList;
             //dgc.ItemsSource = getDrugList();
@@ -84,6 +83,9 @@ namespace POSStore
             //MessageBox.Show(idData);
             //cellContent.SelectedIndex = 0;
             selectValueCombo = cellContent.SelectedIndex.ToString();
+            //DataGridComboBoxColumn dgc = saleTable.Columns[0] as DataGridComboBoxColumn;
+            dList = getDrugList();
+            (saleTable.Columns[0] as DataGridComboBoxColumn).ItemsSource = dList;
 
         }
         private void getCell()
@@ -111,6 +113,16 @@ namespace POSStore
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cb = sender as ComboBox;
+            //MessageBox.Show(cb.SelectedIndex.ToString() + Environment.NewLine + 
+            //    dList[cb.SelectedIndex]);
+            List<DataGridCellInfo> cells = saleTable.SelectedCells.ToList();
+            TextBlock tb = cells[3].Column.GetCellContent(cells[3].Item) as TextBlock;
+            tb.Text = "My data is " + dList[cb.SelectedIndex];
         }
     }
 }
