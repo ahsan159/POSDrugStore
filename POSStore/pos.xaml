@@ -32,10 +32,10 @@
                             >
                             <DataGridComboBoxColumn.EditingElementStyle>
                                 <Style TargetType="ComboBox">
-                                    <EventSetter Event="SelectionChanged" Handler="ComboBox_SelectionChanged"></EventSetter>                                    
+                                    <EventSetter Event="SelectionChanged" Handler="ComboBox_SelectionChanged"></EventSetter>
                                 </Style>
                             </DataGridComboBoxColumn.EditingElementStyle>
-                        </DataGridComboBoxColumn>                        
+                        </DataGridComboBoxColumn>
                         <DataGridTextColumn Header="Quantity" Binding="{Binding quantity}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Price" Binding="{Binding name}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Discount %"></DataGridTextColumn>
@@ -45,7 +45,8 @@
                         <DataGridTemplateColumn Header="Delete">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Delete"></Button>
+                                    <Button Content="Delete"
+                                            Click="deleteDataRow"></Button>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -54,7 +55,7 @@
             </Grid>
             <DockPanel VerticalAlignment="Bottom">
                 <Button Margin="10,10,10,10" Width="80" Height="50" Content="Refresh" HorizontalAlignment="Left" Click="Button_Click"></Button>
-                <Button Margin="10,10,10,10" Width="80" Height="50" Content="Close" HorizontalAlignment="Right"></Button>
+                <Button Margin="10,10,10,10" Width="80" Height="50" Content="Close" HorizontalAlignment="Right" Click="closePOS"></Button>
             </DockPanel>
         </StackPanel>
     </Grid>

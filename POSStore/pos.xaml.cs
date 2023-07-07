@@ -25,13 +25,13 @@ namespace POSStore
 
     public partial class pos : Window
     {
-        public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
-        // public string? connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
+        //public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
+        public string connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
         public string queryString = "SELECT * from mainLedger";
         public string selectValueCombo;
         public SqlConnection connection;
         public SqlDataAdapter dataAdapter;
-        public List<string> dList = new List<string>();      
+        public List<string> dList = new List<string>();
         public DataTable GridCollection = new DataTable();
         public List<string> qList = new List<string>() { "Ahsan", "Ehsan" };
         public pos()
@@ -62,13 +62,13 @@ namespace POSStore
             DataRow dr = GridCollection.NewRow();
             GridCollection.Rows.Add(dr);
             saleTable.ItemsSource = GridCollection.DefaultView;
-            DataContext = this;            
+            DataContext = this;
             DataGridComboBoxColumn dgc = saleTable.Columns[0] as DataGridComboBoxColumn;
             dList = getDrugList();
             (saleTable.Columns[0] as DataGridComboBoxColumn).ItemsSource = dList;
             //dgc.ItemsSource = getDrugList();
-            
-            
+
+
         }
         public List<string> getDrugList()
         {
@@ -84,11 +84,15 @@ namespace POSStore
 
         private void saleTable_Selected(object sender, SelectedCellsChangedEventArgs e)
         {
-            int i = 0;
-            DataRow dr = GridCollection.NewRow();
-            GridCollection.Rows.Add(dr);
-            //List<DataGridCellInfo> cells = saleTable.SelectedCells.ToList();            
-            //ComboBox cellContent = cells[i].Column.GetCellContent(cells[i].Item) as ComboBox;            
+            //int i = 0;
+            ////List<DataGridCellInfo> cells = saleTable.SelectedCells.ToList();            
+            ////ComboBox cellContent = cells[i].Column.GetCellContent(cells[i].Item) as ComboBox;            
+            if(saleTable.Items.Count-1 == saleTable.SelectedIndex)
+            {
+                DataRow dr = GridCollection.NewRow();
+                GridCollection.Rows.Add(dr);
+            }
+
             dList = getDrugList();
             (saleTable.Columns[0] as DataGridComboBoxColumn).ItemsSource = dList;
 
@@ -109,7 +113,7 @@ namespace POSStore
             {
                 MessageBox.Show(dList[int.Parse(selectValueCombo)]);
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
                 MessageBox.Show(exp.Message + Environment.NewLine +
                     exp.StackTrace + Environment.NewLine +
@@ -128,6 +132,17 @@ namespace POSStore
             List<DataGridCellInfo> cells = saleTable.SelectedCells.ToList();
             TextBlock tb = cells[3].Column.GetCellContent(cells[3].Item) as TextBlock;
             tb.Text = "My data is " + dList[cb.SelectedIndex];
+        }
+
+        private void deleteDataRow(object sender, RoutedEventArgs e)
+        {
+            GridCollection.Rows.RemoveAt(saleTable.SelectedIndex);
+        }
+        private void closePOS(object sender, RoutedEventArgs e)
+        {
+            connection.Close();
+            GridCollection.WriteXml("backupdata.xml");
+            this.Close();
         }
     }
 }
