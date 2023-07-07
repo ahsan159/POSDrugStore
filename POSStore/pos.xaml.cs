@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
 using System.Data.SqlClient;
+using System.Collections.ObjectModel;
 
 
 namespace POSStore
@@ -30,7 +31,9 @@ namespace POSStore
         public string selectValueCombo;
         public SqlConnection connection;
         public SqlDataAdapter dataAdapter;
-        public List<string> dList = new List<string>();
+        public List<string> dList = new List<string>();      
+        public DataTable GridCollection = new DataTable();
+        public List<string> qList = new List<string>() { "Ahsan", "Ehsan" };
         public pos()
         {
             InitializeComponent();
@@ -53,7 +56,13 @@ namespace POSStore
                  MessageBoxImage.Error
                  );
             }
-            saleTable.DataContext = dTable.DefaultView;
+            //GridCollection.Rows.Add(dr);           
+            GridCollection.Columns.Add("qty", typeof(string));
+            GridCollection.Columns.Add("cost", typeof(string));
+            DataRow dr = GridCollection.NewRow();
+            GridCollection.Rows.Add(dr);
+            saleTable.ItemsSource = GridCollection.DefaultView;
+            DataContext = this;            
             DataGridComboBoxColumn dgc = saleTable.Columns[0] as DataGridComboBoxColumn;
             dList = getDrugList();
             (saleTable.Columns[0] as DataGridComboBoxColumn).ItemsSource = dList;
@@ -76,14 +85,10 @@ namespace POSStore
         private void saleTable_Selected(object sender, SelectedCellsChangedEventArgs e)
         {
             int i = 0;
-            List<DataGridCellInfo> cells = saleTable.SelectedCells.ToList();            
-            ComboBox cellContent = cells[i].Column.GetCellContent(cells[i].Item) as ComboBox;
-            //TextBlock cellText = (TextBlock)cellContent;            
-            //string idData = cellContent.SelectedIndex.ToString();
-            //MessageBox.Show(idData);
-            //cellContent.SelectedIndex = 0;
-            selectValueCombo = cellContent.SelectedIndex.ToString();
-            //DataGridComboBoxColumn dgc = saleTable.Columns[0] as DataGridComboBoxColumn;
+            DataRow dr = GridCollection.NewRow();
+            GridCollection.Rows.Add(dr);
+            //List<DataGridCellInfo> cells = saleTable.SelectedCells.ToList();            
+            //ComboBox cellContent = cells[i].Column.GetCellContent(cells[i].Item) as ComboBox;            
             dList = getDrugList();
             (saleTable.Columns[0] as DataGridComboBoxColumn).ItemsSource = dList;
 
