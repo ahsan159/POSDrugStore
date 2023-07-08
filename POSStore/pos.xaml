@@ -23,7 +23,9 @@
                     AutoGenerateColumns="False"
                     CanUserAddRows="True"
                     SelectionUnit="FullRow"
-                    SelectedCellsChanged="saleTable_Selected">
+                    SelectedCellsChanged="saleTable_Selected"
+                    CanUserSortColumns="False"
+                    CellEditEnding="saleTable_CellEditEnding">
                     <DataGrid.Columns>
                         <DataGridComboBoxColumn 
                             Header="Name"
@@ -36,12 +38,17 @@
                                 </Style>
                             </DataGridComboBoxColumn.EditingElementStyle>
                         </DataGridComboBoxColumn>
-                        <DataGridTextColumn Header="Quantity" Binding="{Binding quantity}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Price" Binding="{Binding name}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Discount %"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Discount"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Quantity" Binding="{Binding qty, Mode=TwoWay}">
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Price" Binding="{Binding cost}"
+                                            IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Discount %"
+                                            Binding="{Binding disc(%)}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Discount"
+                                            Binding="{Binding disc}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Sale Tax"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Total" Binding="{Binding Cost}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Total" Binding="{Binding total}"
+                                            IsReadOnly="True"></DataGridTextColumn>
                         <DataGridTemplateColumn Header="Delete">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

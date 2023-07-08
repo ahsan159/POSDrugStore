@@ -12,3 +12,5 @@ Found a way of working with DataGridComboBoxColumn but some of the basics of Bin
 ## 7-Jul-2023
 Datagrid binding and calculations almost complete. Require integration with SQL and total and grand total calculations.
 simplified row addition and deletion.
+## 9-Jul-2023
+Unable to trigger change while editing datagridtextboxcolumn cell. Calculations both general and discount are working fine. 
