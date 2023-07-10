@@ -14,3 +14,5 @@ Datagrid binding and calculations almost complete. Require integration with SQL 
 simplified row addition and deletion.
 ## 9-Jul-2023
 Unable to trigger change while editing datagridtextboxcolumn cell. Calculations both general and discount are working fine. 
+## 10-Jul-2023
+Overall grand total calculations algorithm implemented. SQL database now updating correctly. Updated front end. to display current item and checkout process. 

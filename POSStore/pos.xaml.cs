@@ -25,15 +25,15 @@ namespace POSStore
 
     public partial class pos : Window
     {
-        //public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
-        public string connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
+        public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
+        //public string connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
         public string queryString = "SELECT * from mainLedger";
         public string selectValueCombo;
         public SqlConnection connection;
         public SqlDataAdapter dataAdapter;
-        public List<string> dList = new List<string>();
         public DataTable GridCollection = new DataTable();
-        public List<string> qList = new List<string>() { "Ahsan", "Ehsan" };
+        public List<string> dList = new List<string>();
+        public List<string> idList = new List<string>();
         public pos()
         {
             InitializeComponent();
@@ -57,18 +57,18 @@ namespace POSStore
                  );
             }
             //GridCollection.Rows.Add(dr);
-            GridCollection.Columns.Add("name", typeof(string));
-            GridCollection.Columns.Add("qty", typeof(string));
-            GridCollection.Columns.Add("cost", typeof(string));
-            GridCollection.Columns.Add("disc(%)", typeof(string));
-            GridCollection.Columns.Add("disc", typeof(string));
-            GridCollection.Columns.Add("total", typeof(string));
+            GridCollection.Columns.Add("Name", typeof(string));
+            GridCollection.Columns.Add("Quantity", typeof(string));
+            GridCollection.Columns.Add("Price", typeof(string));
+            GridCollection.Columns.Add("Discount100", typeof(string));
+            GridCollection.Columns.Add("Discount", typeof(string));
+            GridCollection.Columns.Add("Total", typeof(string));
             DataRow dr = GridCollection.NewRow();
             GridCollection.Rows.Add(dr);
             saleTable.ItemsSource = GridCollection.DefaultView;
             DataContext = this;
             DataGridComboBoxColumn dgc = saleTable.Columns[0] as DataGridComboBoxColumn;
-            dList = getDrugList();
+            dList = getDrugList();            
             (saleTable.Columns[0] as DataGridComboBoxColumn).ItemsSource = dList;
             //dgc.ItemsSource = getDrugList();
 
@@ -76,17 +76,20 @@ namespace POSStore
         }
         public List<string> getDrugList()
         {
-            string cString = "SELECT DISTINCT(name) FROM mainLedger;";
+            string cString = "SELECT DISTINCT(name),id FROM mainLedger;";
             connection = new SqlConnection(connectionString);
             dataAdapter = new SqlDataAdapter(cString, connection);
             DataTable dTable = new DataTable();
             dataAdapter.Fill(dTable);
             connection.Close();
             List<string> list = dTable.AsEnumerable().Select(c => c.Field<string>("name")).ToList();
+            idList = dTable.AsEnumerable().Select(c => c.Field<int>("id").ToString()).ToList();
             return list;
         }
         public DataTable getDatafromSQL(string cString)
         {
+            // this function wil get data from SQL 
+            // actually this will only get whole drug list from the mainLedger
             connection = new SqlConnection(connectionString);
             dataAdapter = new SqlDataAdapter(cString, connectionString);
             DataTable dTable = new DataTable();
@@ -99,26 +102,38 @@ namespace POSStore
             //int i = 0;
             ////List<DataGridCellInfo> cells = saleTable.SelectedCells.ToList();            
             ////ComboBox cellContent = cells[i].Column.GetCellContent(cells[i].Item) as ComboBox;            
-            if(saleTable.Items.Count-1 == saleTable.SelectedIndex)
+            //
+            // step 1: add new row
+            if (saleTable.Items.Count - 1 == saleTable.SelectedIndex)
             {
                 DataRow dr = GridCollection.NewRow();
                 GridCollection.Rows.Add(dr);
-            }
-
+            }            
+            // step 2: update drug list
             dList = getDrugList();
             (saleTable.Columns[0] as DataGridComboBoxColumn).ItemsSource = dList;
+            // step 3: make calculation for sale
             try
             {
                 solveTable();
             }
             catch (Exception exp)
             {
-                //MessageBox.Show(exp.Message + Environment.NewLine +
-                //    exp.Source + Environment.NewLine +
-                //    exp.StackTrace, "Error",
-                //    MessageBoxButton.OK,
-                //    MessageBoxImage.Error);
+                MessageBox.Show(exp.Message + Environment.NewLine +
+                    exp.Source + Environment.NewLine +
+                    exp.StackTrace, "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
+            // step 4: update side display
+            try
+            {
+                drugName.Content = GridCollection.Rows[saleTable.SelectedIndex]["name"];
+                price.Content = GridCollection.Rows[saleTable.SelectedIndex]["Cost"];
+            }
+            catch (Exception) { }
+            // step 5: checkout calculations
+            grandTotal();
         }
         private void getCell()
         {
@@ -149,66 +164,90 @@ namespace POSStore
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ComboBox cb = sender as ComboBox;
-            //MessageBox.Show(cb.SelectedIndex.ToString() + Environment.NewLine + 
-            //    dList[cb.SelectedIndex]);
+            // This function is called when a drug is selected from the list
+            ComboBox cb = sender as ComboBox;            
             List<DataGridCellInfo> cells = saleTable.SelectedCells.ToList();
             //TextBlock tb = cells[3].Column.GetCellContent(cells[3].Item) as TextBlock;
-            string query = @"SELECT * FROM mainLedger WHERE name='" +
-                dList[cb.SelectedIndex] + "';";
+            string query = @"SELECT * FROM mainLedger WHERE id='" +
+                idList[cb.SelectedIndex] + "';";
             DataTable dTable = getDatafromSQL(query);
             DataRow dr = dTable.Rows[0];
-            //foreach(DataRow dr in dTable.Rows)
-            //{
-            //    MessageBox.Show(dr["name"] + Environment.NewLine +
-            //        dr["quantity"] + Environment.NewLine +
-            //        dr["Cost"],
-            //        "Information",
-            //        MessageBoxButton.OK,
-            //        MessageBoxImage.Information);
-            //}
-            GridCollection.Rows[saleTable.SelectedIndex]["name"] = dr["name"];
-            GridCollection.Rows[saleTable.SelectedIndex]["qty"] = dr["quantity"];
-            GridCollection.Rows[saleTable.SelectedIndex]["cost"] = dr["Cost"];
-            //GridCollection.Rows[saleTable.SelectedIndex]["disc"] = "0";
-            //GridCollection.Rows[saleTable.SelectedIndex]["disc(%)"] = "0";
-            GridCollection.Rows[saleTable.SelectedIndex]["total"] = "0";
-            solveTable();
-            //tb.Text = "My data is " + dList[cb.SelectedIndex];
+            GridCollection.Rows[saleTable.SelectedIndex]["Name"] = dr["name"];
+            //GridCollection.Rows[saleTable.SelectedIndex]["qty"] = dr["quantity"]; // because quantity is to be entered by user
+            GridCollection.Rows[saleTable.SelectedIndex]["Price"] = dr["Cost"];
+            GridCollection.Rows[saleTable.SelectedIndex]["Discount"] = "";
+            GridCollection.Rows[saleTable.SelectedIndex]["Discount100"] = "";
+            GridCollection.Rows[saleTable.SelectedIndex]["Total"] = "0";
+            drugName.Content = dr["name"];
+            price.Content = dr["Cost"];
+            solveTable();            
         }
 
         private void solveTable()
         {
-            foreach(DataRow dr in GridCollection.Rows)
+            // This function will solve the table and calculate the discounted amount and total amount
+            try
             {
-                double total = double.Parse(dr["qty"].ToString()) * double.Parse(dr["cost"].ToString());
-                double disc = 0;
-                if (!string.IsNullOrEmpty(dr["disc(%)"].ToString()))
-                {
-                    disc = double.Parse(dr["cost"].ToString()) * double.Parse(dr["disc(%)"].ToString()) / 100;
-                    dr["disc"] = disc.ToString();
+                double totalBilled = 0;
+                foreach (DataRow dr in GridCollection.Rows)
+                {                    
+                    double total = double.Parse(dr["Quantity"].ToString()) * double.Parse(dr["Price"].ToString());
+                    double disc = 0;
+                    if (!string.IsNullOrEmpty(dr["Discount100"].ToString()))
+                    {
+                        disc = double.Parse(dr["Price"].ToString()) * double.Parse(dr["Discount100"].ToString()) / 100;
+                        if (disc > 0)
+                        {
+                            dr["Discount"] = disc.ToString();
+                        }
+                    }
+                    else if (!string.IsNullOrEmpty(dr["Discount"].ToString()))
+                    {
+                        disc = double.Parse(dr["Discount"].ToString());                        
+                    }
+                    total -= disc;                    
+                    dr["Total"] = total.ToString();
+                    totalBilled += total;
+                    totalCost.Content = totalBilled.ToString();
+                    grandTotal();
                 }
-                else if (!string.IsNullOrEmpty(dr["disc"].ToString()))
-                {
-                    disc = double.Parse(dr["disc"].ToString());
-                }
-                total = total - disc;
-                dr["total"] = total.ToString();
+                
+            }
+            catch (Exception exp)
+            {
+                //MessageBox.Show(exp.Message + Environment.NewLine +
+                //    exp.Source + Environment.NewLine +
+                //    exp.StackTrace, "Error",
+                //    MessageBoxButton.OK,
+                //    MessageBoxImage.Error);
             }
         }
 
         private void deleteDataRow(object sender, RoutedEventArgs e)
         {
-            GridCollection.Rows.RemoveAt(saleTable.SelectedIndex);
+            // delete data row
+            try
+            {
+                GridCollection.Rows.RemoveAt(saleTable.SelectedIndex);
+            }
+            catch (Exception exp)
+            {
+                MessageBox.Show(exp.Message + Environment.NewLine +
+                    exp.Source + Environment.NewLine +
+                    exp.StackTrace, "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
         private void closePOS(object sender, RoutedEventArgs e)
         {
             try
             {
 
-            connection.Close();
-            GridCollection.WriteXml("backupdata.xml");
-            } catch(Exception exp)
+                connection.Close();
+                GridCollection.WriteXml("backupdata.xml");
+            }
+            catch (Exception exp)
             {
                 //MessageBox.Show(exp.Message + Environment.NewLine +
                 //    exp.Source + Environment.NewLine +
@@ -221,20 +260,99 @@ namespace POSStore
 
         private void saleTable_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            //MessageBox.Show("data");
+            // trying to use this function but it is not working atleast for me
+            //testEdit.Text = "cellEditing";
+            //try
+            //{                                    
+            //    solveTable();                
+            //}
+            //catch (Exception exp)
+            //{
+            //    MessageBox.Show(exp.Message + Environment.NewLine +
+            //        exp.Source + Environment.NewLine +
+            //        exp.StackTrace, "Error",
+            //        MessageBoxButton.OK,
+            //        MessageBoxImage.Error);
+            //}
+        }
+
+        private void grandTotal()
+        {
+            // calculate the grand total value and checkout process
             try
-            {
-                //MessageBox.Show("Solving");
-                solveTable();
+            {                
+                double totalC = double.Parse(totalCost.Content.ToString());
+                double paidT = 0;
+                double discT = 0;
+                try
+                {
+                    paidT = double.Parse(paidTotal.Text.ToString());
+                }
+                catch (Exception) { }
+                try
+                {
+                    discT = double.Parse(discountTotal.Text.ToString());
+                }
+                catch (Exception) { }
+                double balmc = paidT - totalC + discT;
+                balanceTotal.Text = balmc.ToString();
             }
-            catch(Exception exp)
+            catch (Exception exp)
             {
-                MessageBox.Show(exp.Message + Environment.NewLine +
-                    exp.Source + Environment.NewLine +
-                    exp.StackTrace, "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                //MessageBox.Show(exp.Message + Environment.NewLine +
+                //    exp.Source + Environment.NewLine +
+                //    exp.StackTrace, "Error",
+                //    MessageBoxButton.OK,
+                //    MessageBoxImage.Error);
             }
+        }
+        private void paidTotal_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            grandTotal();
+        }
+        private void openMainLedger(object sender, RoutedEventArgs evt)
+        {
+            MainWindow win = new MainWindow();
+            win.ShowDialog();
+        }
+        private void checkOut(object sender, RoutedEventArgs evt)
+        {
+            List<string> dt = GridCollection.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList<string>();
+            //DataRow dr = GridCollection.Rows[0];
+            //var ds = dr.ItemArray;
+            //MessageBox.Show(string.Join(",", dt)
+            //    + Environment.NewLine +
+            //    string.Join(",",ds));
+            foreach(DataRow dr in GridCollection.Rows)
+            {
+                var ds = dr.ItemArray;
+                string query = @"INSERT INTO testTable(" + string.Join(",", dt) +
+                    ") values ('" +
+                    string.Join("','", ds) + "');";
+                MessageBox.Show(query);
+                try
+                {
+                    executeNonQuery(query);
+                }
+                catch (Exception exp)
+                {
+                    MessageBox.Show(exp.Message + Environment.NewLine +
+                        exp.Source + Environment.NewLine +
+                        exp.StackTrace, "Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void executeNonQuery(string cString)
+        {
+            // not only add data but also refresh the datagrid table
+            SqlCommand cmd = new SqlCommand(cString, connection);
+            cmd.Connection.Open();
+            cmd.ExecuteNonQuery();
+            connection.Close();            
         }
     }
 }
+
