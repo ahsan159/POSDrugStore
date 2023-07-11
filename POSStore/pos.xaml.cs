@@ -37,7 +37,7 @@ namespace POSStore
         public pos()
         {
             InitializeComponent();
-
+            this.WindowState = WindowState.Maximized;
             DataTable dTable = new DataTable();
             try
             {
@@ -70,6 +70,7 @@ namespace POSStore
             DataGridComboBoxColumn dgc = saleTable.Columns[0] as DataGridComboBoxColumn;
             dList = getDrugList();            
             (saleTable.Columns[0] as DataGridComboBoxColumn).ItemsSource = dList;
+            saleTable.SelectedIndex = 0;
             //dgc.ItemsSource = getDrugList();
 
 
@@ -108,6 +109,7 @@ namespace POSStore
             {
                 DataRow dr = GridCollection.NewRow();
                 GridCollection.Rows.Add(dr);
+                saleTable.SelectedIndex = saleTable.Items.Count - 2;
             }            
             // step 2: update drug list
             dList = getDrugList();
@@ -329,7 +331,7 @@ namespace POSStore
                 string query = @"INSERT INTO testTable(" + string.Join(",", dt) +
                     ") values ('" +
                     string.Join("','", ds) + "');";
-                MessageBox.Show(query);
+                //MessageBox.Show(query);
                 try
                 {
                     executeNonQuery(query);

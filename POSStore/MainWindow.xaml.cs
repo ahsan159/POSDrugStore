@@ -24,10 +24,10 @@ namespace POSStore
     public partial class MainWindow : Window
     {
         public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
-        // public string? connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
+        // public string  connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
         public string queryString = "SELECT * from mainLedger";
-        public SqlConnection? connection;
-        public SqlDataAdapter? dataAdapter;
+        public SqlConnection  connection;
+        public SqlDataAdapter  dataAdapter;
         public MainWindow()
         {
             InitializeComponent();
@@ -194,7 +194,7 @@ namespace POSStore
             {
                 if (validateEntry())
                 {
-                    DataRowView? row = drugLedger.SelectedItem as DataRowView;
+                    DataRowView  row = drugLedger.SelectedItem as DataRowView;
                     string cString = @"DELETE FROM mainLedger WHERE id='" + row[0].ToString() + "';";
                     //MessageBox.Show(cString);
                     addDatatoTable(cString);
@@ -217,7 +217,7 @@ namespace POSStore
             {
                 if (validateEntry())
                 {
-                    DataRowView? row = drugLedger.SelectedItem as DataRowView;
+                    DataRowView  row = drugLedger.SelectedItem as DataRowView;
                     string idQuery = @"SELECT * FROM mainLedger WHERE id='" + row[0].ToString() + "';";
                     DataTable dTable = new DataTable();
                     try
@@ -270,6 +270,19 @@ namespace POSStore
                 dv.ShowDialog();
                 refresh();
             }
+        }
+        private void closeWindow(object sender, RoutedEventArgs evt)
+        {
+            try
+            {
+                connection.Close();
+                this.Close();
+            }
+            catch (Exception e)
+            {
+                
+            }
+
         }
     }
 }
