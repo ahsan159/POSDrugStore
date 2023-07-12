@@ -27,11 +27,12 @@ namespace POSStore
     {
         public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
         //public string connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
-        public string queryString = "SELECT * from mainLedger";
+        public string queryString = "SELECT * from mainLedger";        
         public string selectValueCombo;
         public SqlConnection connection;
         public SqlDataAdapter dataAdapter;
         public DataTable GridCollection = new DataTable();
+        public DataTable invoiceCollection = new DataTable();
         public List<string> dList = new List<string>();
         public List<string> idList = new List<string>();
         public pos()
@@ -71,6 +72,7 @@ namespace POSStore
             dList = getDrugList();            
             (saleTable.Columns[0] as DataGridComboBoxColumn).ItemsSource = dList;
             saleTable.SelectedIndex = 0;
+            populateInvoiceTable();
             //dgc.ItemsSource = getDrugList();
 
 
@@ -175,7 +177,7 @@ namespace POSStore
             DataTable dTable = getDatafromSQL(query);
             DataRow dr = dTable.Rows[0];
             GridCollection.Rows[saleTable.SelectedIndex]["Name"] = dr["name"];
-            //GridCollection.Rows[saleTable.SelectedIndex]["qty"] = dr["quantity"]; // because quantity is to be entered by user
+            GridCollection.Rows[saleTable.SelectedIndex]["Quantity"] = ""; // because quantity is to be entered by user
             GridCollection.Rows[saleTable.SelectedIndex]["Price"] = dr["Cost"];
             GridCollection.Rows[saleTable.SelectedIndex]["Discount"] = "";
             GridCollection.Rows[saleTable.SelectedIndex]["Discount100"] = "";
@@ -185,29 +187,88 @@ namespace POSStore
             solveTable();            
         }
 
+        private void saleTable_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            //trying to use this function but it is not working atleast for me
+            try
+            {
+                //solveTable();
+                //MessageBox.Show("Editing");
+                TextBox tb = e.EditingElement.DataContext as TextBox;
+                MessageBox.Show(tb.Text);
+                solveTable();
+            }
+            catch (Exception exp)
+            {
+                foreach (DataRow dr in GridCollection.Rows)
+                {
+                    dr["Total"] = "Editing" + e.Column.Header;
+                }
+                //MessageBox.Show(exp.Message + Environment.NewLine +
+                //        exp.Source + Environment.NewLine +
+                //        exp.StackTrace, "Error",
+                //        MessageBoxButton.OK,
+                //        MessageBoxImage.Error);
+            }
+        }
+
         private void solveTable()
         {
-            // This function will solve the table and calculate the discounted amount and total amount
+            // This function will solve the table and calculate the discounted amount and total amount            
+            double total = 0;
+            double disc = 0;
+            double price = 0;
+            double quantity = 0;
             try
             {
                 double totalBilled = 0;
                 foreach (DataRow dr in GridCollection.Rows)
-                {                    
-                    double total = double.Parse(dr["Quantity"].ToString()) * double.Parse(dr["Price"].ToString());
-                    double disc = 0;
+                {
+                    total = 0;
+                    disc = 0;
+                    price = 0;
+                    quantity = 0;
+                    bool pBool = double.TryParse(dr["Price"].ToString(), out price);
+                    if (!pBool)
+                    { 
+                        dr["Total"] = "0.00";                        
+                    }                    
+
+                    bool qBool = double.TryParse(dr["Quantity"].ToString(), out quantity);
+                    if(!qBool)
+                    {
+                        dr["Total"] = price.ToString();                                                
+                    }
+                    else
+                    {
+                        total = price*quantity;                    
+                        dr["Total"] = total.ToString();
+                    }
+
+
                     if (!string.IsNullOrEmpty(dr["Discount100"].ToString()))
                     {
-                        disc = double.Parse(dr["Price"].ToString()) * double.Parse(dr["Discount100"].ToString()) / 100;
+                        disc = total * double.Parse(dr["Discount100"].ToString()) / 100;
                         if (disc > 0)
                         {
                             dr["Discount"] = disc.ToString();
                         }
+                        total = price * quantity;
+                        total -= disc;
+                        dr["Total"] = total.ToString();
                     }
                     else if (!string.IsNullOrEmpty(dr["Discount"].ToString()))
                     {
-                        disc = double.Parse(dr["Discount"].ToString());                        
+                        disc = double.Parse(dr["Discount"].ToString());
+                        total = price * quantity;
+                        total -= disc;
+                        dr["Total"] = total.ToString();
                     }
-                    total -= disc;                    
+                    else
+                    {
+                        dr["Total"] = total.ToString();
+                    }
+                    //total -= disc;                    
                     dr["Total"] = total.ToString();
                     totalBilled += total;
                     totalCost.Content = totalBilled.ToString();
@@ -224,6 +285,38 @@ namespace POSStore
                 //    MessageBoxImage.Error);
             }
         }
+
+        private void grandTotal()
+        {
+            // calculate the grand total value and checkout process
+            try
+            {
+                double totalC = double.Parse(totalCost.Content.ToString());
+                double paidT = 0;
+                double discT = 0;
+                try
+                {
+                    paidT = double.Parse(paidTotal.Text.ToString());
+                }
+                catch (Exception) { }
+                try
+                {
+                    discT = double.Parse(discountTotal.Text.ToString());
+                }
+                catch (Exception) { }
+                double balmc = paidT - totalC + discT;
+                balanceTotal.Text = balmc.ToString();
+            }
+            catch (Exception exp)
+            {
+                //MessageBox.Show(exp.Message + Environment.NewLine +
+                //    exp.Source + Environment.NewLine +
+                //    exp.StackTrace, "Error",
+                //    MessageBoxButton.OK,
+                //    MessageBoxImage.Error);
+            }
+        }
+
 
         private void deleteDataRow(object sender, RoutedEventArgs e)
         {
@@ -260,58 +353,22 @@ namespace POSStore
             this.Close();
         }
 
-        private void saleTable_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            // trying to use this function but it is not working atleast for me
-            //testEdit.Text = "cellEditing";
-            //try
-            //{                                    
-            //    solveTable();                
-            //}
-            //catch (Exception exp)
-            //{
-            //    MessageBox.Show(exp.Message + Environment.NewLine +
-            //        exp.Source + Environment.NewLine +
-            //        exp.StackTrace, "Error",
-            //        MessageBoxButton.OK,
-            //        MessageBoxImage.Error);
-            //}
+
+        private void paidTotal_KeyPress(object sender, KeyEventArgs e)
+        {              
+            if (e.Key.Equals(Key.Enter))
+            {
+                checkOut(this, new RoutedEventArgs());
+            }
         }
 
-        private void grandTotal()
-        {
-            // calculate the grand total value and checkout process
-            try
-            {                
-                double totalC = double.Parse(totalCost.Content.ToString());
-                double paidT = 0;
-                double discT = 0;
-                try
-                {
-                    paidT = double.Parse(paidTotal.Text.ToString());
-                }
-                catch (Exception) { }
-                try
-                {
-                    discT = double.Parse(discountTotal.Text.ToString());
-                }
-                catch (Exception) { }
-                double balmc = paidT - totalC + discT;
-                balanceTotal.Text = balmc.ToString();
-            }
-            catch (Exception exp)
-            {
-                //MessageBox.Show(exp.Message + Environment.NewLine +
-                //    exp.Source + Environment.NewLine +
-                //    exp.StackTrace, "Error",
-                //    MessageBoxButton.OK,
-                //    MessageBoxImage.Error);
-            }
-        }
         private void paidTotal_TextChanged(object sender, TextChangedEventArgs e)
         {
+            solveTable();
             grandTotal();
         }
+
+
         private void openMainLedger(object sender, RoutedEventArgs evt)
         {
             MainWindow win = new MainWindow();
@@ -319,12 +376,9 @@ namespace POSStore
         }
         private void checkOut(object sender, RoutedEventArgs evt)
         {
+            // get column names from datatable
             List<string> dt = GridCollection.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList<string>();
-            //DataRow dr = GridCollection.Rows[0];
-            //var ds = dr.ItemArray;
-            //MessageBox.Show(string.Join(",", dt)
-            //    + Environment.NewLine +
-            //    string.Join(",",ds));
+            // insert data in sql table one by one            
             foreach(DataRow dr in GridCollection.Rows)
             {
                 var ds = dr.ItemArray;
@@ -345,6 +399,53 @@ namespace POSStore
                         MessageBoxImage.Error);
                 }
             }
+            clearSaleTable();
+        }
+
+        private void clearSaleTable()
+        {
+            //string queryClear = @"DELETE FROM testTable;";
+            //executeNonQuery(queryClear);
+            string totalString = totalCost.Content.ToString();
+            string paidString = paidTotal.Text;
+            string balanceString = balanceTotal.Text;
+            string discountString = discountTotal.Text;
+            int i = getInvoiceCount()+1;
+            //App.Current.Shutdown(0);
+            int count = GridCollection.Rows.Count;
+            string dateCode = DateTime.Now.ToString("yyyyMMdd");
+            string dateData = DateTime.Now.ToString("yyyy-MM-dd");
+            string timeData = DateTime.Now.ToString("hh:mm:ss");
+            GridCollection.Rows.Clear();
+            totalCost.Content = "";
+            paidTotal.Text = "";
+            balanceTotal.Text = "";
+            discountTotal.Text = "";
+
+            // insert invoice in invoice ledger
+            List<string> dt = invoiceCollection.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList<string>();
+            invoiceCollection.Rows[0]["Invoice"] = @"Invoice\\" + dateCode + "\\" + i.ToString();
+            invoiceCollection.Rows[0]["Total"] = totalString;
+            invoiceCollection.Rows[0]["Payment"] = paidString;
+            invoiceCollection.Rows[0]["Balance"] = balanceString;
+            invoiceCollection.Rows[0]["Discount"] = discountString;
+            invoiceCollection.Rows[0]["CheckoutDate"] = dateData;
+            invoiceCollection.Rows[0]["CheckoutTime"] = timeData;
+            invoiceCollection.Rows[0]["Customer"] = customerName.Text;
+            invoiceCollection.Rows[0]["Contact"] = contactNo.Text;
+            invoiceCollection.Rows[0]["DrugCount"] = count.ToString();
+            invoiceCollection.Rows[0]["UserName"] = "AFE";
+            invoiceCollection.Rows[0]["PaymentType"] = "AGDE";
+            invoiceCollection.Rows[0]["Sale_Tax"] = " ";
+
+            DataRow dr = invoiceCollection.Rows[0];
+            string cString = @"INSERT INTO invoiceLedger(" + string.Join(",", dt) +
+                ") Values ('" +
+                string.Join("','", dr.ItemArray) +
+                "');";
+            MessageBox.Show(cString);
+            executeNonQuery(cString);
+
         }
 
         private void executeNonQuery(string cString)
@@ -355,6 +456,40 @@ namespace POSStore
             cmd.ExecuteNonQuery();
             connection.Close();            
         }
+
+        private int getInvoiceCount()
+        {
+            DataTable dt = new DataTable();
+            string cString = @"SELECT COUNT(*) FROM invoiceLedger;";
+            SqlDataAdapter adapter = new SqlDataAdapter(cString, connection);
+            adapter.Fill(dt);
+            //MessageBox.Show( dt.Rows[0].ItemArray[0].ToString());
+            int id;
+            bool iParse = int.TryParse(dt.Rows[0].ItemArray[0].ToString(), out id);
+            connection.Close();
+            adapter.Dispose();
+            if (iParse)
+            {
+                return id;
+            }
+            return -1;
+        }
+
+        private void populateInvoiceTable()
+        {
+            string cString = @"select COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='invoiceLedger';";
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(cString, connection);
+            adapter.Fill(dt);
+            foreach(DataRow drow in dt.Rows)
+            {
+                string itemName = drow.ItemArray[0].ToString() ;
+                invoiceCollection.Columns.Add(itemName);
+            }
+            DataRow dr = invoiceCollection.NewRow();
+            invoiceCollection.Rows.Add(dr);
+        }
+
     }
 }
 

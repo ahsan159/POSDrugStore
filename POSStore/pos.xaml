@@ -49,8 +49,9 @@
                     SelectionUnit="FullRow"
                     SelectedCellsChanged="saleTable_Selected"
                     CanUserSortColumns="False"
-                    CellEditEnding="saleTable_CellEditEnding" Margin="0,0,30,0"                    
+                    Margin="0,0,30,0"                    
                     >
+                    <!--CellEditEnding="saleTable_CellEditEnding"--> 
                         <DataGrid.Columns>
                             <DataGridComboBoxColumn 
                             Header="Name"
@@ -67,8 +68,13 @@
                                             Binding="{Binding Quantity, 
                                             Mode=TwoWay,
                                             UpdateSourceTrigger=PropertyChanged,
-                                            NotifyOnSourceUpdated=True}"
+                                            NotifyOnSourceUpdated=True}"                                            
                                             >
+                                <!--<DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <EventSetter Event="KeyDown" Handler="DataGridTextColumn_KeyDown"></EventSetter>
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>-->
                             </DataGridTextColumn>
                             <DataGridTextColumn Header="Price" 
                                             Binding="{Binding Price
@@ -112,11 +118,17 @@
                         <Label Name="totalCost"  Margin="10,10,10,10" FontSize="20" FontWeight="Bold"></Label>
                         <DockPanel>
                             <Label Content="Paid" Margin="10,20,10,10" FontSize="20" FontWeight="Bold"></Label>
-                            <TextBox Name="paidTotal" Margin="10,20,10,10"  FontSize="20" FontWeight="Bold" TextChanged="paidTotal_TextChanged"></TextBox>
+                            <TextBox Name="paidTotal" Margin="10,20,10,10"  FontSize="20" FontWeight="Bold" 
+                                     KeyDown="paidTotal_KeyPress"
+                                     TextChanged="paidTotal_TextChanged"
+                                     ></TextBox>
                         </DockPanel>
                         <DockPanel>
                             <Label Content="Discount" Margin="10,10,10,10" FontSize="20" FontWeight="Bold"></Label>
-                            <TextBox Name="discountTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" TextChanged="paidTotal_TextChanged"></TextBox>
+                            <TextBox Name="discountTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" 
+                                     KeyDown="paidTotal_KeyPress"
+                                     TextChanged="paidTotal_TextChanged"
+                                     ></TextBox>
                         </DockPanel>
                         <DockPanel>
                             <Label Content="Balance" Margin="10,20,10,10" FontSize="20" FontWeight="Bold"></Label>

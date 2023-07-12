@@ -1,0 +1,16 @@
+--delete from mainLedger where Cost='0' or quantity='0';
+--select * from INFORMATION_SCHEMA.TABLES;
+select COLUMN_NAME from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='invoiceLedger';
+Select * from mainLedger;
+--select distinct(name),id from mainLedger;
+select * from testTable;
+--delete from testTable;
+--select * from testTable;
+--insert into invoiceLedger(Invoice,CheckoutTime) values('123','12:36:36');
+--select * from invoiceLedger;
+--delete from invoiceLedger;
+select * from invoiceLedger;
+select COUNT(*) from testTable;
+delete from testTable;
+select count(*) from invoiceLedger;
+--drop table invoiceLedger;

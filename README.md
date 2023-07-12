@@ -16,3 +16,5 @@ simplified row addition and deletion.
 Unable to trigger change while editing datagridtextboxcolumn cell. Calculations both general and discount are working fine. 
 ## 10-Jul-2023
 Overall grand total calculations algorithm implemented. SQL database now updating correctly. Updated front end. to display current item and checkout process. 
+## 12-Jul-2023
+Checkout and New sale generation and invoice database creation performed.
