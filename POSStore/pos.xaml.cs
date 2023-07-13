@@ -35,6 +35,7 @@ namespace POSStore
         public DataTable invoiceCollection = new DataTable();
         public List<string> dList = new List<string>();
         public List<string> idList = new List<string>();
+        private sqlWrapper sWrap = sqlWrapper.getInstance();
         public pos()
         {
             InitializeComponent();
@@ -377,6 +378,8 @@ namespace POSStore
         private void checkOut(object sender, RoutedEventArgs evt)
         {
             // get column names from datatable
+            List<string> str = sWrap.columnList("invoiceLedger");
+            MessageBox.Show(string.Join(",", str),sWrap.commandStatus);
             List<string> dt = GridCollection.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList<string>();
             // insert data in sql table one by one            
             foreach(DataRow dr in GridCollection.Rows)
@@ -443,7 +446,7 @@ namespace POSStore
                 ") Values ('" +
                 string.Join("','", dr.ItemArray) +
                 "');";
-            MessageBox.Show(cString);
+            //MessageBox.Show(cString);
             executeNonQuery(cString);
 
         }
@@ -488,6 +491,12 @@ namespace POSStore
             }
             DataRow dr = invoiceCollection.NewRow();
             invoiceCollection.Rows.Add(dr);
+        }
+
+        private void saleList(object sender, RoutedEventArgs evt)
+        {
+            salesWindow sWin = new salesWindow();
+            sWin.ShowDialog();
         }
 
     }

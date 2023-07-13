@@ -11,7 +11,7 @@
             <DockPanel VerticalAlignment="Top">
                 <Button Margin="10,10,10,10" Width="80" Height="50" Content="New Sale" HorizontalAlignment="Left"></Button>
                 <Button Margin="10,10,10,10" Width="80" Height="50" Content="Last Sale" HorizontalAlignment="Left"></Button>
-                <Button Margin="10,10,10,10" Width="80" Height="50" Content="List Sale" HorizontalAlignment="Left"></Button>
+                <Button Margin="10,10,10,10" Width="80" Height="50" Content="List Sale" HorizontalAlignment="Left" Click="saleList"></Button>
                 <Button Margin="10,10,10,10" Width="80" Height="50" Content="Add Drug" HorizontalAlignment="Left"></Button>
                 <Button Margin="10,10,10,10" Width="80" Height="50" Content="Drug List" HorizontalAlignment="Left" Click="openMainLedger"></Button>
                 <Button Margin="10,10,10,10" Width="80" Height="50" Content="Return/Settle" HorizontalAlignment="Right"></Button>

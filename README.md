@@ -18,3 +18,5 @@ Unable to trigger change while editing datagridtextboxcolumn cell. Calculations 
 Overall grand total calculations algorithm implemented. SQL database now updating correctly. Updated front end. to display current item and checkout process. 
 ## 12-Jul-2023
 Checkout and New sale generation and invoice database creation performed.
+## 13-Jul-2023
+Added new sql wrapper class to clean code in main POS window. Added Sale List window to view previous sales.

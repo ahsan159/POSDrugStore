@@ -1,0 +1,141 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Data;
+using System.Data.SqlClient;
+using System.Collections.ObjectModel;
+
+namespace POSStore
+{
+    class sqlWrapper
+    {
+        public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
+        public string lastCommand { get; set; }
+        public string commandType { get; set; }
+        public string commandStatus { get; set; }
+        public string errorMessage = string.Empty;
+        private SqlConnection connection;
+        private static sqlWrapper? instance = null;
+
+        public static sqlWrapper getInstance()
+        {
+            if(instance==null)
+            {
+                instance = new sqlWrapper();
+                return instance;
+            }
+            return instance;
+        }
+
+        //public string connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";        
+        public sqlWrapper()
+        {
+            connection = new SqlConnection(connectionString);
+            lastCommand = string.Empty;
+            commandType = string.Empty;
+            commandStatus = string.Empty;
+        }
+        public List<string> columnList(string tableName)
+        {
+            // get the list of column from table
+            List<string> list = new List<string>();
+            DataTable dt = new DataTable();
+            string commandString = @"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = '" +
+                tableName + "';";
+            lastCommand = commandString;
+            commandType = "QUERY";
+            try
+            {
+                SqlCommand cmd = new SqlCommand(commandString, connection);
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+                dataAdapter.Fill(dt);
+                connection.Close();
+                commandStatus = "Success";
+            }
+            catch (Exception exp)
+            {
+                errorMessage = exp.Message;
+                commandStatus = "Error";
+                return new List<string>();
+            }
+            connection.Close();
+            foreach (DataRow dr in dt.Rows)
+            {
+                list.Add(dr.ItemArray[0].ToString());
+            }
+            return list;
+        }
+        public int itemCount(string tableName)
+        {
+            int count = -1;
+            string commandString = @"SELECT COUNT(*) FROM " + tableName + ";";
+            lastCommand = commandString;
+            commandType = "QUERY";
+            DataTable dt = new DataTable();
+            try
+            {
+                SqlCommand cmd = new SqlCommand(commandString, connection);
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+                dataAdapter.Fill(dt);
+                commandStatus = "Success";
+            }
+            catch (Exception exp)
+            {
+                errorMessage = exp.Message;
+                commandStatus = "Error";
+                return -1;
+            }
+            connection.Close();
+            string countString = dt.Rows[0].ItemArray[0].ToString();
+            count = int.Parse(countString);
+            return count;
+        }
+        private void executeNonQuery(string commandString)
+        {
+            /// this will execute the`command that will not return any thing like
+            /// deleting and creating tables and data in the tables
+            try
+            {
+                SqlCommand cmd = new SqlCommand(commandString, connection);
+                cmd.Connection.Open();
+                cmd.ExecuteNonQuery();
+                connection.Close();
+                commandStatus = "Success";
+            }
+            catch (Exception exp)
+            {
+                errorMessage = exp.Message;
+                commandStatus = "Error";                
+            }
+        }
+        public DataTable executeQuery(string tableName, List<string> columnList = null)
+        {
+            DataTable sqlTable = new DataTable();
+            string commandString = @"SELECT * FROM " + tableName + ";";
+            SqlCommand cmd = new SqlCommand(commandString, connection);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            adapter.Fill(sqlTable);            
+            return sqlTable;
+        }
+        public DataTable executeQuery(string tableName, string columns)
+        {
+            DataTable sqlTable = new DataTable();
+            string commandString = string.Empty;
+            SqlCommand cmd = new SqlCommand(commandString, connection);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            adapter.Fill(sqlTable);
+            return sqlTable;
+        }
+    }
+}
