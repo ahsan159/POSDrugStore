@@ -26,7 +26,7 @@ namespace POSStore
         public string commandStatus { get; set; }
         public string errorMessage = string.Empty;
         private SqlConnection connection;
-        private static sqlWrapper? instance = null;
+        private static sqlWrapper instance = null;
 
         public static sqlWrapper getInstance()
         {
@@ -44,7 +44,6 @@ namespace POSStore
             connection = new SqlConnection(connectionString);
             lastCommand = string.Empty;
             commandType = string.Empty;
-            commandStatus = string.Empty;
         }
         public List<string> columnList(string tableName)
         {
@@ -67,7 +66,7 @@ namespace POSStore
             {
                 errorMessage = exp.Message;
                 commandStatus = "Error";
-                return new List<string>();
+                return null;
             }
             connection.Close();
             foreach (DataRow dr in dt.Rows)
@@ -111,6 +110,7 @@ namespace POSStore
                 cmd.Connection.Open();
                 cmd.ExecuteNonQuery();
                 connection.Close();
+                commandType = "NQUERY";
                 commandStatus = "Success";
             }
             catch (Exception exp)
@@ -136,6 +136,15 @@ namespace POSStore
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             adapter.Fill(sqlTable);
             return sqlTable;
+        }
+        public void deleteTable(string tableName)
+        {
+            string commandString = @"DELETE TABLE " + tableName + ";";
+            executeNonQuery(commandString);
+        }
+        public DataTable getTable(string tableName)
+        {
+            return executeQuery(tableName);
         }
     }
 }

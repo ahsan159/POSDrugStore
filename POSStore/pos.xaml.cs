@@ -378,9 +378,10 @@ namespace POSStore
         private void checkOut(object sender, RoutedEventArgs evt)
         {
             // get column names from datatable
-            List<string> str = sWrap.columnList("invoiceLedger");
-            MessageBox.Show(string.Join(",", str),sWrap.commandStatus);
-            List<string> dt = GridCollection.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList<string>();
+            //List<string> str = sWrap.columnList("invoiceLedger");
+            //str.RemoveRange(0, 1);
+            //MessageBox.Show(string.Join(",", str),sWrap.commandStatus);
+            List<string> dt = GridCollection.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList<string>();            
             // insert data in sql table one by one            
             foreach(DataRow dr in GridCollection.Rows)
             {
@@ -413,7 +414,9 @@ namespace POSStore
             string paidString = paidTotal.Text;
             string balanceString = balanceTotal.Text;
             string discountString = discountTotal.Text;
-            int i = getInvoiceCount()+1;
+            //int i = getInvoiceCount()+1;
+            int i = sWrap.itemCount("invoiceLedger");
+            List<string> str = sWrap.columnList("invoiceLedger");
             //App.Current.Shutdown(0);
             int count = GridCollection.Rows.Count;
             string dateCode = DateTime.Now.ToString("yyyyMMdd");
@@ -426,8 +429,8 @@ namespace POSStore
             discountTotal.Text = "";
 
             // insert invoice in invoice ledger
-            List<string> dt = invoiceCollection.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList<string>();
-            invoiceCollection.Rows[0]["Invoice"] = @"Invoice\\" + dateCode + "\\" + i.ToString();
+            //List<string> dt = invoiceCollection.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList<string>();
+            invoiceCollection.Rows[0]["Invoice"] = @"Invoice\" + dateCode + @"\" + i.ToString();
             invoiceCollection.Rows[0]["Total"] = totalString;
             invoiceCollection.Rows[0]["Payment"] = paidString;
             invoiceCollection.Rows[0]["Balance"] = balanceString;
@@ -437,17 +440,18 @@ namespace POSStore
             invoiceCollection.Rows[0]["Customer"] = customerName.Text;
             invoiceCollection.Rows[0]["Contact"] = contactNo.Text;
             invoiceCollection.Rows[0]["DrugCount"] = count.ToString();
-            invoiceCollection.Rows[0]["UserName"] = "AFE";
-            invoiceCollection.Rows[0]["PaymentType"] = "AGDE";
+            invoiceCollection.Rows[0]["UserName"] = "";
+            invoiceCollection.Rows[0]["PaymentType"] = "";
             invoiceCollection.Rows[0]["Sale_Tax"] = " ";
 
             DataRow dr = invoiceCollection.Rows[0];
-            string cString = @"INSERT INTO invoiceLedger(" + string.Join(",", dt) +
+            string cString = @"INSERT INTO invoiceLedger(" + string.Join(",", str) +
                 ") Values ('" +
                 string.Join("','", dr.ItemArray) +
                 "');";
             //MessageBox.Show(cString);
             executeNonQuery(cString);
+            invoiceNo.Text = @"Invoice\" + dateCode + @"\" + (i+1).ToString();
 
         }
 

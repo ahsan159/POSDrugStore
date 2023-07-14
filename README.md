@@ -20,3 +20,5 @@ Overall grand total calculations algorithm implemented. SQL database now updatin
 Checkout and New sale generation and invoice database creation performed.
 ## 13-Jul-2023
 Added new sql wrapper class to clean code in main POS window. Added Sale List window to view previous sales.
+## 14-Jul-2023
+Minor improvements in SQL wrapper functions

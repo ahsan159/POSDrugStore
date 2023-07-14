@@ -30,14 +30,14 @@
                          MaxWidth="200" 
                          MinWidth="150"
                          HorizontalAlignment="Left" 
-                         IsReadOnly="True"></TextBox>
+                         ></TextBox>
                 <Label Content="Contact:" Margin="10,10,10,10" HorizontalAlignment="Left"></Label>
                 <TextBox Name="contactNo" 
                          Margin="20,10,20,10" 
                          MaxWidth="200" 
                          MinWidth="150"
                          HorizontalAlignment="Left" 
-                         IsReadOnly="True"></TextBox>
+                         ></TextBox>
             </DockPanel>
             <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid  MinHeight="450" VerticalAlignment="Stretch" Grid.Column="1" HorizontalAlignment="Stretch" MinWidth="700">
