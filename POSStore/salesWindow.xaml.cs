@@ -27,14 +27,40 @@ namespace POSStore
         {
             InitializeComponent();            
             sqlWrapper wrapper = sqlWrapper.getInstance();
-            DataTable dt = wrapper.executeQuery("invoiceLedger");
-            MessageBox.Show(dt.Rows.Count.ToString());
+            DataTable dt = wrapper.getTable("invoiceLedger");
+            startDate.SelectedDate = DateTime.Now;
+            endDate.SelectedDate = DateTime.Now;
+            //MessageBox.Show(dt.Rows.Count.ToString());
             invoiceTable.ItemsSource = dt.DefaultView;
+            totalSale.Text = calculateTotal(dt).ToString();
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void calenderDateChanged(object sender, RoutedEventArgs e)
+        {
+            sqlWrapper wrapper = sqlWrapper.getInstance();
+            string dtS = startDate.SelectedDate.Value.ToString("yyyy-MM-dd");
+            string dtE = endDate.SelectedDate.Value.ToString("yyyy-MM-dd");
+            string query = @"SELECT * FROM invoiceLedger where CheckoutDate BETWEEN '" +
+                    dtS +
+                    "' and '" +
+                    dtE +
+                    "';";
+            DataTable dt =  wrapper.executeBasicQuery(query);
+            invoiceTable.ItemsSource = dt.DefaultView;
+            totalSale.Text = calculateTotal(dt).ToString();
+        }
+        private double calculateTotal(DataTable table)
+        {
+            double total = 0;
+            foreach(DataRow dr in table.Rows)
+            {
+                total += double.Parse(dr["Total"].ToString());
+            }
+            return total;
         }
     }
 }

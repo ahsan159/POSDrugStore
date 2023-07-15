@@ -66,6 +66,7 @@ namespace POSStore
             {
                 errorMessage = exp.Message;
                 commandStatus = "Error";
+                connection.Close();
                 return null;
             }
             connection.Close();
@@ -93,6 +94,7 @@ namespace POSStore
             {
                 errorMessage = exp.Message;
                 commandStatus = "Error";
+                connection.Close();
                 return -1;
             }
             connection.Close();
@@ -100,23 +102,26 @@ namespace POSStore
             count = int.Parse(countString);
             return count;
         }
-        private void executeNonQuery(string commandString)
+        public void executeNonQuery(string commandString)
         {
             /// this will execute the`command that will not return any thing like
             /// deleting and creating tables and data in the tables
             try
-            {
+            {                
                 SqlCommand cmd = new SqlCommand(commandString, connection);
                 cmd.Connection.Open();
                 cmd.ExecuteNonQuery();
                 connection.Close();
                 commandType = "NQUERY";
                 commandStatus = "Success";
+
             }
             catch (Exception exp)
             {
                 errorMessage = exp.Message;
-                commandStatus = "Error";                
+                commandStatus = "Error";
+                //MessageBox.Show(exp.Message, "Error");
+                connection.Close();
             }
         }
         public DataTable executeQuery(string tableName, List<string> columnList = null)
@@ -125,7 +130,8 @@ namespace POSStore
             string commandString = @"SELECT * FROM " + tableName + ";";
             SqlCommand cmd = new SqlCommand(commandString, connection);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            adapter.Fill(sqlTable);            
+            adapter.Fill(sqlTable);
+            connection.Close();
             return sqlTable;
         }
         public DataTable executeQuery(string tableName, string columns)
@@ -135,6 +141,17 @@ namespace POSStore
             SqlCommand cmd = new SqlCommand(commandString, connection);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             adapter.Fill(sqlTable);
+            connection.Close();
+            return sqlTable;
+        }
+        public DataTable executeBasicQuery(string commandString)
+        {
+            DataTable sqlTable = new DataTable();
+            //string commandString = string.Empty;
+            SqlCommand cmd = new SqlCommand(commandString, connection);
+            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            adapter.Fill(sqlTable);
+            connection.Close();
             return sqlTable;
         }
         public void deleteTable(string tableName)
@@ -145,6 +162,11 @@ namespace POSStore
         public DataTable getTable(string tableName)
         {
             return executeQuery(tableName);
+        }
+        
+        public void tableExist(string tableName)
+        {
+
         }
     }
 }

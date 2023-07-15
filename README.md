@@ -22,3 +22,6 @@ Checkout and New sale generation and invoice database creation performed.
 Added new sql wrapper class to clean code in main POS window. Added Sale List window to view previous sales.
 ## 14-Jul-2023
 Minor improvements in SQL wrapper functions
+## 15-Jul-2023
+Updated the sale window by adding date range selector and total sales calculation for till.
+SQL Wrapper requires more work to deal with special queries and creating and deleting table

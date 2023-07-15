@@ -27,19 +27,27 @@ namespace POSStore
     {
         public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
         //public string connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
-        public string queryString = "SELECT * from mainLedger";        
+        public string queryString = "SELECT * from mainLedger";
         public string selectValueCombo;
         public SqlConnection connection;
         public SqlDataAdapter dataAdapter;
-        public DataTable GridCollection = new DataTable();
+        public DataTable saleCollection = new DataTable("saleTable");
         public DataTable invoiceCollection = new DataTable();
         public List<string> dList = new List<string>();
         public List<string> idList = new List<string>();
         private sqlWrapper sWrap = sqlWrapper.getInstance();
+        private string saleTableName = string.Empty;
         public pos()
         {
             InitializeComponent();
+            DataContext = this;
             this.WindowState = WindowState.Maximized;
+
+            string dateCode = DateTime.Now.ToString("yyyyMMdd");
+            invoiceNo.Text = @"Invoice\" + dateCode + @"\" + sWrap.itemCount("invoiceLedger").ToString();
+            saleTableName = invoiceNo.Text.Replace(@"\", "_");
+            //MessageBox.Show(saleTableName);
+            saleTableSQL();
             DataTable dTable = new DataTable();
             try
             {
@@ -58,25 +66,45 @@ namespace POSStore
                  MessageBoxImage.Error
                  );
             }
-            //GridCollection.Rows.Add(dr);
-            GridCollection.Columns.Add("Name", typeof(string));
-            GridCollection.Columns.Add("Quantity", typeof(string));
-            GridCollection.Columns.Add("Price", typeof(string));
-            GridCollection.Columns.Add("Discount100", typeof(string));
-            GridCollection.Columns.Add("Discount", typeof(string));
-            GridCollection.Columns.Add("Total", typeof(string));
-            DataRow dr = GridCollection.NewRow();
-            GridCollection.Rows.Add(dr);
-            saleTable.ItemsSource = GridCollection.DefaultView;
-            DataContext = this;
-            DataGridComboBoxColumn dgc = saleTable.Columns[0] as DataGridComboBoxColumn;
-            dList = getDrugList();            
+
+            //saleCollection.Rows.Add(dr);
+            saleCollection.Columns.Add("Name", typeof(string));
+            saleCollection.Columns.Add("Quantity", typeof(string));
+            saleCollection.Columns.Add("Price", typeof(string));
+            saleCollection.Columns.Add("Discount100", typeof(string));
+            saleCollection.Columns.Add("Discount", typeof(string));
+            saleCollection.Columns.Add("Total", typeof(string));
+            DataRow dr = saleCollection.NewRow();
+            saleCollection.Rows.Add(dr);
+            saleTable.ItemsSource = saleCollection.DefaultView;
+
+            //DataGridComboBoxColumn dgc = saleTable.Columns[0] as DataGridComboBoxColumn;
+
+            dList = getDrugList();
             (saleTable.Columns[0] as DataGridComboBoxColumn).ItemsSource = dList;
             saleTable.SelectedIndex = 0;
             populateInvoiceTable();
             //dgc.ItemsSource = getDrugList();
 
 
+        }
+        private void saleTableSQL()
+        {
+            /// this method create a new unique table for evert invoice
+            /// generated same table name is saved in invoiceledger
+            string query = @"CREATE TABLE " + saleTableName +
+                            @" (
+                           [Sr] INT NULL,
+                           [Name] VARCHAR(50) NOT NULL,
+                           [Quantity] INT NOT NULL, 
+                           [Price] REAL NOT NULL, 
+                           [Discount100]  REAL NULL,
+                           [Discount] REAL NULL,
+                           [Sale Tax] REAL NULL,
+                           [Total] REAL NOT NULL 
+                        )";
+            sWrap.executeNonQuery(query);
+            //MessageBox.Show(sWrap.errorMessage);
         }
         public List<string> getDrugList()
         {
@@ -107,17 +135,18 @@ namespace POSStore
             ////List<DataGridCellInfo> cells = saleTable.SelectedCells.ToList();            
             ////ComboBox cellContent = cells[i].Column.GetCellContent(cells[i].Item) as ComboBox;            
             //
-            // step 1: add new row
+            /// step 1: add new row
             if (saleTable.Items.Count - 1 == saleTable.SelectedIndex)
             {
-                DataRow dr = GridCollection.NewRow();
-                GridCollection.Rows.Add(dr);
+                DataRow dr = saleCollection.NewRow();
+                saleCollection.Rows.Add(dr);
                 saleTable.SelectedIndex = saleTable.Items.Count - 2;
-            }            
-            // step 2: update drug list
+            }
+            /// step 2: update drug list because you can update drug list
+            /// during the data entry
             dList = getDrugList();
             (saleTable.Columns[0] as DataGridComboBoxColumn).ItemsSource = dList;
-            // step 3: make calculation for sale
+            /// step 3: make calculation for sale
             try
             {
                 solveTable();
@@ -130,14 +159,14 @@ namespace POSStore
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
-            // step 4: update side display
+            /// step 4: update side display
             try
             {
-                drugName.Content = GridCollection.Rows[saleTable.SelectedIndex]["name"];
-                price.Content = GridCollection.Rows[saleTable.SelectedIndex]["Cost"];
+                drugName.Content = saleCollection.Rows[saleTable.SelectedIndex]["name"];
+                price.Content = saleCollection.Rows[saleTable.SelectedIndex]["Cost"];
             }
             catch (Exception) { }
-            // step 5: checkout calculations
+            /// step 5: checkout calculations
             grandTotal();
         }
         private void getCell()
@@ -170,22 +199,22 @@ namespace POSStore
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // This function is called when a drug is selected from the list
-            ComboBox cb = sender as ComboBox;            
+            ComboBox cb = sender as ComboBox;
             List<DataGridCellInfo> cells = saleTable.SelectedCells.ToList();
             //TextBlock tb = cells[3].Column.GetCellContent(cells[3].Item) as TextBlock;
             string query = @"SELECT * FROM mainLedger WHERE id='" +
                 idList[cb.SelectedIndex] + "';";
             DataTable dTable = getDatafromSQL(query);
             DataRow dr = dTable.Rows[0];
-            GridCollection.Rows[saleTable.SelectedIndex]["Name"] = dr["name"];
-            GridCollection.Rows[saleTable.SelectedIndex]["Quantity"] = ""; // because quantity is to be entered by user
-            GridCollection.Rows[saleTable.SelectedIndex]["Price"] = dr["Cost"];
-            GridCollection.Rows[saleTable.SelectedIndex]["Discount"] = "";
-            GridCollection.Rows[saleTable.SelectedIndex]["Discount100"] = "";
-            GridCollection.Rows[saleTable.SelectedIndex]["Total"] = "0";
+            saleCollection.Rows[saleTable.SelectedIndex]["Name"] = dr["name"];
+            saleCollection.Rows[saleTable.SelectedIndex]["Quantity"] = ""; // because quantity is to be entered by user
+            saleCollection.Rows[saleTable.SelectedIndex]["Price"] = dr["Cost"];
+            saleCollection.Rows[saleTable.SelectedIndex]["Discount"] = "";
+            saleCollection.Rows[saleTable.SelectedIndex]["Discount100"] = "";
+            saleCollection.Rows[saleTable.SelectedIndex]["Total"] = "0";
             drugName.Content = dr["name"];
             price.Content = dr["Cost"];
-            solveTable();            
+            solveTable();
         }
 
         private void saleTable_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -201,7 +230,7 @@ namespace POSStore
             }
             catch (Exception exp)
             {
-                foreach (DataRow dr in GridCollection.Rows)
+                foreach (DataRow dr in saleCollection.Rows)
                 {
                     dr["Total"] = "Editing" + e.Column.Header;
                 }
@@ -223,7 +252,7 @@ namespace POSStore
             try
             {
                 double totalBilled = 0;
-                foreach (DataRow dr in GridCollection.Rows)
+                foreach (DataRow dr in saleCollection.Rows)
                 {
                     total = 0;
                     disc = 0;
@@ -231,18 +260,18 @@ namespace POSStore
                     quantity = 0;
                     bool pBool = double.TryParse(dr["Price"].ToString(), out price);
                     if (!pBool)
-                    { 
-                        dr["Total"] = "0.00";                        
-                    }                    
+                    {
+                        dr["Total"] = "0.00";
+                    }
 
                     bool qBool = double.TryParse(dr["Quantity"].ToString(), out quantity);
-                    if(!qBool)
+                    if (!qBool)
                     {
-                        dr["Total"] = price.ToString();                                                
+                        dr["Total"] = price.ToString();
                     }
                     else
                     {
-                        total = price*quantity;                    
+                        total = price * quantity;
                         dr["Total"] = total.ToString();
                     }
 
@@ -275,7 +304,7 @@ namespace POSStore
                     totalCost.Content = totalBilled.ToString();
                     grandTotal();
                 }
-                
+
             }
             catch (Exception exp)
             {
@@ -324,7 +353,7 @@ namespace POSStore
             // delete data row
             try
             {
-                GridCollection.Rows.RemoveAt(saleTable.SelectedIndex);
+                saleCollection.Rows.RemoveAt(saleTable.SelectedIndex);
             }
             catch (Exception exp)
             {
@@ -341,7 +370,7 @@ namespace POSStore
             {
 
                 connection.Close();
-                GridCollection.WriteXml("backupdata.xml");
+                saleCollection.WriteXml("backupdata.xml");
             }
             catch (Exception exp)
             {
@@ -356,7 +385,7 @@ namespace POSStore
 
 
         private void paidTotal_KeyPress(object sender, KeyEventArgs e)
-        {              
+        {
             if (e.Key.Equals(Key.Enter))
             {
                 checkOut(this, new RoutedEventArgs());
@@ -381,18 +410,31 @@ namespace POSStore
             //List<string> str = sWrap.columnList("invoiceLedger");
             //str.RemoveRange(0, 1);
             //MessageBox.Show(string.Join(",", str),sWrap.commandStatus);
-            List<string> dt = GridCollection.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList<string>();            
+            saveSale();
+            saveInvoice();
+            clearSaleTable();
+        }
+
+        private void saveSale()
+        {
+            /// this function will save all the data of drugs their
+            /// price and quantity to the seperate saleTable
+            List<string> dt = saleCollection.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList<string>();
             // insert data in sql table one by one            
-            foreach(DataRow dr in GridCollection.Rows)
+            foreach (DataRow dr in saleCollection.Rows)
             {
-                var ds = dr.ItemArray;
-                string query = @"INSERT INTO testTable(" + string.Join(",", dt) +
-                    ") values ('" +
-                    string.Join("','", ds) + "');";
-                //MessageBox.Show(query);
+
                 try
                 {
-                    executeNonQuery(query);
+                    if (!string.IsNullOrEmpty(dr["Name"].ToString().Trim()))
+                    {
+                        var ds = dr.ItemArray;
+                        string query = @"INSERT INTO " + saleTableName + " (" + string.Join(",", dt) +
+                            ") values ('" +
+                            string.Join("','", ds) + "');";
+                        sWrap.executeNonQuery(query);
+
+                    }
                 }
                 catch (Exception exp)
                 {
@@ -403,30 +445,23 @@ namespace POSStore
                         MessageBoxImage.Error);
                 }
             }
-            clearSaleTable();
         }
 
-        private void clearSaleTable()
+        private void saveInvoice()
         {
-            //string queryClear = @"DELETE FROM testTable;";
-            //executeNonQuery(queryClear);
+            /// this function will save the invoice data 
+            /// payment, discount and balance not limiting to 
+            /// customer data to invoiceLedger
             string totalString = totalCost.Content.ToString();
             string paidString = paidTotal.Text;
             string balanceString = balanceTotal.Text;
             string discountString = discountTotal.Text;
-            //int i = getInvoiceCount()+1;
             int i = sWrap.itemCount("invoiceLedger");
             List<string> str = sWrap.columnList("invoiceLedger");
-            //App.Current.Shutdown(0);
-            int count = GridCollection.Rows.Count;
+            int count = saleCollection.Rows.Count;
             string dateCode = DateTime.Now.ToString("yyyyMMdd");
             string dateData = DateTime.Now.ToString("yyyy-MM-dd");
             string timeData = DateTime.Now.ToString("hh:mm:ss");
-            GridCollection.Rows.Clear();
-            totalCost.Content = "";
-            paidTotal.Text = "";
-            balanceTotal.Text = "";
-            discountTotal.Text = "";
 
             // insert invoice in invoice ledger
             //List<string> dt = invoiceCollection.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList<string>();
@@ -443,43 +478,32 @@ namespace POSStore
             invoiceCollection.Rows[0]["UserName"] = "";
             invoiceCollection.Rows[0]["PaymentType"] = "";
             invoiceCollection.Rows[0]["Sale_Tax"] = " ";
+            invoiceCollection.Rows[0]["DBName"] = saleTableName;
 
             DataRow dr = invoiceCollection.Rows[0];
             string cString = @"INSERT INTO invoiceLedger(" + string.Join(",", str) +
                 ") Values ('" +
                 string.Join("','", dr.ItemArray) +
                 "');";
-            //MessageBox.Show(cString);
-            executeNonQuery(cString);
-            invoiceNo.Text = @"Invoice\" + dateCode + @"\" + (i+1).ToString();
-
+            sWrap.executeNonQuery(cString);
         }
 
-        private void executeNonQuery(string cString)
+        private void clearSaleTable()
         {
-            // not only add data but also refresh the datagrid table
-            SqlCommand cmd = new SqlCommand(cString, connection);
-            cmd.Connection.Open();
-            cmd.ExecuteNonQuery();
-            connection.Close();            
-        }
+            //string queryClear = @"DELETE FROM testTable;";
+            //executeNonQuery(queryClear);
+            saleCollection.Rows.Clear();
+            totalCost.Content = "";
+            paidTotal.Text = "";
+            balanceTotal.Text = "";
+            discountTotal.Text = "";
+            string dateCode = DateTime.Now.ToString("yyyyMMdd");
+            invoiceNo.Text = @"Invoice\" + dateCode + @"\" + sWrap.itemCount("invoiceLedger").ToString();
+            saleTableName = invoiceNo.Text.Replace(@"\", "_");
+            saleTableSQL();
+            customerName.Text = "";
+            contactNo.Text = "";
 
-        private int getInvoiceCount()
-        {
-            DataTable dt = new DataTable();
-            string cString = @"SELECT COUNT(*) FROM invoiceLedger;";
-            SqlDataAdapter adapter = new SqlDataAdapter(cString, connection);
-            adapter.Fill(dt);
-            //MessageBox.Show( dt.Rows[0].ItemArray[0].ToString());
-            int id;
-            bool iParse = int.TryParse(dt.Rows[0].ItemArray[0].ToString(), out id);
-            connection.Close();
-            adapter.Dispose();
-            if (iParse)
-            {
-                return id;
-            }
-            return -1;
         }
 
         private void populateInvoiceTable()
@@ -488,9 +512,10 @@ namespace POSStore
             DataTable dt = new DataTable();
             SqlDataAdapter adapter = new SqlDataAdapter(cString, connection);
             adapter.Fill(dt);
-            foreach(DataRow drow in dt.Rows)
+            connection.Close();
+            foreach (DataRow drow in dt.Rows)
             {
-                string itemName = drow.ItemArray[0].ToString() ;
+                string itemName = drow.ItemArray[0].ToString();
                 invoiceCollection.Columns.Add(itemName);
             }
             DataRow dr = invoiceCollection.NewRow();
