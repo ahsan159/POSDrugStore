@@ -126,8 +126,13 @@ namespace POSStore
         }
         public DataTable executeQuery(string tableName, List<string> columnList = null)
         {
-            DataTable sqlTable = new DataTable();
+            DataTable sqlTable = new DataTable();            
             string commandString = @"SELECT * FROM " + tableName + ";";
+            if (columnList!=null)
+            {
+                commandString= @"SELECT " + string.Join(",",columnList) + " FROM " + tableName + ";";
+            }
+            //MessageBox.Show(commandString);
             SqlCommand cmd = new SqlCommand(commandString, connection);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             adapter.Fill(sqlTable);

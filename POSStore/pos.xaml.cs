@@ -27,7 +27,7 @@ namespace POSStore
     {
         public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
         //public string connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
-        public string queryString = "SELECT * from mainLedger";
+        public string queryString = "SELECT * from mainLedger";        
         public string selectValueCombo;
         public SqlConnection connection;
         public SqlDataAdapter dataAdapter;
@@ -74,13 +74,15 @@ namespace POSStore
             saleCollection.Columns.Add("Discount100", typeof(string));
             saleCollection.Columns.Add("Discount", typeof(string));
             saleCollection.Columns.Add("Total", typeof(string));
+            saleCollection.Columns.Add("ID",typeof(string));
+            saleCollection.Columns.Add("Stock", typeof(string));
             DataRow dr = saleCollection.NewRow();
             saleCollection.Rows.Add(dr);
             saleTable.ItemsSource = saleCollection.DefaultView;
 
             //DataGridComboBoxColumn dgc = saleTable.Columns[0] as DataGridComboBoxColumn;
 
-            dList = getDrugList();
+            dList = getDrugList() ;
             (saleTable.Columns[0] as DataGridComboBoxColumn).ItemsSource = dList;
             saleTable.SelectedIndex = 0;
             populateInvoiceTable();
@@ -92,18 +94,20 @@ namespace POSStore
         {
             /// this method create a new unique table for evert invoice
             /// generated same table name is saved in invoiceledger
-            string query = @"CREATE TABLE " + saleTableName +
+            string query = @"CREATE TABLE " + saleTableName + 
                             @" (
-                           [Sr] INT NULL,
+                           [Sr] INT NOT NULL IDENTITY(1,1),
                            [Name] VARCHAR(50) NOT NULL,
                            [Quantity] INT NOT NULL, 
                            [Price] REAL NOT NULL, 
                            [Discount100]  REAL NULL,
                            [Discount] REAL NULL,
                            [Sale Tax] REAL NULL,
-                           [Total] REAL NOT NULL 
+                           [Total] REAL NOT NULL,
+                           [ID] INT NULL,
+                           [Stock] INT NULL
                         )";
-            sWrap.executeNonQuery(query);
+            sWrap.executeNonQuery(query);            
             //MessageBox.Show(sWrap.errorMessage);
         }
         public List<string> getDrugList()
@@ -162,8 +166,9 @@ namespace POSStore
             /// step 4: update side display
             try
             {
-                drugName.Content = saleCollection.Rows[saleTable.SelectedIndex]["name"];
-                price.Content = saleCollection.Rows[saleTable.SelectedIndex]["Cost"];
+                drugName.Content = saleCollection.Rows[saleTable.SelectedIndex]["Name"];
+                price.Content = saleCollection.Rows[saleTable.SelectedIndex]["Price"];
+                stock.Content = saleCollection.Rows[saleTable.SelectedIndex]["Stock"];
             }
             catch (Exception) { }
             /// step 5: checkout calculations
@@ -199,7 +204,7 @@ namespace POSStore
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // This function is called when a drug is selected from the list
-            ComboBox cb = sender as ComboBox;
+            ComboBox cb = sender as ComboBox;            
             List<DataGridCellInfo> cells = saleTable.SelectedCells.ToList();
             //TextBlock tb = cells[3].Column.GetCellContent(cells[3].Item) as TextBlock;
             string query = @"SELECT * FROM mainLedger WHERE id='" +
@@ -212,9 +217,13 @@ namespace POSStore
             saleCollection.Rows[saleTable.SelectedIndex]["Discount"] = "";
             saleCollection.Rows[saleTable.SelectedIndex]["Discount100"] = "";
             saleCollection.Rows[saleTable.SelectedIndex]["Total"] = "0";
+            saleCollection.Rows[saleTable.SelectedIndex]["ID"] = dr["id"];
+            saleCollection.Rows[saleTable.SelectedIndex]["Stock"] = dr["quantity"];
+
             drugName.Content = dr["name"];
             price.Content = dr["Cost"];
-            solveTable();
+            stock.Content = dr["quantity"];
+            solveTable();            
         }
 
         private void saleTable_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -260,18 +269,18 @@ namespace POSStore
                     quantity = 0;
                     bool pBool = double.TryParse(dr["Price"].ToString(), out price);
                     if (!pBool)
-                    {
-                        dr["Total"] = "0.00";
-                    }
+                    { 
+                        dr["Total"] = "0.00";                        
+                    }                    
 
                     bool qBool = double.TryParse(dr["Quantity"].ToString(), out quantity);
-                    if (!qBool)
+                    if(!qBool)
                     {
-                        dr["Total"] = price.ToString();
+                        dr["Total"] = price.ToString();                                                
                     }
                     else
                     {
-                        total = price * quantity;
+                        total = price*quantity;                    
                         dr["Total"] = total.ToString();
                     }
 
@@ -304,7 +313,7 @@ namespace POSStore
                     totalCost.Content = totalBilled.ToString();
                     grandTotal();
                 }
-
+                
             }
             catch (Exception exp)
             {
@@ -385,7 +394,7 @@ namespace POSStore
 
 
         private void paidTotal_KeyPress(object sender, KeyEventArgs e)
-        {
+        {              
             if (e.Key.Equals(Key.Enter))
             {
                 checkOut(this, new RoutedEventArgs());
@@ -410,9 +419,25 @@ namespace POSStore
             //List<string> str = sWrap.columnList("invoiceLedger");
             //str.RemoveRange(0, 1);
             //MessageBox.Show(string.Join(",", str),sWrap.commandStatus);
+            updateStock();
             saveSale();
             saveInvoice();
             clearSaleTable();
+        }
+        
+        private void updateStock()
+        {
+            foreach(DataRow dr in saleCollection.Rows)
+            {
+                if(!string.IsNullOrEmpty(dr["Name"].ToString()))
+                {
+                    string UpdateQuery = @"UPDATE mainLedger " +
+                        @"SET quantity='" + (int.Parse(dr["Stock"].ToString()) - int.Parse(dr["Quantity"].ToString())).ToString() + "'" +
+                        @" WHERE id='" + dr["ID"] + "';";
+                    //MessageBox.Show(UpdateQuery);
+                    sWrap.executeNonQuery(UpdateQuery);
+                }
+            }
         }
 
         private void saveSale()
@@ -423,7 +448,7 @@ namespace POSStore
             // insert data in sql table one by one            
             foreach (DataRow dr in saleCollection.Rows)
             {
-
+                
                 try
                 {
                     if (!string.IsNullOrEmpty(dr["Name"].ToString().Trim()))
@@ -433,8 +458,8 @@ namespace POSStore
                             ") values ('" +
                             string.Join("','", ds) + "');";
                         sWrap.executeNonQuery(query);
-
-                    }
+                    
+                    }                
                 }
                 catch (Exception exp)
                 {
@@ -492,7 +517,7 @@ namespace POSStore
         {
             //string queryClear = @"DELETE FROM testTable;";
             //executeNonQuery(queryClear);
-            saleCollection.Rows.Clear();
+            saleCollection.Rows.Clear();                 
             totalCost.Content = "";
             paidTotal.Text = "";
             balanceTotal.Text = "";
@@ -503,6 +528,8 @@ namespace POSStore
             saleTableSQL();
             customerName.Text = "";
             contactNo.Text = "";
+            stock.Content = "";
+            price.Content = "";
 
         }
 
@@ -513,9 +540,9 @@ namespace POSStore
             SqlDataAdapter adapter = new SqlDataAdapter(cString, connection);
             adapter.Fill(dt);
             connection.Close();
-            foreach (DataRow drow in dt.Rows)
+            foreach(DataRow drow in dt.Rows)
             {
-                string itemName = drow.ItemArray[0].ToString();
+                string itemName = drow.ItemArray[0].ToString() ;
                 invoiceCollection.Columns.Add(itemName);
             }
             DataRow dr = invoiceCollection.NewRow();
@@ -528,6 +555,11 @@ namespace POSStore
             sWin.ShowDialog();
         }
 
+        private void openStockWindow(object sender, RoutedEventArgs evt)
+        {
+            stockWindow stockW = new stockWindow();
+            stockW.ShowDialog();
+        }
     }
 }
 

@@ -26,13 +26,14 @@ namespace POSStore
         public salesWindow()
         {
             InitializeComponent();            
-            sqlWrapper wrapper = sqlWrapper.getInstance();
-            DataTable dt = wrapper.getTable("invoiceLedger");
-            startDate.SelectedDate = DateTime.Now;
-            endDate.SelectedDate = DateTime.Now;
+            //sqlWrapper wrapper = sqlWrapper.getInstance();
             //MessageBox.Show(dt.Rows.Count.ToString());
-            invoiceTable.ItemsSource = dt.DefaultView;
-            totalSale.Text = calculateTotal(dt).ToString();
+            //invoiceTable.ItemsSource = dt.DefaultView;
+            //totalSale.Text = calculateTotal(dt).ToString();
+            //DataTable dt = wrapper.getTable("invoiceLedger");
+            endDate.SelectedDate = DateTime.Now;
+            startDate.SelectedDate = DateTime.Now;
+            calenderDateChanged(this, new RoutedEventArgs());
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
