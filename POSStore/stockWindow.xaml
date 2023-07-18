@@ -13,8 +13,12 @@
                 </Label>
                 <TextBox Name="searchStock" ToolTip="Enter Drug Name"  Margin="10,10,10,10"></TextBox>
             </DockPanel>
-            <Grid>
-                <StackPanel Width="360" HorizontalAlignment="Left">                    
+            <Grid>                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Width="360" HorizontalAlignment="Left" Grid.Column="0">                    
                     <DockPanel Margin="10,10,10,10">
                         <Label Content="Drug Name"
                                 VerticalAlignment="Top"
@@ -25,9 +29,15 @@
                             VerticalAlignment="Top"
                             HorizontalAlignment="Right"
                             Width="180"
-                            SelectionChanged="ComboBox_SelectionChanged"                        
+                            SelectionChanged="ComboBox_SelectionChanged"     
+                            SelectedItem="{Binding selectDrug}"
+                            ItemsSource="{Binding drugListBinding}"
+                            SelectedIndex="{Binding selectDrugIndex}"
+                            IsEditable="True"
+                            AllowDrop="True"
+                            KeyDown="drugSelection_KeyDown"
+                            LostFocus="drugSelection_LostFocus"
                             ></ComboBox>
-                            <!--ItemsSource="{Binding name}"-->
                     </DockPanel>
                     <DockPanel VerticalAlignment="Top">
                         <Label Content="Quantity Added" Margin="10,10,10,10">
@@ -35,6 +45,7 @@
                         <TextBox Name="addedQuantity" ToolTip="Quantity"  Margin="10,10,10,10"
                                  HorizontalAlignment="Right"
                                  Width="180"
+                                 Text="{Binding quantitytobeAdded,Mode=TwoWay}"
                                  ></TextBox>
                     </DockPanel>
                     <DockPanel VerticalAlignment="Top">
@@ -43,6 +54,7 @@
                         <TextBox Name="retailPrice" ToolTip="Retail Price"  Margin="10,10,10,10"
                                  HorizontalAlignment="Right"
                                  Width="180"
+                                 Text="{Binding retailPriceT,Mode=TwoWay}"
                                  ></TextBox>
                     </DockPanel>
                     <DockPanel VerticalAlignment="Top">
@@ -51,9 +63,14 @@
                         <TextBox Name="purchasePrice" ToolTip="Purchase Price"  Margin="10,10,10,10"
                                  HorizontalAlignment="Right"
                                  Width="180"
+                                 Text="{Binding purchasePriceT,Mode=TwoWay}"
                                  ></TextBox>
-                    </DockPanel>
-                    <Button Content="Update Stock" Click="updateStockBtn_Click"></Button>
+                    </DockPanel>                    
+                </StackPanel>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                    <Button Content="Update Stock" Click="updateStockBtn_Click" Margin="10,10,10,10" VerticalAlignment="Center"></Button>
+                    <Button Content="Add New Drug" Click="addNewDrug" Margin="10,10,10,10" VerticalAlignment="Center"></Button>
+                    <Button Content="View Drug List" Click="viewDrugList" Margin="10,10,10,10" VerticalAlignment="Center"></Button>
                 </StackPanel>
             </Grid>
             <DataGrid

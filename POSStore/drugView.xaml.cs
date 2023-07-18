@@ -23,8 +23,9 @@ namespace POSStore
     public partial class drugView : Window
     {
         string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
-        // string? connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
+        // string  connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
         private int sqlID = -1;
+
         public drugView()
         {
             InitializeComponent();
@@ -66,8 +67,12 @@ namespace POSStore
             dict.Add("costIn", purchaseData.Text);
             dict.Add("manufacturer", manufacturerData.Text);
             dict.Add("supplier", supplierData.Text);
-            DateTime dt = DateTime.ParseExact(expiryData.Text, "M/d/yyyy", System.Globalization.CultureInfo.CurrentCulture);
-            dict.Add("expiry", dt.ToString("yyyy-MM-dd"));
+            try
+            {
+                DateTime dt = DateTime.ParseExact(expiryData.Text, "M/d/yyyy", System.Globalization.CultureInfo.CurrentCulture);
+                dict.Add("expiry", dt.ToString("yyyy-MM-dd"));
+            }
+            catch (Exception e) { }
             if (sqlID == -1)
             {
                 string values = string.Empty;
@@ -131,7 +136,7 @@ namespace POSStore
 
         private void addDatatoTable(string cString)
         {
-            
+
             SqlConnection connection = new SqlConnection(connectionString);
             SqlCommand cmd = new SqlCommand(cString, connection);
             cmd.Connection.Open();

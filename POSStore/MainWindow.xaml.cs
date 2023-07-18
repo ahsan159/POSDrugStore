@@ -28,7 +28,33 @@ namespace POSStore
         public string queryString = "SELECT * from mainLedger";
         public SqlConnection connection;
         public SqlDataAdapter dataAdapter;
-        public MainWindow()
+        //public MainWindow()
+        //{
+        //    InitializeComponent();
+
+        //    DataTable dTable = new DataTable();
+        //    try
+        //    {
+        //        connection = new SqlConnection(connectionString);
+        //        dataAdapter = new SqlDataAdapter(queryString, connectionString);
+        //        dataAdapter.Fill(dTable);
+        //        connection.Close();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        MessageBox.Show("Connot Load Data from SQL database" +
+        //         Environment.NewLine + e.Message +
+        //         Environment.NewLine + e.Source,
+        //         "Error",
+        //         MessageBoxButton.OK,
+        //         MessageBoxImage.Error
+        //         );
+        //    }
+        //    drugLedger.DataContext = dTable.DefaultView;
+
+        //}
+
+        public MainWindow(bool active=true)
         {
             InitializeComponent();
 
@@ -51,6 +77,13 @@ namespace POSStore
                  );
             }
             drugLedger.DataContext = dTable.DefaultView;
+            if (active==false)
+            {
+                view.IsEnabled = false;
+                Add.IsEnabled = false;
+                Delete.IsEnabled = false;
+                drugLedger.IsEnabled = false;
+            }
 
         }
 

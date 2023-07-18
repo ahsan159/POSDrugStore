@@ -55,13 +55,19 @@
                     <!--CellEditEnding="saleTable_CellEditEnding"--> 
                         <DataGrid.Columns>
                             <DataGridComboBoxColumn 
+                            Width="100"
                             Header="Name"
                             ItemsSource="{Binding}"
-                            SelectedItemBinding="{Binding selectedValueCombo}"                                 
+                            SelectedItemBinding="{Binding selectedValueCombo}"                                  
                             >
                                 <DataGridComboBoxColumn.EditingElementStyle>
                                     <Style TargetType="ComboBox">
                                         <EventSetter Event="SelectionChanged" Handler="ComboBox_SelectionChanged"></EventSetter>
+                                        <EventSetter Event="KeyDown" Handler="ComboBox_KeyDown"></EventSetter>
+                                        <EventSetter Event="LostFocus" Handler="ComboBox_LostFocus"></EventSetter>
+                                        <EventSetter Event="GotFocus" Handler="ComboBox_GotFocus"></EventSetter>
+                                        <Setter Property="IsEditable" Value="True">                                         
+                                        </Setter>
                                     </Style>
                                 </DataGridComboBoxColumn.EditingElementStyle>
                             </DataGridComboBoxColumn>

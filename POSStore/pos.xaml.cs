@@ -560,6 +560,21 @@ namespace POSStore
             stockWindow stockW = new stockWindow();
             stockW.ShowDialog();
         }
+
+        private void ComboBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            (sender as ComboBox).IsDropDownOpen = true;
+        }
+
+        private void ComboBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            (sender as ComboBox).IsDropDownOpen = false;
+        }
+
+        private void ComboBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            (sender as ComboBox).IsDropDownOpen = true;
+        }
     }
 }
 
