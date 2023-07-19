@@ -1,0 +1,90 @@
+﻿<Window x:Class="POSStore.dashBoard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:POSStore"
+        mc:Ignorable="d"
+        Title="dashBoard" Height="600" Width="800"
+        ResizeMode="CanResize"        
+        >
+
+    <Grid Name="mainGrid" SizeChanged="Window_SizeChanged">
+        <DockPanel HorizontalAlignment="Left">            
+        <StackPanel HorizontalAlignment="Left" Margin="5,10,0,0" Name="functionBar">
+            <DockPanel>
+                <StackPanel Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Name="sideBar">
+                    <Button Content="DashBoard" Height="50" Width="80" BorderBrush="Black" VerticalAlignment="Top"
+                            Click="dashBoardOpen"
+                            ></Button>
+                    <Button Content="New Sale" Height="50" Width="80" BorderBrush="Black" VerticalAlignment="Top"
+                            ></Button>
+                    <Button Content="Products" Height="50" Width="80" BorderBrush="Black" VerticalAlignment="Top"
+                            ></Button>
+                    <Button Content="Customers" Height="50" Width="80" BorderBrush="Black" VerticalAlignment="Top"
+                            ></Button>
+                    <Button Content="Settle/Retrun" Height="50" Width="80" BorderBrush="Black" VerticalAlignment="Top"
+                            ></Button>
+                    <Button Content="Stocks" Height="50" Width="80" BorderBrush="Black" VerticalAlignment="Top"
+                            Click="stockWindowOpen"></Button>
+                </StackPanel>
+            </DockPanel>
+            <DockPanel Name="closeBar">
+                <Button Name="closeBtn" Content="Close" Height="50" Width="80" BorderBrush="Black" VerticalAlignment="Bottom"
+                        Click="closeWindow"></Button>
+            </DockPanel>
+        </StackPanel>
+        </DockPanel>
+        <DockPanel HorizontalAlignment="Right" Name="dashBaord">
+            <DockPanel Margin="40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Aqua">
+                <StackPanel>                    
+                    <Label Content="Rukhsar Store" FontSize="32" FontWeight="Bold" Margin="20" VerticalAlignment="Top" HorizontalAlignment="Center"></Label>
+                    <WrapPanel>
+                        <Button Content="Products" Name="pBtn"                                
+                                Height="100" Width="100" 
+                                FontSize="18" FontWeight="Bold"
+                                Margin="30"         
+                                Click="openDrugList"></Button>
+                        <Button Content="Customers" Name="cBtn"
+                                Height="100" Width="100" 
+                                FontSize="18" FontWeight="Bold"                                
+                                Margin="30"
+                                Click="openCustomerList"></Button>
+                        <Button Content="Sales" Name="saleBtn"
+                                Height="100" Width="100" 
+                                FontSize="18" FontWeight="Bold"                                
+                                Margin="30"
+                                Click="openSaleList"></Button>
+                        <Button Content="Stocks" Name="stockBtn"
+                                Height="100" Width="100" 
+                                FontSize="18" FontWeight="Bold"                                
+                                Margin="30"
+                                Click="openStockList"></Button>
+                        <!--<Button Content="Stocks" 
+                                Height="100" Width="100" 
+                                FontSize="18" FontWeight="Bold"                                
+                                Margin="30"></Button>
+                        <Button Content="Stocks" 
+                                Height="100" Width="100" 
+                                FontSize="18" FontWeight="Bold"                                
+                                Margin="30"></Button>-->
+                    </WrapPanel>
+                </StackPanel>                
+            </DockPanel> 
+        </DockPanel>        
+    </Grid>
+    <!--<StackPanel VerticalAlignment="Stretch" Height="300">
+        <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Right">
+            <Button Content="10" Width="50" Height="50"></Button>
+        </StackPanel>
+        <StackPanel VerticalAlignment="Stretch">
+            <Button Content="20" Width="50" Height="50" HorizontalAlignment="Right"></Button>
+        </StackPanel>
+        </StackPanel>-->
+
+</Window>
+
+<!--<DockPanel VerticalAlignment="Top">
+    
+    
+</DockPanel>-->        

@@ -17,6 +17,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <StackPanel Width="360" HorizontalAlignment="Left" Grid.Column="0">                    
                     <DockPanel Margin="10,10,10,10">
@@ -65,9 +66,34 @@
                                  Width="180"
                                  Text="{Binding purchasePriceT,Mode=TwoWay}"
                                  ></TextBox>
-                    </DockPanel>                    
+                    </DockPanel>
+                    <DockPanel VerticalAlignment="Top">
+                        <Label Content="Supplier Information" Margin="10,10,10,10">
+                        </Label>
+                        <CheckBox Margin="30,15,10,10" Name="supplierInfo" IsChecked="False" Click="supplierInfo_Click"></CheckBox>
+                    </DockPanel>
                 </StackPanel>
-                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                <StackPanel Grid.Column="1" HorizontalAlignment="Left" Name="supplierPanel">
+                    <DockPanel VerticalAlignment="Top">
+                        <Label Content="Supplier Name" Margin="10,10,10,10">
+                        </Label>
+                        <TextBox Name="supplierName" ToolTip="Supplier Name"  Margin="10,10,10,10"
+                                 HorizontalAlignment="Right"
+                                 Width="120"
+                                 Text="{Binding supplierNameT,Mode=TwoWay}"
+                                 ></TextBox>
+                    </DockPanel>
+                    <DockPanel VerticalAlignment="Top">
+                        <Label Content="Supplier Name" Margin="10,10,10,10">
+                        </Label>
+                        <TextBox Name="supplierContact" ToolTip="Supplier Contact"  Margin="10,10,10,10"
+                                 HorizontalAlignment="Right"
+                                 Width="120"
+                                 Text="{Binding supplierContactT,Mode=TwoWay}"
+                                 ></TextBox>
+                    </DockPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="2" HorizontalAlignment="Right">
                     <Button Content="Update Stock" Click="updateStockBtn_Click" Margin="10,10,10,10" VerticalAlignment="Center"></Button>
                     <Button Content="Add New Drug" Click="addNewDrug" Margin="10,10,10,10" VerticalAlignment="Center"></Button>
                     <Button Content="View Drug List" Click="viewDrugList" Margin="10,10,10,10" VerticalAlignment="Center"></Button>

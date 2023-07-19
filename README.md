@@ -29,3 +29,5 @@ SQL Wrapper requires more work to deal with special queries and creating and del
 Adding Stock update window. Updates in backend of POS main Window.
 ## 18-Jul-2023
 Stock table added and now being updated for data entry. Minor changes also expected in stock entry window in future.
+## 19-Jul-2023
+Added dash board window created a commercial makeup of it. Now combining functionalities in it.

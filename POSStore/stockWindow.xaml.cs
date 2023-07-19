@@ -48,6 +48,7 @@ namespace POSStore
             //drugSelection.ItemsSource = drugList.AsEnumerable().Select(r => r.Field<string>("name")).ToList();
             drugListBinding = drugList.Rows.Cast<DataRow>().Select(r => r.ItemArray[0].ToString()).ToList<string>();
             drugListID = drugList.Rows.Cast<DataRow>().Select(r => r.ItemArray[1].ToString()).ToList();
+            supplierPanel.Visibility = Visibility.Hidden;
         }
 
         private void stockTable_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
@@ -79,7 +80,8 @@ namespace POSStore
                 addedQuantity.Clear();
                 retailPrice.Clear();
                 purchasePrice.Clear();
-                
+                drugSelection.Focus();
+
             }
             catch(Exception exp)
             {
@@ -149,6 +151,12 @@ namespace POSStore
         private void drugSelection_LostFocus(object sender, RoutedEventArgs e)
         {
             (sender as ComboBox).IsDropDownOpen = false;
+        }
+
+        private void supplierInfo_Click(object sender, RoutedEventArgs e)
+        {
+            //if ((sender as CheckBox).IsChecked as bool) 
+
         }
     }
 }
