@@ -135,6 +135,7 @@ namespace POSStore
             //MessageBox.Show(commandString);
             SqlCommand cmd = new SqlCommand(commandString, connection);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+            //MessageBox.Show(commandString);
             adapter.Fill(sqlTable);
             connection.Close();
             return sqlTable;

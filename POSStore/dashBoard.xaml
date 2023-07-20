@@ -5,62 +5,51 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:POSStore"
         mc:Ignorable="d"
-        Title="dashBoard" Height="600" Width="800"
-        ResizeMode="CanResize"        
-        >
-
-    <Grid Name="mainGrid" SizeChanged="Window_SizeChanged">
-        <DockPanel HorizontalAlignment="Left">            
-        <StackPanel HorizontalAlignment="Left" Margin="5,10,0,0" Name="functionBar">
-            <DockPanel>
-                <StackPanel Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Name="sideBar">
-                    <Button Content="DashBoard" Height="50" Width="80" BorderBrush="Black" VerticalAlignment="Top"
-                            Click="dashBoardOpen"
-                            ></Button>
-                    <Button Content="New Sale" Height="50" Width="80" BorderBrush="Black" VerticalAlignment="Top"
-                            ></Button>
-                    <Button Content="Products" Height="50" Width="80" BorderBrush="Black" VerticalAlignment="Top"
-                            ></Button>
-                    <Button Content="Customers" Height="50" Width="80" BorderBrush="Black" VerticalAlignment="Top"
-                            ></Button>
-                    <Button Content="Settle/Retrun" Height="50" Width="80" BorderBrush="Black" VerticalAlignment="Top"
-                            ></Button>
-                    <Button Content="Stocks" Height="50" Width="80" BorderBrush="Black" VerticalAlignment="Top"
-                            Click="stockWindowOpen"></Button>
-                </StackPanel>
-            </DockPanel>
-            <DockPanel Name="closeBar">
-                <Button Name="closeBtn" Content="Close" Height="50" Width="80" BorderBrush="Black" VerticalAlignment="Bottom"
-                        Click="closeWindow"></Button>
-            </DockPanel>
-        </StackPanel>
-        </DockPanel>
-        <DockPanel HorizontalAlignment="Right" Name="dashBaord">
-            <DockPanel Margin="40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Aqua">
-                <StackPanel>                    
-                    <Label Content="Rukhsar Store" FontSize="32" FontWeight="Bold" Margin="20" VerticalAlignment="Top" HorizontalAlignment="Center"></Label>
-                    <WrapPanel>
-                        <Button Content="Products" Name="pBtn"                                
+        Title="dashBoard" Height="450" Width="800">
+    <Grid>
+        <Viewbox Stretch="Fill" StretchDirection="Both"></Viewbox>
+        <DockPanel>
+            <Label DockPanel.Dock="Top" 
+                   Content="Rukhsar Store" 
+                   FontSize="32" FontWeight="Bold"
+                   VerticalAlignment="Top" HorizontalAlignment="Center"
+                   Margin="10"
+                   ></Label>
+            <TabControl DockPanel.Dock="Top" TabStripPlacement="Left" 
+                    Margin="10"
+                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                    >
+                <TabItem Header="Dash Board"
+                     Height="40"                     
+                     GotFocus="dashBoardOpen"
+                     Name="dashboardtab"
+                     >
+                    <Grid Background="#FFE5E5E5">
+                        <DockPanel HorizontalAlignment="Stretch" Name="dashBaord">
+                            <DockPanel Margin="40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Aqua">
+                                <StackPanel>
+                                    <WrapPanel>
+                                        <Button Content="Products" Name="pBtn"                                
                                 Height="100" Width="100" 
                                 FontSize="18" FontWeight="Bold"
                                 Margin="30"         
                                 Click="openDrugList"></Button>
-                        <Button Content="Customers" Name="cBtn"
+                                        <Button Content="Customers" Name="cBtn"
                                 Height="100" Width="100" 
                                 FontSize="18" FontWeight="Bold"                                
                                 Margin="30"
                                 Click="openCustomerList"></Button>
-                        <Button Content="Sales" Name="saleBtn"
+                                        <Button Content="Sales" Name="saleBtn"
                                 Height="100" Width="100" 
                                 FontSize="18" FontWeight="Bold"                                
                                 Margin="30"
                                 Click="openSaleList"></Button>
-                        <Button Content="Stocks" Name="stockBtn"
+                                        <Button Content="Stocks" Name="stockBtn"
                                 Height="100" Width="100" 
                                 FontSize="18" FontWeight="Bold"                                
                                 Margin="30"
                                 Click="openStockList"></Button>
-                        <!--<Button Content="Stocks" 
+                                        <!--<Button Content="Stocks" 
                                 Height="100" Width="100" 
                                 FontSize="18" FontWeight="Bold"                                
                                 Margin="30"></Button>
@@ -68,23 +57,344 @@
                                 Height="100" Width="100" 
                                 FontSize="18" FontWeight="Bold"                                
                                 Margin="30"></Button>-->
-                    </WrapPanel>
-                </StackPanel>                
-            </DockPanel> 
-        </DockPanel>        
+                                    </WrapPanel>
+                                </StackPanel>
+                            </DockPanel>
+                        </DockPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Sales"
+                     Height="40"
+                     Name="saletab"
+                     >
+                    <Grid Background="#FFE5E5E5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Margin="10,10,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="0">
+                            <DockPanel Margin="10,10,10,10">
+                                <Label Content="Start Date"></Label>
+                                <DatePicker Name="startDatesaleTab" CalendarClosed="calenderDateChanged"></DatePicker>
+                            </DockPanel>
+                            <DockPanel Margin="10,10,10,10">
+                                <Label Content="End Date"></Label>
+                                <DatePicker Name="endDatesaleTab" CalendarClosed="calenderDateChanged"></DatePicker>
+                            </DockPanel>
+                            <DockPanel>
+                                <DataGrid
+                                    Name ="invoiceTablesaleTab"
+                                     DockPanel.Dock="Top"
+                                    AutoGenerateColumns="False"
+                                    IsReadOnly="True"
+                                    ItemsSource="{Binding}"
+                                    SelectionUnit="FullRow"
+                                    SelectedIndex="{Binding selectedInvoiceIndex}"
+                                    SelectedCellsChanged="invoiceTable_SelectedCellsChanged"
+                                    CanUserSortColumns="False"
+                                    >
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Invoice" Binding="{Binding Invoice}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="Customer Number" Binding="{Binding Customer}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="Contact No" Binding="{Binding Contact}"></DataGridTextColumn>
+                                        <!--<DataGridTextColumn Header="Checkout Date" Binding="{Binding CheckoutDate}"></DataGridTextColumn>-->
+                                        <DataGridTextColumn Header="Total" Binding="{Binding Total}"></DataGridTextColumn>
+                                        <!--<DataGridTextColumn Header="Discount" Binding="{Binding Discount}"></DataGridTextColumn>-->
+                                        <!--<DataGridTextColumn Header="Payment" Binding="{Binding Payment}"></DataGridTextColumn>-->
+                                        <!--<DataGridTextColumn Header="Balance" Binding="{Binding Balance}"></DataGridTextColumn>-->
+                                        <!--<DataGridTextColumn Header="Count" Binding="{Binding DrugCount}"></DataGridTextColumn>-->
+                                        <DataGridTextColumn Header="Checkout Time" Binding="{Binding CheckoutTime}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="Checkout Date" Binding="{Binding CheckoutDate}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="InvoiceCode" Binding="{Binding DBName}"></DataGridTextColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DockPanel>
+                            <DockPanel>
+                                <Label Content="Total Sales: "    ></Label>
+                                <TextBox Name="totalSalesaleTab" Margin="10,10,10,10"></TextBox>
+                            </DockPanel>
+                        </StackPanel>
+                        <DockPanel Grid.Column="1" 
+                                   VerticalAlignment="Top"
+                                   HorizontalAlignment="Stretch">
+                            <Label Content="SaleTable" 
+                                   DockPanel.Dock="Top" 
+                                   Margin="10"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Top"
+                                   ></Label>
+                            <DataGrid
+                                DockPanel.Dock="Top"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Width="400"
+                                Margin="0 20 0 20"
+                                Name ="invoiceSaleTable"
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding displaySaleTableDT}"
+                                SelectionUnit="FullRow"
+                                >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Sr" Binding="{Binding Sr}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Name" Binding="{Binding Name}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="ID" Binding="{Binding ID}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Price" Binding="{Binding Price}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Discount" Binding="{Binding Discount}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Discount(%)" Binding="{Binding Discount100}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Total" Binding="{Binding Total}"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <StackPanel>
+                                <DockPanel Margin="10">
+                                    <Label Content="Total Billed: " ></Label>
+                                    <Label Name="totalBilledL" Content="{Binding totalBilled}"></Label>
+                                </DockPanel>
+                                <DockPanel Margin="10">
+                                    <Label Content="Cash: " ></Label>
+                                    <Label Content="{Binding cashPresented}"
+                                           Name="cashPresentedL"></Label>
+                                </DockPanel>
+                                <DockPanel Margin="10">
+                                    <Label Content="Discount: " ></Label>
+                                    <Label Content="{Binding discountGiven}"
+                                           Name="discountGivenL"></Label>
+                                </DockPanel>
+                                <DockPanel Margin="10">
+                                    <Label Content="Balance: " ></Label>
+                                    <Label Content="{Binding balanceReturned}"
+                                           Name="balanceReturnedL"></Label>
+                                </DockPanel>
+                            </StackPanel>
+                        </DockPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Products"
+                     Height="40"
+                     Name="producttab"
+                     >
+                    <Grid Background="#FFE5E5E5">
+                        <StackPanel>
+                            <Button Content="Add New" Height="50" Width="100" HorizontalAlignment="Left"
+                                    Margin="10"
+                                    Click="addNewDrug"
+                                    ></Button>
+                            <DataGrid Name="drugLedgerPT" Margin="10" ItemsSource="{Binding productListDT}"
+                                      AutoGenerateColumns="False"
+                                      SelectionUnit="FullRow" 
+                                      CanUserSortColumns="False"
+                                      SelectedIndex="{Binding selectitemIndex}"
+                                      >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Sr." Width="30" Binding="{Binding id}" ></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Name" Width="180" Binding="{Binding name}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Manufacturer" Width="100" Binding="{Binding manufacturer}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Quantity" Width="80" Binding="{Binding quantity}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Price" Width="100" Binding="{Binding Cost}"></DataGridTextColumn>
+                                    <DataGridTemplateColumn Header="View">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button 
+                                                    Click="viewEntry"
+                                                    >View</Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Update">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button 
+                                                    Click="updateEntry"
+                                                    >Update</Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <!--<DataGridTemplateColumn Header="Stock">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Click="updateStock">Stock Update</Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>-->
+                                    <DataGridTemplateColumn Header="Delete">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Click="deleteEntry">Delete</Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Customers"
+                     Height="40"
+                     Name="customertab"
+                     >
+                    <Grid Background="#FFE5E5E5"/>
+                </TabItem>
+                <TabItem Header="Stocks"
+                     Height="40"
+                     Name="stockstab"
+                     >
+                    <Grid Background="#FFE5E5E5">
+                        <StackPanel>
+                            <DockPanel VerticalAlignment="Top">
+                                <Label Content="Search Stock" Margin="10,10,10,10">
+                                </Label>
+                                <TextBox Name="searchStock" ToolTip="Enter Drug Name"  Margin="10,10,10,10"></TextBox>
+                            </DockPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Width="360" HorizontalAlignment="Left" Grid.Column="0">
+                                    <DockPanel Margin="10,10,10,10">
+                                        <Label Content="Drug Name"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left"                           
+                                ></Label>
+                                        <ComboBox                        
+                            Name="drugSelection"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right"
+                            Width="180"
+                            SelectionChanged="ComboBox_SelectionChanged"     
+                            SelectedItem="{Binding selectDrug}"
+                            ItemsSource="{Binding drugListBinding}"
+                            SelectedIndex="{Binding selectDrugIndex}"
+                            IsEditable="True"
+                            AllowDrop="True"
+                            KeyDown="drugSelection_KeyDown"
+                            LostFocus="drugSelection_LostFocus"
+                            ></ComboBox>
+                                    </DockPanel>
+                                    <DockPanel VerticalAlignment="Top">
+                                        <Label Content="Quantity Added" Margin="10,10,10,10">
+                                        </Label>
+                                        <TextBox Name="addedQuantity" ToolTip="Quantity"  Margin="10,10,10,10"
+                                 HorizontalAlignment="Right"
+                                 Width="180"
+                                 Text="{Binding quantitytobeAdded,Mode=TwoWay}"
+                                 ></TextBox>
+                                    </DockPanel>
+                                    <DockPanel VerticalAlignment="Top">
+                                        <Label Content="Retail Price" Margin="10,10,10,10">
+                                        </Label>
+                                        <TextBox Name="retailPrice" ToolTip="Retail Price"  Margin="10,10,10,10"
+                                 HorizontalAlignment="Right"
+                                 Width="180"
+                                 Text="{Binding retailPriceT,Mode=TwoWay}"
+                                 ></TextBox>
+                                    </DockPanel>
+                                    <DockPanel VerticalAlignment="Top">
+                                        <Label Content="Purhcase Price" Margin="10,10,10,10">
+                                        </Label>
+                                        <TextBox Name="purchasePrice" ToolTip="Purchase Price"  Margin="10,10,10,10"
+                                 HorizontalAlignment="Right"
+                                 Width="180"
+                                 Text="{Binding purchasePriceT,Mode=TwoWay}"
+                                 ></TextBox>
+                                    </DockPanel>
+                                    <!--<DockPanel VerticalAlignment="Top">
+                                        <Label Content="Supplier Information" Margin="10,10,10,10">
+                                        </Label>
+                                        <CheckBox Margin="30,15,10,10" Name="supplierInfo" IsChecked="False" Click="supplierInfo_Click"></CheckBox>
+                                    </DockPanel>-->
+                                </StackPanel>
+                                <!--<StackPanel Grid.Column="1" HorizontalAlignment="Left" Name="supplierPanel">
+                                    <DockPanel VerticalAlignment="Top">
+                                        <Label Content="Supplier Name" Margin="10,10,10,10">
+                                        </Label>
+                                        <TextBox Name="supplierName" ToolTip="Supplier Name"  Margin="10,10,10,10"
+                                 HorizontalAlignment="Right"
+                                 Width="120"
+                                 Text="{Binding supplierNameT,Mode=TwoWay}"
+                                 ></TextBox>
+                                    </DockPanel>
+                                    <DockPanel VerticalAlignment="Top">
+                                        <Label Content="Supplier Name" Margin="10,10,10,10">
+                                        </Label>
+                                        <TextBox Name="supplierContact" ToolTip="Supplier Contact"  Margin="10,10,10,10"
+                                 HorizontalAlignment="Right"
+                                 Width="120"
+                                 Text="{Binding supplierContactT,Mode=TwoWay}"
+                                 ></TextBox>
+                                    </DockPanel>
+                                </StackPanel>-->
+                                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                                    <Button Content="Update Stock" Click="updateStockBtn_Click" Margin="10,10,10,10" VerticalAlignment="Center"></Button>
+                                    <Button Content="Add New Drug" Click="addNewDrug" Margin="10,10,10,10" VerticalAlignment="Center"></Button>
+                                    <Button Content="View Drug List" Click="viewDrugList" Margin="10,10,10,10" VerticalAlignment="Center"></Button>
+                                </StackPanel>
+                            </Grid>
+                            <DataGrid
+                Margin="20,20,20,20"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Stretch"
+                AutoGenerateColumns="False"
+                ItemsSource="{Binding}"
+                SelectedCellsChanged="stockTable_SelectedCellsChanged"
+                Name="stockTable"
+                SelectionUnit="FullRow"
+                >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                        Header="stockID"
+                        Binding="{Binding Sr}"
+                        IsReadOnly="True"
+                        ></DataGridTextColumn>
+                                    <DataGridTextColumn
+                        Header="Drug"
+                        Binding="{Binding ProductID}"
+                        IsReadOnly="True"
+                        ></DataGridTextColumn>
+                                    <DataGridTextColumn
+                        Header="Quantity Added"
+                        Binding="{Binding QuantityAdded}"
+                        IsReadOnly="True"
+                        ></DataGridTextColumn>
+                                    <DataGridTextColumn
+                        Header="Purchase"
+                        Binding="{Binding Purchase}"
+                        IsReadOnly="True"
+                        ></DataGridTextColumn>
+                                    <DataGridTextColumn
+                        Header="Retail"
+                        Binding="{Binding QuantityAdded}"
+                        IsReadOnly="True"
+                        ></DataGridTextColumn>
+                                    <DataGridTextColumn
+                        Header="Added"
+                        Binding="{Binding Added}"
+                        IsReadOnly="True"
+                        ></DataGridTextColumn>
+                                    <DataGridTextColumn
+                        Header="Supplier"
+                        Binding="{Binding Supplier}"
+                        IsReadOnly="True"
+                        ></DataGridTextColumn>
+                                    <DataGridTextColumn
+                        Header="Supplier Contact"
+                        Binding="{Binding SupplierContact}"
+                        IsReadOnly="True"
+                        ></DataGridTextColumn>
+                                    <DataGridTextColumn
+                        Header="Added By"
+                        Binding="{Binding User}"
+                        IsReadOnly="True"
+                        ></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+
+        </DockPanel>
     </Grid>
-    <!--<StackPanel VerticalAlignment="Stretch" Height="300">
-        <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Right">
-            <Button Content="10" Width="50" Height="50"></Button>
-        </StackPanel>
-        <StackPanel VerticalAlignment="Stretch">
-            <Button Content="20" Width="50" Height="50" HorizontalAlignment="Right"></Button>
-        </StackPanel>
-        </StackPanel>-->
-
 </Window>
-
-<!--<DockPanel VerticalAlignment="Top">
-    
-    
-</DockPanel>-->        

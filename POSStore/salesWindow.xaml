@@ -10,14 +10,14 @@
         <StackPanel Margin="10,10,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <DockPanel Margin="10,10,10,10">                
                 <Label Content="Start Date"> </Label>
-                <DatePicker Name="startDate" CalendarClosed="calenderDateChanged"></DatePicker>
+                <DatePicker Name="startDatesaleTab" CalendarClosed="calenderDateChanged"></DatePicker>
             </DockPanel>
             <DockPanel Margin="10,10,10,10">
                 <Label Content="End Date"></Label>
-                <DatePicker Name="endDate" CalendarClosed="calenderDateChanged"></DatePicker>
+                <DatePicker Name="endDatesaleTab" CalendarClosed="calenderDateChanged"></DatePicker>
             </DockPanel>
             <DataGrid
-                Name ="invoiceTable"
+                Name ="invoiceTablesaleTab"
                 AutoGenerateColumns="False"
                 IsReadOnly="True"
                 ItemsSource="{Binding}"
@@ -40,7 +40,7 @@
             </DataGrid>
             <DockPanel>
                 <Label Content="Total Sales: "    ></Label>
-                <TextBox Name="totalSale" Margin="10,10,10,10"></TextBox>
+                <TextBox Name="totalSalesaleTab" Margin="10,10,10,10"></TextBox>
             </DockPanel>
             <Button Content="Close" Margin="10,10,10,10" Click="Button_Click" HorizontalAlignment="Center" Width="80" Height="40"></Button>
         </StackPanel>

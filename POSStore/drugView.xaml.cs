@@ -30,10 +30,17 @@ namespace POSStore
         {
             InitializeComponent();
             sqlID = -1;
+            Update.IsEnabled = false;
         }
-        public drugView(DataTable dTable)
+        public drugView(bool allowEdit = false)
         {
             InitializeComponent();
+            Update.IsEnabled = allowEdit;
+        }
+        public drugView(DataTable dTable, bool allowEdit=false)
+        {
+            InitializeComponent();
+            Update.IsEnabled = allowEdit;
             DataRow dr = dTable.Rows[0];
             sqlID = int.Parse(dr["id"].ToString());
             nameData.Text = dr["name"].ToString();

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,7 +10,11 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data;
+using System.Data.SqlClient;
+using System.Collections.ObjectModel;
 
 namespace POSStore
 {
@@ -18,58 +24,71 @@ namespace POSStore
     public partial class dashBoard : Window
     {
         sqlWrapper wrap = sqlWrapper.getInstance();
-        Brush defaultColor;
+        sqlWrapper dWrap = sqlWrapper.getInstance();
         public dashBoard()
         {
             InitializeComponent();
             this.WindowState = WindowState.Maximized;
-            defaultColor = closeBtn.Background;
-            updateDashText();
-        }
+            dashBoardOpen(this, new RoutedEventArgs());
+            this.DataContext = this;
 
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            sideBar.Height = e.NewSize.Height - closeBtn.Height - functionBar.Margin.Top - 10;
-            dashBaord.Width = e.NewSize.Width - sideBar.ActualWidth;
-        }
+            // for stock Tab
+            stockCollection = dWrap.getTable("stockTable");
+            //DataRow dr = stockCollection.NewRow();
+            //stockCollection.Rows.Add(dr);
+            stockTable.ItemsSource = stockCollection.DefaultView;
+            DataTable drugList = dWrap.executeQuery("mainLedger", new List<string>() { "name", "id" });
+            //drugSelection.ItemsSource = drugList.AsEnumerable().Select(r => r.Field<string>("name")).ToList();
+            drugListBinding = drugList.Rows.Cast<DataRow>().Select(r => r.ItemArray[0].ToString()).ToList<string>();
+            drugListID = drugList.Rows.Cast<DataRow>().Select(r => r.ItemArray[1].ToString()).ToList();
+
+            // for sale Tab
+            initializeSaleTableTab();
+            endDatesaleTab.SelectedDate = DateTime.Now;
+            startDatesaleTab.SelectedDate = DateTime.Now;
+            calenderDateChanged(this, new RoutedEventArgs());
+
+            //for drug List Tab
+            initializeDrugListTab();
+        }        
         private void closeWindow(object sender, RoutedEventArgs evt)
         {
             this.Close();
         }
         private void stockWindowOpen(object sender, RoutedEventArgs evt)
-        {            
+        {
             stockWindow sWin = new stockWindow();
             sWin.ShowDialog();
             this.Show();
         }
         private void openDrugList(object sender, RoutedEventArgs evt)
         {
-            this.Hide();
-            MainWindow mw = new MainWindow();
-            mw.ShowDialog();
-            this.Show();
-            updateDashText();
-            clearControlColour();            
+            //this.Hide();
+            //MainWindow mw = new MainWindow();
+            //mw.ShowDialog();
+            //this.Show();
+            producttab.Focus();
+            updateDashText();            
         }
         private void openCustomerList(object sender, RoutedEventArgs evt)
         {
-            updateDashText();
-            clearControlColour();
+            updateDashText();            
         }
         private void openSaleList(object sender, RoutedEventArgs evt)
         {
+            saletab.Focus();
             updateDashText();
-            clearControlColour();            
+            
         }
         private void openStockList(object sender, RoutedEventArgs evt)
         {
+            stockstab.Focus();
             updateDashText();
-            clearControlColour();
+            
         }
         private void dashBoardOpen(object sender, RoutedEventArgs evt)
         {
-            updateDashText();
-            clearControlColour();                   
+            updateDashText();            
         }
         private void updateDashText()
         {
@@ -82,9 +101,7 @@ namespace POSStore
             int customerCount = 0;
             cBtn.Content = "Customer " + Environment.NewLine + "(" + customerCount.ToString() + ")";
         }
-        private void clearControlColour()
-        {
-            pBtn.Background = defaultColor;            
-        }
+        
+
     }
 }

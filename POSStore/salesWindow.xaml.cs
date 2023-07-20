@@ -23,6 +23,8 @@ namespace POSStore
     /// </summary>
     public partial class salesWindow : Window
     {
+        //public object endDateSaleTab { get; }
+
         public salesWindow()
         {
             InitializeComponent();            
@@ -31,8 +33,8 @@ namespace POSStore
             //invoiceTable.ItemsSource = dt.DefaultView;
             //totalSale.Text = calculateTotal(dt).ToString();
             //DataTable dt = wrapper.getTable("invoiceLedger");
-            endDate.SelectedDate = DateTime.Now;
-            startDate.SelectedDate = DateTime.Now;
+            endDatesaleTab.SelectedDate = DateTime.Now;
+            startDatesaleTab.SelectedDate = DateTime.Now;
             calenderDateChanged(this, new RoutedEventArgs());
         }
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -43,16 +45,16 @@ namespace POSStore
         private void calenderDateChanged(object sender, RoutedEventArgs e)
         {
             sqlWrapper wrapper = sqlWrapper.getInstance();
-            string dtS = startDate.SelectedDate.Value.ToString("yyyy-MM-dd");
-            string dtE = endDate.SelectedDate.Value.ToString("yyyy-MM-dd");
+            string dtS = startDatesaleTab.SelectedDate.Value.ToString("yyyy-MM-dd");
+            string dtE = endDatesaleTab.SelectedDate.Value.ToString("yyyy-MM-dd");
             string query = @"SELECT * FROM invoiceLedger where CheckoutDate BETWEEN '" +
                     dtS +
                     "' and '" +
                     dtE +
                     "';";
             DataTable dt =  wrapper.executeBasicQuery(query);
-            invoiceTable.ItemsSource = dt.DefaultView;
-            totalSale.Text = calculateTotal(dt).ToString();
+            invoiceTablesaleTab.ItemsSource = dt.DefaultView;
+            totalSalesaleTab.Text = calculateTotal(dt).ToString();
         }
         private double calculateTotal(DataTable table)
         {

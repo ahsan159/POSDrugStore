@@ -31,3 +31,5 @@ Adding Stock update window. Updates in backend of POS main Window.
 Stock table added and now being updated for data entry. Minor changes also expected in stock entry window in future.
 ## 19-Jul-2023
 Added dash board window created a commercial makeup of it. Now combining functionalities in it.
+## 20-Jul-2023
+Completely revamped the dash board sales, products and stocks are updated and internally tested.
