@@ -25,6 +25,8 @@ namespace POSStore
     {
         sqlWrapper wrap = sqlWrapper.getInstance();
         sqlWrapper dWrap = sqlWrapper.getInstance();
+        public DataTable displaySaleTableDT { get; set; } = new DataTable();
+        public DataTable invoiceSaleTableDT { get; set; } = new DataTable();
         public dashBoard()
         {
             InitializeComponent();
@@ -44,12 +46,16 @@ namespace POSStore
 
             // for sale Tab
             initializeSaleTableTab();
-            endDatesaleTab.SelectedDate = DateTime.Now;
-            startDatesaleTab.SelectedDate = DateTime.Now;
-            calenderDateChanged(this, new RoutedEventArgs());
+            invoiceSaleTableDT = dWrap.executeBasicQuery("SELECT * FROM invoiceLedger");
+            //endDatesaleTab.SelectedDate = DateTime.Now;
+            //startDatesaleTab.SelectedDate = DateTime.Now;
+            //calenderDateChanged(this, new RoutedEventArgs());
 
             //for drug List Tab
             initializeDrugListTab();
+
+            // for new sale
+            initializeNewSale();
         }        
         private void closeWindow(object sender, RoutedEventArgs evt)
         {

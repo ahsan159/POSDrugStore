@@ -18,21 +18,31 @@ using System.Collections.ObjectModel;
 
 namespace POSStore
 {
+    /// <summary>
+    /// for some unknown reason beyond my understanding 
+    /// every time I have to reload data in datatable and 
+    /// update my datagrid. I have to clear my rows and
+    /// reload a binded datatable from buffer datatable.
+    /// However, correct way is reset datatable and load
+    /// from buffer.
+    /// Some times I directly read from SQL and datagrid 
+    /// shows updated datatable. and some times I have
+    /// to follow afore mentioned method.
+    /// </summary>
     public partial class dashBoard : Window
     {
         public int selectedInvoiceIndex { get; set; } = 0;
-        public string totalBilled { get; set; } = "?????";
+        public string totalBilled { get; set; }
         public string cashPresented { get; set; }
         public string discountGiven { get; set; }
         public string balanceReturned { get; set; }
-        public DataTable displaySaleTableDT { get; set; } = new DataTable();
-        public DataTable invoiceSaleTableDT { get; set; } = new DataTable();
+
 
         private void initializeSaleTableTab()
         {
             endDatesaleTab.SelectedDate = DateTime.Now;
             startDatesaleTab.SelectedDate = DateTime.Now;
-            calenderDateChanged(this, new RoutedEventArgs());
+            //calenderDateChanged(this, new RoutedEventArgs());
         }
         private void calenderDateChanged(object sender, RoutedEventArgs e)
         {
@@ -44,10 +54,12 @@ namespace POSStore
                     "' and '" +
                     dtE +
                     "';";
-            invoiceSaleTableDT = wrapper.executeBasicQuery(query);
-            invoiceTablesaleTab.ItemsSource = invoiceSaleTableDT.DefaultView;
+            DataTable dt = wrapper.executeBasicQuery(query);
+            invoiceSaleTableDT.Rows.Clear();
+            invoiceSaleTableDT.Load(dt.CreateDataReader());
+            //invoiceTablesaleTab.ItemsSource = invoiceSaleTableDT.DefaultView;
             totalSalesaleTab.Text = calculateTotal(invoiceSaleTableDT).ToString();
-                       
+
         }
         private double calculateTotal(DataTable table)
         {
@@ -60,22 +72,28 @@ namespace POSStore
         }
         public void invoiceTable_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs evt)
         {
-            if (selectedInvoiceIndex > 0)
+            try
             {
-                string str = invoiceSaleTableDT.Rows[selectedInvoiceIndex]["DBName"].ToString();
-                if (!string.IsNullOrEmpty(str))
+                if (selectedInvoiceIndex > 0)
                 {
-                    displaySaleTableDT = dWrap.executeQuery(str);
-                    invoiceSaleTable.ItemsSource = displaySaleTableDT.DefaultView;
-                    //MessageBox.Show(totalBilled + Environment.NewLine +
-                    //    cashPresented);
+                    string str = invoiceSaleTableDT.Rows[selectedInvoiceIndex]["DBName"].ToString();
+                    if (!string.IsNullOrEmpty(str))
+                    {
+                        DataTable dtBuf = dWrap.executeQuery(str);
+                        //invoiceSaleTable.ItemsSource = displaySaleTableDT.DefaultView;
+                        displaySaleTableDT.Rows.Clear();
+                        displaySaleTableDT.Load(dtBuf.CreateDataReader());
+                        //MessageBox.Show(totalBilled + Environment.NewLine +
+                        //    cashPresented);
+                    }
+                    totalBilledL.Content = invoiceSaleTableDT.Rows[selectedInvoiceIndex]["Total"].ToString(); ;
+                    cashPresentedL.Content = invoiceSaleTableDT.Rows[selectedInvoiceIndex]["Payment"].ToString(); ;
+                    discountGivenL.Content = invoiceSaleTableDT.Rows[selectedInvoiceIndex]["Discount"].ToString(); ;
+                    balanceReturnedL.Content = invoiceSaleTableDT.Rows[selectedInvoiceIndex]["Balance"].ToString(); ;
                 }
-                totalBilledL.Content = invoiceSaleTableDT.Rows[selectedInvoiceIndex]["Total"].ToString(); ;
-                cashPresentedL.Content = invoiceSaleTableDT.Rows[selectedInvoiceIndex]["Payment"].ToString(); ;
-                discountGivenL.Content = invoiceSaleTableDT.Rows[selectedInvoiceIndex]["Discount"].ToString(); ;
-                balanceReturnedL.Content = invoiceSaleTableDT.Rows[selectedInvoiceIndex]["Balance"].ToString(); ;
             }
-            
+            catch (Exception) { }
+
         }
     }
 }

@@ -33,3 +33,5 @@ Stock table added and now being updated for data entry. Minor changes also expec
 Added dash board window created a commercial makeup of it. Now combining functionalities in it.
 ## 20-Jul-2023
 Completely revamped the dash board sales, products and stocks are updated and internally tested.
+## 21-Jul-2023
+Updated and optimized new sale algorithms.

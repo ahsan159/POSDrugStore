@@ -63,6 +63,205 @@
                         </DockPanel>
                     </Grid>
                 </TabItem>
+                <TabItem Header="New Sale"
+                     Height="40"
+                     Name="newSaleTab"
+                     >
+                    <Grid Background="#FFE5E5E5">
+                        <DockPanel>
+                            <DockPanel DockPanel.Dock="Top" Height="50" VerticalAlignment="Top">
+                                <Label Content="Invoice No." Margin="00,10,0,10" HorizontalAlignment="Left"></Label>
+                                <TextBox Name="invoiceNo" 
+                                         Margin="10,10,10,10" 
+                                         MaxWidth="150" 
+                                         MinWidth="100"
+                                         HorizontalAlignment="Left" 
+                                         IsReadOnly="True"
+                                         ></TextBox>
+                                <Label Content="Customer Name:" Margin="0,10,0,10" HorizontalAlignment="Left"></Label>
+                                <TextBox Name="customerName" 
+                                         Margin="10,10,10,10" 
+                                         MaxWidth="200" 
+                                         MinWidth="150"
+                                         HorizontalAlignment="Left" 
+                                        ></TextBox>
+                                <Label Content="Contact:" Margin="0,10,0,10" HorizontalAlignment="Left"></Label>
+                                <TextBox Name="contactNo" 
+                                         Margin="20,10,20,10" 
+                                         MaxWidth="200" 
+                                         MinWidth="150"
+                                         HorizontalAlignment="Left" 
+                                         ></TextBox>
+                            </DockPanel>
+                            <Grid DockPanel.Dock="Top">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <DockPanel Grid.Column="0" Grid.ColumnSpan="2"
+                                           >
+                                    <DataGrid Name="newSaleDataGrid"
+                                              AutoGenerateColumns="False"
+                                              CanUserSortColumns="False"
+                                              ItemsSource="{Binding}"
+                                              SelectionUnit="FullRow"
+                                              SelectedIndex="{Binding indexSelected}"
+                                        >
+                                              <!--SelectionChanged="newSaleTable_SelectionChanged"-->
+                                        <DataGrid.Columns>
+                                            <DataGridComboBoxColumn Header="Product"        
+                                                                    SelectedItemBinding="{Binding selectedProduct}"
+                                                                >
+                                                <DataGridComboBoxColumn.EditingElementStyle>
+                                                    <Style TargetType="ComboBox">
+                                                        <EventSetter Event="GotFocus" Handler="comboFocused"></EventSetter>
+                                                        <EventSetter Event="SelectionChanged" Handler="comboSelected"></EventSetter>
+                                                        <Setter Property="SelectedIndex" Value="{Binding selectedComboIndex}"></Setter>
+                                                        <Setter Property="IsEditable" Value="True"></Setter>
+                                                    </Style>                                                    
+                                                </DataGridComboBoxColumn.EditingElementStyle>
+                                            </DataGridComboBoxColumn>
+                                            <DataGridTextColumn Header="Quantity"
+                                                                Binding="{Binding Quantity}"
+                                                                ></DataGridTextColumn>
+                                            <DataGridTextColumn Header="Price"
+                                                                Binding="{Binding Price}"
+                                                                IsReadOnly="True"
+                                                                ></DataGridTextColumn>
+                                            <DataGridTextColumn Header="Discount(%)"
+                                                                Binding="{Binding Discount100}"
+                                                                ></DataGridTextColumn>
+                                            <DataGridTextColumn Header="Discount"
+                                                                Binding="{Binding Discount}"
+                                                                ></DataGridTextColumn>
+                                            <DataGridTextColumn Header="Sale Tax"
+                                                                Binding="{Binding SaleTax}"
+                                                                IsReadOnly="True"
+                                                                ></DataGridTextColumn>
+                                            <DataGridTextColumn Header="Total"
+                                                                IsReadOnly="True"
+                                                                Binding="{Binding Total}"
+                                                                ></DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </DockPanel>
+                                <DockPanel Grid.Column="2" Grid.ColumnSpan="1">
+                                    <StackPanel>
+                                        <Label Name="drugName" Content="Select/Insert" Margin="10,10,10,10" FontSize="24" FontWeight="Bold"></Label>
+                                        <Label Name="price" Content="Rate" Margin="10,10,10,10" FontSize="20" FontWeight="Normal"></Label>
+                                        <Label Name="stock" Content="Stock" Margin="10,10,10,10" FontSize="20" FontWeight="Normal"></Label>
+                                        <Label Content="Total:" Margin="10,20,10,10" FontSize="20" FontWeight="Bold"></Label>
+                                        <Label Name="totalCost"  Margin="10,10,10,10" FontSize="20" FontWeight="Bold"></Label>
+                                        <DockPanel>
+                                            <Label Content="Paid" Margin="10,20,10,10" FontSize="20" FontWeight="Bold"></Label>
+                                            <TextBox Name="paidTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold"                                      
+                                        ></TextBox>
+                                        </DockPanel>
+                                        <DockPanel>
+                                            <Label Content="Discount" Margin="10,10,10,10" FontSize="20" FontWeight="Bold"></Label>
+                                            <TextBox Name="discountTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" 
+                                        ></TextBox>                                     
+                                        </DockPanel>
+                                        <DockPanel>
+                                            <Label Content="Balance" Margin="10,20,10,10" FontSize="20" FontWeight="Bold"></Label>
+                                            <TextBox Name="balanceTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" IsReadOnly="True"></TextBox>
+                                        </DockPanel>
+                                        <Button Name="checkoutBtn" Margin="10,10,10,10" Height="80" Content="Checkout" Click="checkOut"></Button>
+                                    </StackPanel>
+                                </DockPanel>
+                                <!--<DockPanel Grid.Column="0"
+                                           Grid.ColumnSpan="2">
+                                    <DataGrid DockPanel.Dock="Top"                                              
+                                              Name="newSaleTable"
+                                              AutoGenerateColumns="False"
+                                              SelectionUnit="FullRow"
+                                              CanUserSortColumns="False"
+                                              Margin="0,5,0,0"
+                                              ItemsSource="{Binding }"
+                                              >
+                                        --><!--CellEditEnding="saleTable_CellEditEnding"--><!--
+                                        <DataGrid.Columns>
+                                            <DataGridComboBoxColumn 
+                                            Width="100"
+                                            Header="Name"
+                                            ItemsSource="{Binding }"
+                                            SelectedValueBinding="{Binding }"
+                                            >
+                                                <DataGridComboBoxColumn.EditingElementStyle>
+                                                    <Style TargetType="ComboBox">
+                                                        --><!--<EventSetter Event="SelectionChanged" Handler="ComboBox_SelectionChanged"></EventSetter>
+                                                        <EventSetter Event="KeyDown" Handler="ComboBox_KeyDown"></EventSetter>
+                                                        <EventSetter Event="LostFocus" Handler="ComboBox_LostFocus"></EventSetter>
+                                                        <EventSetter Event="GotFocus" Handler="ComboBox_GotFocus"></EventSetter>--><!--
+                                                        <Setter Property="IsEditable" Value="True">
+                                                        </Setter>
+                                                    </Style>
+                                                </DataGridComboBoxColumn.EditingElementStyle>
+                                            </DataGridComboBoxColumn>
+                                            <DataGridTextColumn Header="Quantity"
+                                                                Binding="{Binding Quantity}"
+                                                                ></DataGridTextColumn>
+                                            <DataGridTextColumn Header="Price"
+                                                                Binding="{Binding Price}"
+                                                                IsReadOnly="True"
+                                                                ></DataGridTextColumn>
+                                            <DataGridTextColumn Header="Discount(%)"
+                                                                Binding="{Binding Discount100}"
+                                                                ></DataGridTextColumn>
+                                            <DataGridTextColumn Header="Discount"
+                                                                Binding="{Binding Discount}"
+                                                                ></DataGridTextColumn>
+                                            <DataGridTextColumn Header="Total"
+                                                                Binding="{Binding Total}"
+                                                                IsReadOnly="True"
+                                                                ></DataGridTextColumn>
+                                            <DataGridTemplateColumn Header="Delete"
+                                                                    >
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button Content="Delete"
+                                                                Click="deleteDataRow"
+                                                                ></Button>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </DockPanel>-->
+                                
+                                <!--<DockPanel Grid.Column="2">
+                                    <StackPanel>
+                                        <Label Name="drugName" Content="Select/Insert" Margin="10,10,10,10" FontSize="24" FontWeight="Bold"></Label>
+                                        <Label Name="price" Content="Rate" Margin="10,10,10,10" FontSize="20" FontWeight="Normal"></Label>
+                                        <Label Name="stock" Content="Stock" Margin="10,10,10,10" FontSize="20" FontWeight="Normal"></Label>
+                                        <Label Content="Total:" Margin="10,20,10,10" FontSize="20" FontWeight="Bold"></Label>
+                                        <Label Name="totalCost"  Margin="10,10,10,10" FontSize="20" FontWeight="Bold"></Label>
+                                        <DockPanel>
+                                            <Label Content="Paid" Margin="10,20,10,10" FontSize="20" FontWeight="Bold"></Label>
+                                            <TextBox Name="paidTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" 
+                                     KeyDown="paidTotal_KeyPress"
+                                     TextChanged="paidTotal_TextChanged"
+                                     ></TextBox>
+                                        </DockPanel>
+                                        <DockPanel>
+                                            <Label Content="Discount" Margin="10,10,10,10" FontSize="20" FontWeight="Bold"></Label>
+                                            <TextBox Name="discountTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" 
+                                     KeyDown="paidTotal_KeyPress"
+                                     TextChanged="paidTotal_TextChanged"
+                                     ></TextBox>
+                                        </DockPanel>
+                                        <DockPanel>
+                                            <Label Content="Balance" Margin="10,20,10,10" FontSize="20" FontWeight="Bold"></Label>
+                                            <TextBox Name="balanceTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" IsReadOnly="True"></TextBox>
+                                        </DockPanel>
+                                        <Button Name="checkoutBtn" Margin="10,10,10,10" Height="80" Content="Checkout" Click="checkOut"></Button>
+                                    </StackPanel>
+                                </DockPanel>-->
+                            </Grid>
+                        </DockPanel>
+                    </Grid>
+                </TabItem>
                 <TabItem Header="Sales"
                      Height="40"
                      Name="saletab"
@@ -84,10 +283,10 @@
                             <DockPanel>
                                 <DataGrid
                                     Name ="invoiceTablesaleTab"
-                                     DockPanel.Dock="Top"
+                                    DockPanel.Dock="Top"
                                     AutoGenerateColumns="False"
                                     IsReadOnly="True"
-                                    ItemsSource="{Binding}"
+                                    ItemsSource="{Binding invoiceSaleTableDT}"
                                     SelectionUnit="FullRow"
                                     SelectedIndex="{Binding selectedInvoiceIndex}"
                                     SelectedCellsChanged="invoiceTable_SelectedCellsChanged"
@@ -184,6 +383,8 @@
                                       AutoGenerateColumns="False"
                                       SelectionUnit="FullRow" 
                                       CanUserSortColumns="False"
+                                      CanUserAddRows="False"
+                                      IsReadOnly="True"
                                       SelectedIndex="{Binding selectitemIndex}"
                                       >
                                 <DataGrid.Columns>
@@ -228,12 +429,6 @@
                             </DataGrid>
                         </StackPanel>
                     </Grid>
-                </TabItem>
-                <TabItem Header="Customers"
-                     Height="40"
-                     Name="customertab"
-                     >
-                    <Grid Background="#FFE5E5E5"/>
                 </TabItem>
                 <TabItem Header="Stocks"
                      Height="40"
@@ -392,6 +587,12 @@
                             </DataGrid>
                         </StackPanel>
                     </Grid>
+                </TabItem>
+                <TabItem Header="Customers"
+                     Height="40"
+                     Name="customertab"
+                     >
+                    <Grid Background="#FFE5E5E5"/>
                 </TabItem>
             </TabControl>
 
