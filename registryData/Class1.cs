@@ -5,8 +5,9 @@ public class registryDataClass
 {
     public registryDataClass()
     {
-        RegistryKey testKey = Registry.CurrentUser.CreateSubKey(@"Software\CompanionPOS\");
-        testKey.SetValue("CPOStest","TestData");
+        RegistryKey testKey = Registry.LocalMachine.CreateSubKey(@"Software\CompanionPOS\");
+        testKey.
+        testKey.SetValue("CPOStest2","TestData2");
         Console.WriteLine("registryWritten");
     }
 }
