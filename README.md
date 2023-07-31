@@ -35,3 +35,5 @@ Added dash board window created a commercial makeup of it. Now combining functio
 Completely revamped the dash board sales, products and stocks are updated and internally tested.
 ## 21-Jul-2023
 Updated and optimized new sale algorithms.
+## 31-Jul-2023
+Started working on registry.

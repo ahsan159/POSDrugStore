@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "person", "persons\person.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POSStore", "POSStore\POSStore.csproj", "{C3A4D7F0-3976-4E6B-AB05-9927AEA807FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "registryData", "registryData\registryData.csproj", "{2E672200-4741-4B1D-9376-5784C1A40EB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "registryTest", "registryTest\registryTest.csproj", "{D2A5E151-3B7E-49B8-BF56-F5863A94B991}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +46,13 @@ Global
 		{C3A4D7F0-3976-4E6B-AB05-9927AEA807FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3A4D7F0-3976-4E6B-AB05-9927AEA807FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3A4D7F0-3976-4E6B-AB05-9927AEA807FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E672200-4741-4B1D-9376-5784C1A40EB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E672200-4741-4B1D-9376-5784C1A40EB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E672200-4741-4B1D-9376-5784C1A40EB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E672200-4741-4B1D-9376-5784C1A40EB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2A5E151-3B7E-49B8-BF56-F5863A94B991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2A5E151-3B7E-49B8-BF56-F5863A94B991}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2A5E151-3B7E-49B8-BF56-F5863A94B991}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2A5E151-3B7E-49B8-BF56-F5863A94B991}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
