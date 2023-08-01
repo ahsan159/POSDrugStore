@@ -37,3 +37,5 @@ Completely revamped the dash board sales, products and stocks are updated and in
 Updated and optimized new sale algorithms.
 ## 31-Jul-2023
 Started working on registry.
+## 01-Aug-2023
+Registry update and creation method created. License validation method created. 
