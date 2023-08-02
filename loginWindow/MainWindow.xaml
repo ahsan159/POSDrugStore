@@ -1,0 +1,32 @@
+﻿<Window x:Class="loginWindow.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:loginWindow"
+        mc:Ignorable="d"
+        Title="Companion POS Login" Height="450" Width="800">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label Content="Companion POS" HorizontalAlignment="Center"></Label>
+            <TextBox ToolTip="Username" Name="username" Text="" 
+                     Width="240" 
+                     Margin="40"
+                     ></TextBox>
+            <PasswordBox ToolTip="Password" Name="password" 
+                         Width="240" 
+                         Margin="40"
+                         ></PasswordBox>
+            <DockPanel HorizontalAlignment="Center">
+                <Button Name="login" Content="Login"
+                        Width="80" Height="50" 
+                        Margin="20"></Button>
+                <Button Name="close" Content="Close"
+                        Width="80" Height="50" 
+                        Margin="20"
+                        Click="closeClick"
+                        ></Button>
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</Window>
