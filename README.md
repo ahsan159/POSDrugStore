@@ -39,3 +39,5 @@ Updated and optimized new sale algorithms.
 Started working on registry.
 ## 01-Aug-2023
 Registry update and creation method created. License validation method created. 
+## 02-Aug-2023
+More updates in registry algorithms.

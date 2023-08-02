@@ -100,7 +100,8 @@ namespace POSStore
 
         private void drugSelection_KeyDown(object sender, KeyEventArgs e)
         {
-            (sender as ComboBox).IsDropDownOpen = true;
+            ComboBox? cbox = sender as ComboBox;
+            cbox.IsDropDownOpen = true;
             //if(e.Key==Key.Tab)
             //{
             //    drugSelection.IsDropDownOpen = false;
@@ -109,7 +110,8 @@ namespace POSStore
 
         private void drugSelection_LostFocus(object sender, RoutedEventArgs e)
         {
-            (sender as ComboBox).IsDropDownOpen = false;
+            ComboBox? cbox = sender as ComboBox;
+            cbox.IsDropDownOpen = false;
         }
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
