@@ -20,13 +20,45 @@ namespace loginWindow
     /// </summary>
     public partial class MainWindow : Window
     {
+        sqlWrapper sWrap = sqlWrapper.getInstance();
         public MainWindow()
         {
             InitializeComponent();
         }
+        private void loginClick(object sender, RoutedEventArgs evt)
+        {
+            string usernameString = username.Text.ToString();
+            string passwordString = password.Password.ToString();
+            string[] str = sWrap.executeLoginQuery("SELECT password,level from loginTable where Name='" + usernameString + "';");
+            if (str != null)
+            {
+                if (passwordString == str[0])
+                {
+                    MessageBox.Show("Sucess");
+                }
+                else
+                {
+                    MessageBox.Show("Incorrent password");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Cannot find user");
+            }
+
+
+        }
         private void closeClick(object sender, RoutedEventArgs evt)
         {
             this.Close();
+        }
+
+        private void password_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key==Key.Enter)
+            {
+                loginClick(this, new RoutedEventArgs());
+            }
         }
     }
 }

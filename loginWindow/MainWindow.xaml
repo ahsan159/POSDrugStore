@@ -5,22 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:loginWindow"
         mc:Ignorable="d"
-        Title="Companion POS Login" Height="450" Width="800">
+        Title="Companion POS Login" Height="350" Width="450">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label Content="Companion POS" HorizontalAlignment="Center"></Label>
-            <TextBox ToolTip="Username" Name="username" Text="" 
+                     <!--Text="{Binding username}"-->
+            <TextBox ToolTip="Username"
                      Width="240" 
-                     Margin="40"
+                     Margin="40"                  
+                     Name="username"
                      ></TextBox>
-            <PasswordBox ToolTip="Password" Name="password" 
+            <PasswordBox ToolTip="Password" 
+                         Name="password"                          
                          Width="240" 
                          Margin="40"
+                         KeyDown="password_KeyDown"
                          ></PasswordBox>
             <DockPanel HorizontalAlignment="Center">
                 <Button Name="login" Content="Login"
                         Width="80" Height="50" 
-                        Margin="20"></Button>
+                        Margin="20"
+                        Click="loginClick"
+                        ></Button>
                 <Button Name="close" Content="Close"
                         Width="80" Height="50" 
                         Margin="20"
