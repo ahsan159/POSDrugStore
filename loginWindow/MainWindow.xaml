@@ -5,6 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:loginWindow"
         mc:Ignorable="d"
+        WindowState="Normal"        
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="NoResize"        
         Title="Companion POS Login" Height="350" Width="450">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">

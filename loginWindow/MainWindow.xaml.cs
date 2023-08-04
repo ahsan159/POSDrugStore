@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace loginWindow
 {
@@ -21,9 +22,13 @@ namespace loginWindow
     public partial class MainWindow : Window
     {
         sqlWrapper sWrap = sqlWrapper.getInstance();
+        registryData.registryDataClass reg = new registryData.registryDataClass();
+        string exeLocation;
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();            
+            exeLocation = reg.getInstallLocation();
+
         }
         private void loginClick(object sender, RoutedEventArgs evt)
         {
@@ -34,7 +39,9 @@ namespace loginWindow
             {
                 if (passwordString == str[0])
                 {
-                    MessageBox.Show("Sucess");
+                    reg.setUser(usernameString, str[1]);                    
+                    System.Diagnostics.Process.Start(exeLocation);
+                    this.Close();
                 }
                 else
                 {

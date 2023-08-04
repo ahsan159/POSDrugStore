@@ -38,6 +38,8 @@ public class registryDataClass
         RegistryKey configKey = Registry.LocalMachine.CreateSubKey(root + @"config");
         configKey.SetValue("Customer", "Name");
         configKey.SetValue("CustomerID", "12397");
+        configKey.SetValue("InstallLocation",@"C:\Users\muhammadahsan\source\repos\POSStore\POSStore\bin\Debug\netcoreapp3.1\POSStore.exe");
+        
     }
     private void createLoginKey()
     {
@@ -148,5 +150,15 @@ public class registryDataClass
         {
             regKey.SetValue("Status", status);
         }
+    }
+    public string? getInstallLocation()
+    {
+        RegistryKey? registryKey = Registry.LocalMachine.OpenSubKey(@"Software\CompanionPOS\config");
+        string? str = string.Empty; 
+        if (registryKey!=null)
+        {
+            str = registryKey.GetValue("InstallLocation")?.ToString();
+        }
+        return str;
     }
 }
