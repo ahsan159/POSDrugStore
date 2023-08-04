@@ -41,3 +41,5 @@ Started working on registry.
 Registry update and creation method created. License validation method created. 
 ## 02-Aug-2023
 More updates in registry algorithms.
+## 04-Aug-2023
+Login process integration complete

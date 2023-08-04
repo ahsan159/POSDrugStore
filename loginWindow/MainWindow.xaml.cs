@@ -23,7 +23,7 @@ namespace loginWindow
     {
         sqlWrapper sWrap = sqlWrapper.getInstance();
         registryData.registryDataClass reg = new registryData.registryDataClass();
-        string exeLocation;
+        string? exeLocation;
         public MainWindow()
         {
             InitializeComponent();            
@@ -39,7 +39,7 @@ namespace loginWindow
             {
                 if (passwordString == str[0])
                 {
-                    reg.setUser(usernameString, str[1]);                    
+                    reg.setUser(usernameString, str[1]);                                
                     System.Diagnostics.Process.Start(exeLocation);
                     this.Close();
                 }

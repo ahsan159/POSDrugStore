@@ -43,9 +43,11 @@ namespace POSStore
             newSaleCollection.Columns.Add("Discount100", typeof(string));
             newSaleCollection.Columns.Add("Discount", typeof(string));
             newSaleCollection.Columns.Add("Total", typeof(string));
+            newSaleCollection.Columns.Add("SaleTax", typeof(string));
             newSaleCollection.Columns.Add("ID", typeof(string));
             newSaleCollection.Columns.Add("Stock", typeof(string));
             DataRow dr = newSaleCollection.NewRow();
+            newSaleCollection.Rows.Add(newSaleCollection.NewRow());
             //dr["Discount"] = "Data1";
             //newSaleCollection.Rows.Add(dr);
             //DataRow dr2 = newSaleCollection.NewRow();
@@ -55,6 +57,7 @@ namespace POSStore
             //MessageBox.Show(drugListComboItems.Count.ToString()); 
 
             (newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
+            MessageBox.Show("I am called");
 
         }
         private void saleTableSQL()
@@ -79,8 +82,18 @@ namespace POSStore
         }
         private void newSaleTable_SelectionChanged(object sender, SelectedCellsChangedEventArgs evt)
         {
+            //List<DataGridCellInfo> cellInfo = evt.AddedCells. Select(c=>c.Column.Header.ToString().Equals("Product"));
             
+            try
+            {
+                if (newSaleDataGrid.SelectedIndex+1 >= newSaleCollection.Rows.Count)
+                {
+                    newSaleCollection.Rows.Add(newSaleCollection.NewRow());
+                }
+            }
+            catch (Exception e) { }
         }
+
         private void populateDrugListCombo()
         {
             DataTable dt = dWrap.executeBasicQuery("SELECT DISTINCT(name),id FROM mainLedger");
@@ -99,14 +112,26 @@ namespace POSStore
                 selectedProduct);
         }
         private void comboFocused(object sender, RoutedEventArgs evt )
-        {            
+        {
             
         }
         private void comboSelected(object sender, RoutedEventArgs evt)
         {
             int index = (sender as ComboBox).SelectedIndex;
-            MessageBox.Show(drugListComboItems[index] + Environment.NewLine +
-                drugListComboID[index]);
+            newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Name"] = drugListComboItems[index];
+            newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Discount"] = "0";
+            newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["SaleTax"] = "143";
+            newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["ID"] = drugListComboID[index];
+        }
+        private DataGridCell getCell(DataGridCellInfo info)
+        {            
+            var cellContent =  info.Column.GetCellContent(info.Item);
+            if(cellContent != null)
+            {
+                return cellContent.Parent as DataGridCell;
+            }
+            return null;
+
         }
     }
 }
