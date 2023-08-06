@@ -57,7 +57,7 @@ namespace POSStore
             //MessageBox.Show(drugListComboItems.Count.ToString()); 
 
             (newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
-            MessageBox.Show("I am called");
+            // MessageBox.Show("I am called");
 
         }
         private void saleTableSQL()

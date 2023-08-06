@@ -22,9 +22,10 @@ namespace POSStore
     /// </summary>
     public partial class drugView : Window
     {
-        string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
+        // string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
         // string  connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
         private int sqlID = -1;
+        sqlWrapper sWrap = sqlWrapper.getInstance();
 
         public drugView()
         {
@@ -95,10 +96,11 @@ namespace POSStore
                 string qString = @"INSERT INTO mainLedger(" +
                                     values.Substring(1, values.Length - 1) + ") values (" +
                                     data.Substring(1, data.Length - 1) + ");";
-                MessageBox.Show(qString);
+                //MessageBox.Show(qString);
                 try
                 {
-                    addDatatoTable(qString);
+                    sWrap.executeNonQuery(qString);
+                    this.Close();
                 }
                 catch (Exception e)
                 {
@@ -122,10 +124,11 @@ namespace POSStore
                 string qString = @"UPDATE mainLedger" + Environment.NewLine +
                                   "SET " + updates.Substring(0, updates.Length - 1) + Environment.NewLine +
                                   "WHERE id=" + sqlID.ToString();
-                MessageBox.Show(qString);
+                // MessageBox.Show(qString);
                 try
                 {
-                    addDatatoTable(qString);
+                    sWrap.executeNonQuery(qString);
+                    this.Close();
                 }
                 catch (Exception e)
                 {
@@ -139,16 +142,6 @@ namespace POSStore
         public void close(object sender, RoutedEventArgs rea)
         {
             this.Close();
-        }
-
-        private void addDatatoTable(string cString)
-        {
-
-            SqlConnection connection = new SqlConnection(connectionString);
-            SqlCommand cmd = new SqlCommand(cString, connection);
-            cmd.Connection.Open();
-            cmd.ExecuteNonQuery();
-            connection.Close();
         }
     }
 }
