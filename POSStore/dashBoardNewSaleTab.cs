@@ -28,11 +28,19 @@ namespace POSStore
         public int indexSelected { get; set; } = 0;
         public string selectedProduct { get; set; } = string.Empty;
         public int selectedComboIndex { get; set; } = 0;
+        public string nsCustomerName {get;set;} = string.Empty;
+        public string nsCustomerContact{get;set;} = string.Empty;
+        public string nsSaleTableName {get;set;} = string.Empty;
+        public string currentProductName  {get;set;} = string.Empty;
+        public string currentProductPrice {get;set;} = string.Empty;
+        public string currentProductStock {get;set;} = string.Empty;
+        public string nsGrandTotal {get;set;} = "";
         public void initializeNewSale()
         {
-            string dateCode = DateTime.Now.ToString("yyyyMMdd");
-            invoiceNo.Text = @"Invoice\" + dateCode + @"\" + dWrap.itemCount("invoiceLedger").ToString();
-            saleTableName = invoiceNo.Text.Replace(@"\", "_");
+            string dateCode = DateTime.Now.ToString("yyyyMMddhhmmss");
+            // invoiceNo.Text = @"Invoice\" + dateCode + @"\" + dWrap.itemCount("invoiceLedger").ToString();
+            nsSaleTableName = @"Invoice\" + dateCode + @"\" + dWrap.itemCount("invoiceLedger").ToString();
+            saleTableName = nsSaleTableName.Replace(@"\", "_");
             populateDrugListCombo();
             
             newSaleCollection.Columns.Add("Name", typeof(string));
@@ -60,7 +68,7 @@ namespace POSStore
         }
         private void saleTableSQL()
         {
-            /// this method create a new unique table for evert invoice
+            /// this method create a new unique table for every invoice
             /// generated same table name is saved in invoiceledger
             string query = @"CREATE TABLE " + saleTableName +
                             @" (
@@ -85,10 +93,14 @@ namespace POSStore
             try
             {
                 validateRows();
+                totalCost.Content = grandTotal().ToString();
                 if (newSaleDataGrid.SelectedIndex >= newSaleCollection.Rows.Count)
                 {
                     newSaleCollection.Rows.Add(newSaleCollection.NewRow());
                 }
+                drugName.Content = newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Name"].ToString();
+                drugPrice.Content = newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Price"].ToString();
+                drugStock.Content = newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Stock"].ToString();
             }
             catch (Exception e) { }
         }
@@ -124,9 +136,16 @@ namespace POSStore
             newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["ID"] = drugListComboID[index];
             newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["SaleTax"] = 11;
             newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Stock"] = 12;
+
+            drugName.Content = newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Name"].ToString();
+            drugPrice.Content = newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Price"].ToString();
+            drugStock.Content = newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Stock"].ToString();
+
+
             try {
 
             validateRows();
+            totalCost.Content = grandTotal().ToString();
             }catch(Exception e)
             {
                 // MessageBox.Show(e.Message);
@@ -168,6 +187,17 @@ namespace POSStore
                 double total = price*quantity - discount;
                 dr["Total"] = total.ToString();
             }
+        }
+        public double grandTotal()
+        {
+            double total = 0;
+            foreach(DataRow dr in newSaleCollection.Rows)
+            {
+                if (!string.IsNullOrEmpty(dr["Name"].ToString())) {
+                total += double.Parse(dr["Total"].ToString());}
+            }
+            // MessageBox.Show("Grand Total: " + total.ToString());
+            return total;
         }
         private void executeSale()
         {
