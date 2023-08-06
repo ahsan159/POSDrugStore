@@ -70,5 +70,9 @@ namespace POSStore
                 productListDT.Rows.Add(dr.ItemArray);
             }
         }
+        private void productTable_MouseDoubleClick(object sender, MouseButtonEventArgs evt)
+        {
+            viewEntry(this,new RoutedEventArgs());
+        }
     }
 }

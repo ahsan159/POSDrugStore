@@ -150,6 +150,12 @@ namespace POSStore
             connection.Close();
             return sqlTable;
         }
+        public DataTable getProductData(string id)
+        {
+        
+                return executeBasicQuery(@"SELECT * FROM mainLedger WHERE id='" + id + "';");
+            
+        }
         public DataTable executeBasicQuery(string commandString)
         {
             DataTable sqlTable = new DataTable();

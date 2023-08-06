@@ -387,6 +387,7 @@
                                       CanUserAddRows="False"
                                       IsReadOnly="True"
                                       SelectedIndex="{Binding selectitemIndex}"
+                                      MouseDoubleClick="productTable_MouseDoubleClick"
                                       >
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Sr." Width="30" Binding="{Binding id}" ></DataGridTextColumn>

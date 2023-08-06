@@ -54,7 +54,7 @@ namespace POSStore
             //dr2["Discount"] = "Data2";
             //newSaleCollection.Rows.Add(dr2);
             newSaleDataGrid.ItemsSource = newSaleCollection.DefaultView;
-            //MessageBox.Show(drugListComboItems.Count.ToString()); 
+            //MessageBox.Show(drugListComboItems.Count.ToString());
 
             (newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
             // MessageBox.Show("I am called");
@@ -68,8 +68,8 @@ namespace POSStore
                             @" (
                            [Sr] INT NOT NULL IDENTITY(1,1),
                            [Name] VARCHAR(50) NOT NULL,
-                           [Quantity] INT NOT NULL, 
-                           [Price] REAL NOT NULL, 
+                           [Quantity] INT NOT NULL,
+                           [Price] REAL NOT NULL,
                            [Discount100]  REAL NULL,
                            [Discount] REAL NULL,
                            [Sale Tax] REAL NULL,
@@ -83,10 +83,11 @@ namespace POSStore
         private void newSaleTable_SelectionChanged(object sender, SelectedCellsChangedEventArgs evt)
         {
             //List<DataGridCellInfo> cellInfo = evt.AddedCells. Select(c=>c.Column.Header.ToString().Equals("Product"));
-            
+
             try
             {
-                if (newSaleDataGrid.SelectedIndex+1 >= newSaleCollection.Rows.Count)
+                validateRows();
+                if (newSaleDataGrid.SelectedIndex >= newSaleCollection.Rows.Count)
                 {
                     newSaleCollection.Rows.Add(newSaleCollection.NewRow());
                 }
@@ -108,23 +109,32 @@ namespace POSStore
 
         private void checkOut(object sender, RoutedEventArgs evt)
         {
-            MessageBox.Show(indexSelected.ToString() + Environment.NewLine + 
+            MessageBox.Show(indexSelected.ToString() + Environment.NewLine +
                 selectedProduct);
         }
         private void comboFocused(object sender, RoutedEventArgs evt )
         {
-            
+
         }
         private void comboSelected(object sender, RoutedEventArgs evt)
         {
             int index = (sender as ComboBox).SelectedIndex;
+
+            DataTable dt = dWrap.getProductData(drugListComboID[index].ToString());
             newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Name"] = drugListComboItems[index];
-            newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Discount"] = "0";
-            newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["SaleTax"] = "143";
+            // newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Discount100"] = dt.Rows[0]["Discount100"];
+            newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Price"] = dt.Rows[0]["Cost"];
             newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["ID"] = drugListComboID[index];
+            try {
+
+            validateRows();
+            }catch(Exception e)
+            {
+                // MessageBox.Show(e.Message);
+            }
         }
         private DataGridCell getCell(DataGridCellInfo info)
-        {            
+        {
             var cellContent =  info.Column.GetCellContent(info.Item);
             if(cellContent != null)
             {
@@ -132,6 +142,33 @@ namespace POSStore
             }
             return null;
 
+        }
+        private void validateRows()
+        {
+            foreach(DataRow dr in newSaleCollection.Rows)
+            {
+                validateSingleRow( dr);
+            }
+        }
+        private void validateSingleRow( DataRow dr)
+        {
+            if (!string.IsNullOrEmpty(dr["Name"].ToString()))
+            {
+                double price = double.Parse(dr["Price"].ToString());
+                double quantity = double.Parse(dr["Quantity"].ToString());
+                double discount = 0;
+                if (!string.IsNullOrEmpty(dr["Discount100"].ToString()))
+                {
+                    discount = double.Parse(dr["Discount100"].ToString())*price/100;
+                    dr["Discount"] = discount.ToString();
+                }
+                else if (!string.IsNullOrEmpty(dr["Discount"].ToString()))
+                {
+                    discount = double.Parse(dr["Discount"].ToString());
+                }
+                double total = price*quantity - discount;
+                dr["Total"] = total.ToString();
+            }
         }
     }
 }
