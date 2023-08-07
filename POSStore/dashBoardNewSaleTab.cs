@@ -202,19 +202,20 @@ namespace POSStore
         private void executeSale()
         {
             try {
-            saleTableSQL();
-            string[] headerName = newSaleCollection.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToArray();
-            foreach(DataRow dr in newSaleCollection.Rows)
-            {
-                if (!string.IsNullOrEmpty(dr["Name"].ToString())) {
-                string[] rowData = dr.ItemArray.Cast<string>().ToArray();
-                string qString = "INSERT INTO " + saleTableName + "(" + 
-                    string.Join(",",headerName) + ") values('" + 
-                    string.Join("','",rowData) + "');";
-                dWrap.executeNonQuery(qString);
+                saleTableSQL();
+                string[] headerName = newSaleCollection.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToArray();
+                foreach(DataRow dr in newSaleCollection.Rows)
+                {
+                    if (!string.IsNullOrEmpty(dr["Name"].ToString())) {
+                    string[] rowData = dr.ItemArray.Cast<string>().ToArray();
+                    string qString = "INSERT INTO " + saleTableName + "(" + 
+                        string.Join(",",headerName) + ") values('" + 
+                        string.Join("','",rowData) + "');";
+                    dWrap.executeNonQuery(qString);
+                    }
+                    // MessageBox.Show(qString);
                 }
-                // MessageBox.Show(qString);
-            }
+                
             }
             catch(Exception e )
             {
