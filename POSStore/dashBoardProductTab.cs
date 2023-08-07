@@ -28,13 +28,13 @@ namespace POSStore
         }
         public void viewEntry(object sender, RoutedEventArgs evt)
         {
-            string? idSelected = productListDT.Rows[selectitemIndex]["id"].ToString();
+            string  idSelected = productListDT.Rows[selectitemIndex]["id"].ToString();
             drugView dv = new drugView(dWrap.executeBasicQuery("SELECT * FROM mainLedger WHERE id='" + idSelected + "';"));
             dv.ShowDialog();
         }
         public void updateEntry(object sender, RoutedEventArgs evt)
         {
-            string? idSelected = productListDT.Rows[selectitemIndex]["id"].ToString();
+            string  idSelected = productListDT.Rows[selectitemIndex]["id"].ToString();
             drugView dv = new drugView(dWrap.executeBasicQuery("SELECT * FROM mainLedger WHERE id='" + idSelected + "';"), true);
             dv.ShowDialog();
         }
@@ -44,7 +44,7 @@ namespace POSStore
             dlyn.ShowDialog();
             if (dlyn.result == 1)
             {
-                string? idSelected = productListDT.Rows[selectitemIndex]["id"].ToString();
+                string  idSelected = productListDT.Rows[selectitemIndex]["id"].ToString();
                 dWrap.executeNonQuery("DELETE FROM mainLedger WHERE id='" + idSelected + "';");
                 if (dWrap.commandStatus.Equals("Success"))
                 {

@@ -39,10 +39,7 @@ namespace POSStore
             //DataRow dr = stockCollection.NewRow();
             //stockCollection.Rows.Add(dr);
             stockTable.ItemsSource = stockCollection.DefaultView;
-            DataTable drugList = dWrap.executeQuery("mainLedger", new List<string>() { "name", "id" });
-            //drugSelection.ItemsSource = drugList.AsEnumerable().Select(r => r.Field<string>("name")).ToList();
-            drugListBinding = drugList.Rows.Cast<DataRow>().Select(r => r.ItemArray[0].ToString()).ToList<string>();
-            drugListID = drugList.Rows.Cast<DataRow>().Select(r => r.ItemArray[1].ToString()).ToList();
+            initializeStockTableTab();
 
             // for sale Tab
             initializeSaleTableTab();
@@ -107,7 +104,7 @@ namespace POSStore
             int customerCount = 0;
             cBtn.Content = "Customer " + Environment.NewLine + "(" + customerCount.ToString() + ")";
         }
-        
+
 
     }
 }

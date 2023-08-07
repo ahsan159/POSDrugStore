@@ -28,13 +28,13 @@ namespace POSStore
         public int indexSelected { get; set; } = 0;
         public string selectedProduct { get; set; } = string.Empty;
         public int selectedComboIndex { get; set; } = 0;
-        public string nsCustomerName {get;set;} = string.Empty;
-        public string nsCustomerContact{get;set;} = string.Empty;
-        public string nsSaleTableName {get;set;} = string.Empty;
-        public string currentProductName  {get;set;} = string.Empty;
-        public string currentProductPrice {get;set;} = string.Empty;
-        public string currentProductStock {get;set;} = string.Empty;
-        public string nsGrandTotal {get;set;} = "";
+        public string nsCustomerName { get; set; } = string.Empty;
+        public string nsCustomerContact { get; set; } = string.Empty;
+        public string nsSaleTableName { get; set; } = string.Empty;
+        public string currentProductName { get; set; } = string.Empty;
+        public string currentProductPrice { get; set; } = string.Empty;
+        public string currentProductStock { get; set; } = string.Empty;
+        public string nsGrandTotal { get; set; } = "";
         public void initializeNewSale()
         {
             string dateCode = DateTime.Now.ToString("yyyyMMddhhmmss");
@@ -42,7 +42,7 @@ namespace POSStore
             nsSaleTableName = @"Invoice\" + dateCode + @"\" + dWrap.itemCount("invoiceLedger").ToString();
             saleTableName = nsSaleTableName.Replace(@"\", "_");
             populateDrugListCombo();
-            
+
             newSaleCollection.Columns.Add("Name", typeof(string));
             newSaleCollection.Columns.Add("Quantity", typeof(string));
             newSaleCollection.Columns.Add("Price", typeof(string));
@@ -121,7 +121,7 @@ namespace POSStore
         {
             executeSale();
         }
-        private void comboFocused(object sender, RoutedEventArgs evt )
+        private void comboFocused(object sender, RoutedEventArgs evt)
         {
 
         }
@@ -131,44 +131,72 @@ namespace POSStore
 
             DataTable dt = dWrap.getProductData(drugListComboID[index].ToString());
             newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Name"] = drugListComboItems[index];
-            // newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Discount100"] = dt.Rows[0]["Discount100"];
+            newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Discount100"] = 0;
+            newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Discount"] = 0;
             newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Price"] = dt.Rows[0]["Cost"];
             newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["ID"] = drugListComboID[index];
-            newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["SaleTax"] = 11;
-            newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Stock"] = 12;
+            newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["SaleTax"] = 0;
+            newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Stock"] = 0;
 
             drugName.Content = newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Name"].ToString();
             drugPrice.Content = newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Price"].ToString();
             drugStock.Content = newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Stock"].ToString();
 
 
-            try {
+            try
+            {
 
-            validateRows();
-            totalCost.Content = grandTotal().ToString();
-            }catch(Exception e)
+                validateRows();
+                totalCost.Content = grandTotal().ToString();
+            }
+            catch (Exception e)
             {
                 // MessageBox.Show(e.Message);
             }
         }
-        private DataGridCell getCell(DataGridCellInfo info)
+        private void paidTotal_KeyDown(object sender, KeyEventArgs e)
         {
-            var cellContent =  info.Column.GetCellContent(info.Item);
-            if(cellContent != null)
+            double gTotal = grandTotal();
+            double discount = 0;
+            double paid = 0;
+            if (!string.IsNullOrEmpty(discountTotal.Text.ToString()))
             {
-                return cellContent.Parent as DataGridCell;
+                bool b = double.TryParse(discountTotal.Text, out discount);
+                if (!b)
+                { discount = 0; }
             }
-            return null;
+            if (!string.IsNullOrEmpty(paidTotal.Text))
+            {
+                bool b = double.TryParse(paidTotal.Text, out paid);
+                if (!b)
+                { paid = 0; }
+            }
 
+            balanceTotal.Text = (paid + discount - gTotal).ToString();
+            if (sender == this.paidTotal && e.Key == Key.Enter)
+            {
+                checkOut(this, new RoutedEventArgs());
+            }
         }
+        //private DataGridCell getCell(DataGridCellInfo info)
+        //{
+        //    var cellContent = info.Column.GetCellContent(info.Item);
+        //    if (cellContent != null)
+        //    {
+        //        return cellContent.Parent as DataGridCell;
+        //    }
+        //    return null;
+
+        //}
         private void validateRows()
         {
-            foreach(DataRow dr in newSaleCollection.Rows)
+            foreach (DataRow dr in newSaleCollection.Rows)
             {
-                validateSingleRow( dr);
+                validateSingleRow(dr);
             }
+            grandTotal();
         }
-        private void validateSingleRow( DataRow dr)
+        private void validateSingleRow(DataRow dr)
         {
             if (!string.IsNullOrEmpty(dr["Name"].ToString()))
             {
@@ -177,50 +205,94 @@ namespace POSStore
                 double discount = 0;
                 if (!string.IsNullOrEmpty(dr["Discount100"].ToString()))
                 {
-                    discount = double.Parse(dr["Discount100"].ToString())*price*quantity/100;
+                    discount = double.Parse(dr["Discount100"].ToString()) * price * quantity / 100;
                     dr["Discount"] = discount.ToString();
                 }
                 else if (!string.IsNullOrEmpty(dr["Discount"].ToString()))
                 {
                     discount = double.Parse(dr["Discount"].ToString());
                 }
-                double total = price*quantity - discount;
+                double total = price * quantity - discount;
                 dr["Total"] = total.ToString();
             }
         }
         public double grandTotal()
         {
             double total = 0;
-            foreach(DataRow dr in newSaleCollection.Rows)
+            foreach (DataRow dr in newSaleCollection.Rows)
             {
-                if (!string.IsNullOrEmpty(dr["Name"].ToString())) {
-                total += double.Parse(dr["Total"].ToString());}
+                if (!string.IsNullOrEmpty(dr["Name"].ToString()))
+                {
+                    total += double.Parse(dr["Total"].ToString());
+                }
             }
             // MessageBox.Show("Grand Total: " + total.ToString());
             return total;
         }
         private void executeSale()
         {
-            try {
+            string cUser = "ahsan";
+            try
+            {
+                if (balanceTotal.Text.IndexOf('-') >= 0)
+                {
+                    //MessageBox.Show("balance negative");
+                    return;
+                }
+                validateRows();
                 saleTableSQL();
                 string[] headerName = newSaleCollection.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToArray();
-                foreach(DataRow dr in newSaleCollection.Rows)
+                foreach (DataRow dr in newSaleCollection.Rows)
                 {
-                    if (!string.IsNullOrEmpty(dr["Name"].ToString())) {
-                    string[] rowData = dr.ItemArray.Cast<string>().ToArray();
-                    string qString = "INSERT INTO " + saleTableName + "(" + 
-                        string.Join(",",headerName) + ") values('" + 
-                        string.Join("','",rowData) + "');";
-                    dWrap.executeNonQuery(qString);
+                    if (!string.IsNullOrEmpty(dr["Name"].ToString()))
+                    {
+                        string[] rowData = dr.ItemArray.Cast<string>().ToArray();
+                        string qString = "INSERT INTO " + saleTableName + "(" +
+                            string.Join(",", headerName) + ") values('" +
+                            string.Join("','", rowData) + "');";
+                        dWrap.executeNonQuery(qString);
                     }
-                    // MessageBox.Show(qString);
                 }
-                
+                string invoiceString = "INSERT INTO " + " invoiceLedger " +
+                    " (Invoice,UserName,Customer,Contact,Total,Discount,Payment,Balance,DrugCount,CheckoutDate,CheckoutTime,DBName) " +
+                    " values ('" +
+                    invoiceNo.Text + "','" +
+                    cUser + "','" +
+                    customerName.Text + "','" +
+                    contactNo.Text + "','" +
+                    totalCost.Content + "','" +
+                    discountTotal.Text + "','" +
+                    paidTotal.Text + "','" +
+                    balanceTotal.Text + "','" +
+                    newSaleCollection.Rows.Count.ToString() + "','" +
+                    DateTime.Now.ToString("yyyy-MM-dd") + "','" +
+                    DateTime.Now.ToString("hh:mm:ss") + "','" +
+                    saleTableName + "');";
+                //MessageBox.Show(invoiceString);
+                dWrap.executeNonQuery(invoiceString);
+                ClearForNewSale();
+
             }
-            catch(Exception e )
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }
+        }
+        private void ClearForNewSale()
+        {
+            newSaleCollection.Rows.Clear();
+            customerName.Text = "";
+            contactNo.Text = "";
+            totalCost.Content = "";
+            discountTotal.Text = "";
+            paidTotal.Text = "";
+            balanceTotal.Text = "";
+            string dateCode = DateTime.Now.ToString("yyyyMMddhhmmss");
+            // invoiceNo.Text = @"Invoice\" + dateCode + @"\" + dWrap.itemCount("invoiceLedger").ToString();
+            nsSaleTableName = @"Invoice\" + dateCode + @"\" + dWrap.itemCount("invoiceLedger").ToString();
+            saleTableName = nsSaleTableName.Replace(@"\", "_");
+            invoiceNo.Text = nsSaleTableName;
+
         }
     }
 }

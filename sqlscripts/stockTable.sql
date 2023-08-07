@@ -7,5 +7,5 @@ CREATE TABLE stockTable (
 [Supplier] varchar(50) NULL,
 [SupplierContact] varchar(10) NULL,
 [Added] Date NOT NULL,
-[User] VARCHAR(50) NULL
+[Users] VARCHAR(50) NULL
 )

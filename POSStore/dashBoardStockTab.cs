@@ -30,17 +30,39 @@ namespace POSStore
         public int selectDrugIndex { get; set; } = 0;
 
         public List<string> drugListID = new List<string>();
+
+        private void initializeStockTableTab()
+        {
+            DataTable drugList = dWrap.executeQuery("mainLedger", new List<string>() { "name", "id" });
+            //drugSelection.ItemsSource = drugList.AsEnumerable().Select(r => r.Field<string>("name")).ToList();
+            drugListBinding = drugList.Rows.Cast<DataRow>().Select(r => r.ItemArray[0].ToString()).ToList<string>();
+            drugListID = drugList.Rows.Cast<DataRow>().Select(r => r.ItemArray[1].ToString()).ToList();
+        }
         private void updateStockBtn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                string query = @"select quantity from " + " mainLedger " + " where id='" +
+                    drugListID[selectDrugIndex].ToString()+"';";
+                //MessageBox.Show(query);
+                string previousQuantity = dWrap.executeBasicQuery(query).Rows[0]["quantity"].ToString();
+                int pQ = int.Parse(previousQuantity);
+                int aQ = int.Parse(quantitytobeAdded);
                 DataRow dr = stockCollection.NewRow();
                 dr["ProductID"] = drugListID[selectDrugIndex].ToString();
-                dr["QuantityAdded"] = quantitytobeAdded;
+                dr["QuantityAdded"] = aQ.ToString();
                 dr["Purchase"] = purchasePriceT;
                 dr["Retail"] = retailPriceT;
                 dr["Added"] = DateTime.Today.ToString("yyyy-MM-dd");
                 stockCollection.Rows.Add(dr);
+
+                uploadToDB();
+                // I still need to update retail price.
+                string query2 = "Update mainLedger set quantity='" + 
+                    (aQ+pQ).ToString() + "' where id='" + 
+                    drugListID[selectDrugIndex].ToString() + "';";
+                dWrap.executeNonQuery(query2);
+
                 addedQuantity.Clear();
                 retailPrice.Clear();
                 purchasePrice.Clear();
@@ -49,10 +71,6 @@ namespace POSStore
             }
             catch (Exception exp)
             {
-                MessageBox.Show(quantitytobeAdded + Environment.NewLine +
-                retailPriceT + Environment.NewLine +
-                purchasePriceT + Environment.NewLine +
-                selectDrug);
                 MessageBox.Show(exp.Message + Environment.NewLine +
                     exp.Source + Environment.NewLine +
                     exp.StackTrace, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -61,24 +79,17 @@ namespace POSStore
         private void uploadToDB()
         {
             List<string> fields = stockCollection.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList<string>();
+            fields.RemoveAt(0);
             foreach (DataRow dataRow in stockCollection.Rows)
             {
                 if (string.IsNullOrEmpty(dataRow["Sr"].ToString()))
                 {
-                    List<string> fSelected = new List<string>();
-                    List<string> fValue = new List<string>();
-                    foreach (string s in fields)
-                    {
-                        if (!string.IsNullOrEmpty(dataRow[s].ToString()))
-                        {
-                            fSelected.Add(s);
-                            fValue.Add(dataRow[s].ToString());
-                        }
-                    }
+                    List<string> fvalues = dataRow.ItemArray.Select(i=>i.ToString()).ToList();
+                    fvalues.RemoveAt(0);
                     string query = @"INSERT INTO stockTable (" +
-                        string.Join(",", fSelected) +
+                        string.Join(",", fields ) +
                         @") VALUES ('" +
-                        string.Join("','", fValue) +
+                        string.Join("','", fvalues) +
                         "');";
                     //MessageBox.Show(query);
                     sqlWrapper Wrap = sqlWrapper.getInstance();
@@ -93,14 +104,14 @@ namespace POSStore
         }
         private void viewDrugList(object sender, RoutedEventArgs e)
         {
-            MainWindow mnWindow = new MainWindow(false);
-            mnWindow.ShowDialog();
+            drugView dv = new drugView(true);
+            dv.ShowDialog();
 
         }
 
         private void drugSelection_KeyDown(object sender, KeyEventArgs e)
         {
-            ComboBox? cbox = sender as ComboBox;
+            ComboBox cbox = sender as ComboBox;
             cbox.IsDropDownOpen = true;
             //if(e.Key==Key.Tab)
             //{
@@ -110,12 +121,12 @@ namespace POSStore
 
         private void drugSelection_LostFocus(object sender, RoutedEventArgs e)
         {
-            ComboBox? cbox = sender as ComboBox;
+            ComboBox cbox = sender as ComboBox;
             cbox.IsDropDownOpen = false;
         }
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+          
         }
         private void stockTable_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {

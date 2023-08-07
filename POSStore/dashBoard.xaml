@@ -112,7 +112,7 @@
                                               SelectedIndex="{Binding indexSelected}"
                                               SelectedCellsChanged="newSaleTable_SelectionChanged"                                              
                                         >
-                                              <!--SelectionChanged="newSaleTable_SelectionChanged"-->
+                                        <!--SelectionChanged="newSaleTable_SelectionChanged"-->
                                         <DataGrid.Columns>
                                             <DataGridComboBoxColumn Header="Product"        
                                                                     SelectedItemBinding="{Binding selectedProduct}"
@@ -123,7 +123,7 @@
                                                         <EventSetter Event="SelectionChanged" Handler="comboSelected"></EventSetter>
                                                         <Setter Property="SelectedIndex" Value="{Binding selectedComboIndex}"></Setter>
                                                         <Setter Property="IsEditable" Value="True"></Setter>
-                                                    </Style>                                                    
+                                                    </Style>
                                                 </DataGridComboBoxColumn.EditingElementStyle>
                                             </DataGridComboBoxColumn>
                                             <DataGridTextColumn Header="Quantity"
@@ -162,15 +162,17 @@
                                         <Label Name="totalCost"  Margin="10,10,10,10" FontSize="20" FontWeight="Bold"
                                         ></Label>
                                         <DockPanel>
-                                            <Label Content="Paid" Margin="10,20,10,10" FontSize="20" FontWeight="Bold"></Label>
-                                            <TextBox Name="paidTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" 
-                                        ></TextBox>
-                                            <!-- Text="{Binding nsGrandTotal}"                                      -->
-                                        </DockPanel>
-                                        <DockPanel>
                                             <Label Content="Discount" Margin="10,10,10,10" FontSize="20" FontWeight="Bold"></Label>
                                             <TextBox Name="discountTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" 
-                                        ></TextBox>                                     
+                                            KeyDown="paidTotal_KeyDown"
+                                        ></TextBox>
+                                        </DockPanel>
+                                        <DockPanel>
+                                            <Label Content="Paid" Margin="10,20,10,10" FontSize="20" FontWeight="Bold"></Label>
+                                            <TextBox Name="paidTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" 
+                                             KeyUp="paidTotal_KeyDown"
+                                        ></TextBox>
+                                            <!-- Text="{Binding nsGrandTotal}"                                      -->
                                         </DockPanel>
                                         <DockPanel>
                                             <Label Content="Balance" Margin="10,20,10,10" FontSize="20" FontWeight="Bold"></Label>
@@ -189,7 +191,9 @@
                                               Margin="0,5,0,0"
                                               ItemsSource="{Binding }"
                                               >
-                                        --><!--CellEditEnding="saleTable_CellEditEnding"--><!--
+                                        -->
+                                <!--CellEditEnding="saleTable_CellEditEnding"-->
+                                <!--
                                         <DataGrid.Columns>
                                             <DataGridComboBoxColumn 
                                             Width="100"
@@ -199,10 +203,12 @@
                                             >
                                                 <DataGridComboBoxColumn.EditingElementStyle>
                                                     <Style TargetType="ComboBox">
-                                                        --><!--<EventSetter Event="SelectionChanged" Handler="ComboBox_SelectionChanged"></EventSetter>
+                                                        -->
+                                <!--<EventSetter Event="SelectionChanged" Handler="ComboBox_SelectionChanged"></EventSetter>
                                                         <EventSetter Event="KeyDown" Handler="ComboBox_KeyDown"></EventSetter>
                                                         <EventSetter Event="LostFocus" Handler="ComboBox_LostFocus"></EventSetter>
-                                                        <EventSetter Event="GotFocus" Handler="ComboBox_GotFocus"></EventSetter>--><!--
+                                                        <EventSetter Event="GotFocus" Handler="ComboBox_GotFocus"></EventSetter>-->
+                                <!--
                                                         <Setter Property="IsEditable" Value="True">
                                                         </Setter>
                                                     </Style>
@@ -238,7 +244,7 @@
                                         </DataGrid.Columns>
                                     </DataGrid>
                                 </DockPanel>-->
-                                
+
                                 <!--<DockPanel Grid.Column="2">
                                     <StackPanel>
                                         <Label Name="drugName" Content="Select/Insert" Margin="10,10,10,10" FontSize="24" FontWeight="Bold"></Label>
@@ -300,6 +306,8 @@
                                     SelectedIndex="{Binding selectedInvoiceIndex}"
                                     SelectedCellsChanged="invoiceTable_SelectedCellsChanged"
                                     CanUserSortColumns="False"
+                                    VerticalScrollBarVisibility="Visible"
+                                    Height="200"
                                     >
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Invoice" Binding="{Binding Invoice}"></DataGridTextColumn>
@@ -464,18 +472,18 @@
                                 HorizontalAlignment="Left"                           
                                 ></Label>
                                         <ComboBox                        
-                            Name="drugSelection"
-                            VerticalAlignment="Top"
-                            HorizontalAlignment="Right"
-                            Width="180"
-                            SelectionChanged="ComboBox_SelectionChanged"     
-                            SelectedItem="{Binding selectDrug}"
-                            ItemsSource="{Binding drugListBinding}"
-                            SelectedIndex="{Binding selectDrugIndex}"
-                            IsEditable="True"
-                            AllowDrop="True"
-                            KeyDown="drugSelection_KeyDown"
-                            LostFocus="drugSelection_LostFocus"
+                                        Name="drugSelection"
+                                        VerticalAlignment="Top"
+                                        HorizontalAlignment="Right"
+                                        Width="180"
+                                        SelectionChanged="ComboBox_SelectionChanged"     
+                                        SelectedItem="{Binding selectDrug}"
+                                        ItemsSource="{Binding drugListBinding}"
+                                        SelectedIndex="{Binding selectDrugIndex}"
+                                        IsEditable="True"
+                                        AllowDrop="True"
+                                        KeyDown="drugSelection_KeyDown"
+                                        LostFocus="drugSelection_LostFocus"
                             ></ComboBox>
                                     </DockPanel>
                                     <DockPanel VerticalAlignment="Top">
@@ -534,66 +542,66 @@
                                 <StackPanel Grid.Column="1" HorizontalAlignment="Right">
                                     <Button Content="Update Stock" Click="updateStockBtn_Click" Margin="10,10,10,10" VerticalAlignment="Center"></Button>
                                     <Button Content="Add New Drug" Click="addNewDrug" Margin="10,10,10,10" VerticalAlignment="Center"></Button>
-                                    <Button Content="View Drug List" Click="viewDrugList" Margin="10,10,10,10" VerticalAlignment="Center"></Button>
+                                    <!--<Button Content="View Drug List" Click="viewDrugList" Margin="10,10,10,10" VerticalAlignment="Center"></Button>-->
                                 </StackPanel>
                             </Grid>
                             <DataGrid
-                Margin="20,20,20,20"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Stretch"
-                AutoGenerateColumns="False"
-                ItemsSource="{Binding}"
-                SelectedCellsChanged="stockTable_SelectedCellsChanged"
-                Name="stockTable"
-                SelectionUnit="FullRow"
-                >
+                                Margin="20,20,20,20"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Stretch"
+                                AutoGenerateColumns="False"
+                                ItemsSource="{Binding}"
+                                SelectedCellsChanged="stockTable_SelectedCellsChanged"
+                                Name="stockTable"
+                                SelectionUnit="FullRow"
+                                >
                                 <DataGrid.Columns>
                                     <DataGridTextColumn
-                        Header="stockID"
-                        Binding="{Binding Sr}"
-                        IsReadOnly="True"
-                        ></DataGridTextColumn>
+                            Header="stockID"
+                            Binding="{Binding Sr}"
+                            IsReadOnly="True"
+                            ></DataGridTextColumn>
                                     <DataGridTextColumn
-                        Header="Drug"
-                        Binding="{Binding ProductID}"
-                        IsReadOnly="True"
-                        ></DataGridTextColumn>
+                            Header="Drug"
+                            Binding="{Binding ProductID}"
+                            IsReadOnly="True"
+                            ></DataGridTextColumn>
                                     <DataGridTextColumn
-                        Header="Quantity Added"
-                        Binding="{Binding QuantityAdded}"
-                        IsReadOnly="True"
-                        ></DataGridTextColumn>
+                            Header="Quantity Added"
+                            Binding="{Binding QuantityAdded}"
+                            IsReadOnly="True"
+                            ></DataGridTextColumn>
                                     <DataGridTextColumn
-                        Header="Purchase"
-                        Binding="{Binding Purchase}"
-                        IsReadOnly="True"
-                        ></DataGridTextColumn>
+                            Header="Purchase"
+                            Binding="{Binding Purchase}"
+                            IsReadOnly="True"
+                            ></DataGridTextColumn>
                                     <DataGridTextColumn
-                        Header="Retail"
-                        Binding="{Binding QuantityAdded}"
-                        IsReadOnly="True"
-                        ></DataGridTextColumn>
+                            Header="Retail"
+                            Binding="{Binding Retail}"
+                            IsReadOnly="True"
+                            ></DataGridTextColumn>
                                     <DataGridTextColumn
-                        Header="Added"
-                        Binding="{Binding Added}"
-                        IsReadOnly="True"
-                        ></DataGridTextColumn>
+                            Header="Added"
+                            Binding="{Binding Added}"
+                            IsReadOnly="True"
+                            ></DataGridTextColumn>
                                     <DataGridTextColumn
-                        Header="Supplier"
-                        Binding="{Binding Supplier}"
-                        IsReadOnly="True"
-                        ></DataGridTextColumn>
+                            Header="Supplier"
+                            Binding="{Binding Supplier}"
+                            IsReadOnly="True"
+                            ></DataGridTextColumn>
                                     <DataGridTextColumn
-                        Header="Supplier Contact"
-                        Binding="{Binding SupplierContact}"
-                        IsReadOnly="True"
-                        ></DataGridTextColumn>
+                            Header="Supplier Contact"
+                            Binding="{Binding SupplierContact}"
+                            IsReadOnly="True"
+                            ></DataGridTextColumn>
                                     <DataGridTextColumn
-                        Header="Added By"
-                        Binding="{Binding User}"
-                        IsReadOnly="True"
-                        ></DataGridTextColumn>
-                                </DataGrid.Columns>
+                            Header="Added By"
+                            Binding="{Binding User}"
+                            IsReadOnly="True"
+                            ></DataGridTextColumn>
+                                </DataGrid.Columns> 
                             </DataGrid>
                         </StackPanel>
                     </Grid>

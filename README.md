@@ -43,3 +43,5 @@ Registry update and creation method created. License validation method created.
 More updates in registry algorithms.
 ## 04-Aug-2023
 Login process integration complete
+## 07-Aug-2023
+Implemented stock tab algorithm and new sale execution algorithm
