@@ -389,6 +389,7 @@
                 <TabItem Header="Products"
                      Height="40"
                      Name="producttab"
+                     GotFocus="updateProductTable"
                      >
                     <Grid Background="#FFE5E5E5">
                         <StackPanel>

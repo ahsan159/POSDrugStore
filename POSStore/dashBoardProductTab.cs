@@ -74,5 +74,9 @@ namespace POSStore
         {
             viewEntry(this,new RoutedEventArgs());
         }
+        private void updateProductTable(object sender, RoutedEventArgs evt)
+        {
+            refresh();
+        }
     }
 }

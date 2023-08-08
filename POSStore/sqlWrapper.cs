@@ -176,6 +176,26 @@ namespace POSStore
             return executeQuery(tableName);
         }
         
+        public int getStockQuantity(string id)
+        {
+            string query = @"SELECT quantity from " +
+                "mainLedger " +
+                "where id='" + id + "';";
+            DataTable dt = executeBasicQuery(query);
+            return int.Parse(dt.Rows[0]["quantity"].ToString());            
+        }
+        public void updateQuantity(string id, string updated)
+        {
+            string query = @"UPDATE " + " mainLedger " +
+                "SET quantity='" + updated + "' " +
+                " WHERE id='" + id + "';";
+            executeNonQuery(query);
+
+        }
+        public void updateQuantity(string id, int updated)
+        {
+            updateQuantity(id, updated.ToString());
+        }
         public void tableExist(string tableName)
         {
 

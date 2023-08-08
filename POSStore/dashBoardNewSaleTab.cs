@@ -251,6 +251,9 @@ namespace POSStore
                             string.Join(",", headerName) + ") values('" +
                             string.Join("','", rowData) + "');";
                         dWrap.executeNonQuery(qString);
+                        int currentQuantity = dWrap.getStockQuantity(dr["ID"].ToString());
+                        int saleQuantity = int.Parse(dr["Quantity"].ToString());
+                        dWrap.updateQuantity(dr["ID"].ToString(), currentQuantity - saleQuantity);
                     }
                 }
                 string invoiceString = "INSERT INTO " + " invoiceLedger " +
