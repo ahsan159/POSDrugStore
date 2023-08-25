@@ -47,3 +47,5 @@ Login process integration complete
 Implemented stock tab algorithm and new sale execution algorithm
 ## 08-Aug-2023
 App is almost ready. Time for reintegration with license manager software. which will be seperate app and seperatly installed. Also develop installation routine of the softwware. 
+## 25-Aug-2023
+Updated viewDrug window.

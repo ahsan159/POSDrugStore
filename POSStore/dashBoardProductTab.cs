@@ -76,7 +76,7 @@ namespace POSStore
         }
         private void updateProductTable(object sender, RoutedEventArgs evt)
         {
-            refresh();
+            // refresh();
         }
     }
 }
