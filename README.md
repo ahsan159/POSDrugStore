@@ -49,3 +49,5 @@ Implemented stock tab algorithm and new sale execution algorithm
 App is almost ready. Time for reintegration with license manager software. which will be seperate app and seperatly installed. Also develop installation routine of the softwware. 
 ## 25-Aug-2023
 Updated viewDrug window.
+## 28-Aug-2023
+Added images to tab items and drug views.

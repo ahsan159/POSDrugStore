@@ -7,12 +7,20 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        Title="drugView" Height="600" Width="400">
+        Title="drugView" Height="600" Width="400"
+        >
     <Grid Background="Azure">
         <StackPanel>
             <DockPanel>
-                <Label Content="Drug View" HorizontalAlignment="Left" FontWeight="Bold" FontSize="20"  Margin="40,10,10,10">
-
+                <Label 
+                    HorizontalAlignment="Left" FontWeight="Bold" FontSize="20"  Margin="40,10,10,10"
+                    >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="./img/RX.png" Height="40"></Image>
+                        <Label 
+                            Content="Drug View" 
+                            ></Label>
+                    </StackPanel>
                 </Label>
             </DockPanel>
             <DockPanel Margin="0,0,0,0"  MinHeight="200" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">                
@@ -42,9 +50,28 @@
                     </StackPanel>
                 </Grid>
             </DockPanel>
-            <DockPanel HorizontalAlignment="Stretch">
-                <Button Name="Update" Content="Update/Save" Margin="10,10,10,10" Height="40" Width="100" HorizontalAlignment="Left" Click="update"></Button>
-                <Button Name="Close" Content="Cancel" Margin="10,10,10,10" Height="40" Width="100" HorizontalAlignment="Right" Click="close"></Button>
+            <DockPanel Width="400" HorizontalAlignment="Stretch">
+                <Button Name="Update"
+                        Margin="10,10,10,10" Height="60" Width="100" HorizontalAlignment="Left" Click="update"
+                        >
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="./img/save.png" Height="20" Width="20"></Image>
+                        <Label 
+                            Content="Update/Save"                            
+                            ></Label>
+                    </StackPanel>
+                </Button>
+                <Button Name="Close" 
+                        Margin="10,10,10,10" Height="60" Width="100" HorizontalAlignment="Right" Click="close"
+                        >
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="./img/delete.png" Height="20" Width="20"></Image>
+                        <Label
+                            Content="Cancel" 
+                            >                            
+                        </Label>
+                    </StackPanel>
+                </Button>
             </DockPanel>
         </StackPanel>
     </Grid>

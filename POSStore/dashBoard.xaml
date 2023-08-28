@@ -10,20 +10,33 @@
         <Viewbox Stretch="Fill" StretchDirection="Both"></Viewbox>
         <DockPanel>
             <Label DockPanel.Dock="Top" 
-                   Content="Companion POS" 
                    FontSize="32" FontWeight="Bold"
                    VerticalAlignment="Top" HorizontalAlignment="Center"
-                   Margin="10"
-                   ></Label>
-            <TabControl DockPanel.Dock="Top" TabStripPlacement="Left" 
+                   >
+                   <!--Margin="10"-->
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="./img/RX.png" Height="60"></Image>
+                    <Label
+                    Content="Companion POS" 
+                        ></Label>
+                </StackPanel>
+            </Label>
+            <TabControl DockPanel.Dock="Top" TabStripPlacement="Top" 
                     Margin="10"
                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                     >
-                <TabItem Header="Dash Board"
+                <TabItem 
                      Height="40"                     
                      GotFocus="dashBoardOpen"
                      Name="dashboardtab"
-                     >
+                     >                    
+                    <!--Header="Dash Board"-->
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="./img/dashboard.png" Height="30"></Image>
+                            <Label Content="Dashboard"></Label>
+                        </StackPanel>
+                    </TabItem.Header>
                     <Grid Background="#FFE5E5E5">
                         <DockPanel HorizontalAlignment="Stretch" Name="dashBaord">
                             <DockPanel Margin="40" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Aqua">
@@ -63,10 +76,17 @@
                         </DockPanel>
                     </Grid>
                 </TabItem>
-                <TabItem Header="New Sale"
+                <TabItem 
                      Height="40"
                      Name="newSaleTab"
                      >
+                    <!--Header="New Sale"-->
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="./img/newSalesTab.png" Height="30"></Image>
+                            <Label Content="New Sale"></Label>
+                        </StackPanel>
+                    </TabItem.Header>
                     <Grid Background="#FFE5E5E5">
                         <DockPanel>
                             <DockPanel DockPanel.Dock="Top" Height="50" VerticalAlignment="Top">
@@ -277,10 +297,17 @@
                         </DockPanel>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Sales"
+                <TabItem 
                      Height="40"
                      Name="saletab" Margin="-2,0,-1,0" VerticalAlignment="Bottom"
                      >
+                    <!--Header="Sales"-->
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="./img/salesTab.png" Height="30" HorizontalAlignment="Left"></Image>
+                            <Label Content="Sales"></Label>
+                        </StackPanel>
+                    </TabItem.Header>
                     <Grid Background="#FFE5E5E5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -386,17 +413,35 @@
                         </DockPanel>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Products"
+                <TabItem 
                      Height="40"
                      Name="producttab"
-                     GotFocus="updateProductTable"
                      >
+                    <!--Header="Products"-->
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Image Source="./img/products.png" Height="30"></Image>
+                            <Label Content="Products"></Label>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <!--GotFocus="updateProductTable"-->
                     <Grid Background="#FFE5E5E5">
                         <StackPanel>
-                            <Button Content="Add New" Height="50" Width="100" HorizontalAlignment="Left"
+                            <Button 
+                                    Height="50" Width="140" HorizontalAlignment="Left"
                                     Margin="10"
                                     Click="addNewDrug"
-                                    ></Button>
+                                    >
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Image Source="./img/add.png"                                           
+                                           Margin="0 0 10 0"
+                                           ></Image>
+                                    <Label
+                                        VerticalAlignment="Center"
+                                        Content="Add New" 
+                                        ></Label>
+                                </StackPanel>
+                            </Button>
                             <DataGrid Name="drugLedgerPT" Margin="10" ItemsSource="{Binding productListDT}"
                                       AutoGenerateColumns="False"
                                       SelectionUnit="FullRow" 
@@ -417,7 +462,14 @@
                                             <DataTemplate>
                                                 <Button 
                                                     Click="viewEntry"
-                                                    >View</Button>
+                                                    >
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label 
+                                                            Content="View"
+                                                            ></Label>
+                                                        <Image Source="./img/view.png" Height="30" Width="30"></Image>
+                                                    </StackPanel>
+                                                </Button>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
@@ -426,7 +478,14 @@
                                             <DataTemplate>
                                                 <Button 
                                                     Click="updateEntry"
-                                                    >Update</Button>
+                                                    >
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label 
+                                                            Content="update"
+                                                            ></Label>
+                                                        <Image Source="./img/save.png" Height="30" Width="30"></Image>
+                                                    </StackPanel>
+                                                </Button>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
@@ -440,7 +499,14 @@
                                     <DataGridTemplateColumn Header="Delete">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Button Click="deleteEntry">Delete</Button>
+                                                <Button Click="deleteEntry">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Label 
+                                                            Content="Delete"
+                                                            ></Label>
+                                                        <Image Source="./img/delete.png" Height="30" Width="30"></Image>
+                                                    </StackPanel>
+                                                </Button>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
@@ -449,10 +515,17 @@
                         </StackPanel>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Stocks"
+                <TabItem 
                      Height="40"
                      Name="stockstab"
-                     >
+                     >                    
+                    <!--Header="Stocks"-->
+                        <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">                            
+                            <Image Source="./img/stocks.png" Height="30"></Image>
+                            <Label Content="Stocks"></Label>
+                        </StackPanel>
+                        </TabItem.Header>                    
                     <Grid Background="#FFE5E5E5">
                         <StackPanel>
                             <DockPanel VerticalAlignment="Top">
@@ -607,10 +680,17 @@
                         </StackPanel>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Customers"
+                <TabItem 
                      Height="40"
                      Name="customertab"
                      >
+                    <!--Header="Customers"-->
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="./img/customers.png" Height="30"></Image>
+                            <Label Content="Customers"></Label>
+                        </StackPanel>
+                    </TabItem.Header>
                     <Grid Background="#FFE5E5E5"/>
                 </TabItem>
             </TabControl>
