@@ -11,19 +11,41 @@
         >
     <Grid>
         <StackPanel>
-
+            <DockPanel HorizontalAlignment="Center">
+                <Image Source="./img/stop.png" 
+                       Width="80" 
+                       Margin="0 40 0 0"
+                       HorizontalAlignment="Center"
+                       ></Image>
             <Label Content="Are You Sure?" 
                HorizontalAlignment="Center" VerticalAlignment="Center" 
-               Margin="0 80 0 0"
+               Margin="0 40 0 0"
                FontSize="18"
                ></Label>
+            </DockPanel>
             <DockPanel Margin="20,0,0,0">
-                <Button Name="Yes" Content="Yes" Click="yesClick" Margin="40"
-                    Width="60"
-                    Height="40"></Button>
-                <Button Name ="No" Content="No" Click="noClick" Margin="40"
-                    Width="60"
-                    Height="40"></Button>
+                        <!--Content="Yes"--> 
+                <Button Name="Yes" 
+                        Click="yesClick" Margin="40"
+                        Width="80"
+                        Height="40"
+                        >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="./img/yes.png" Width="40"></Image>
+                        <Label Content="Yes"></Label>
+                    </StackPanel>
+                </Button>
+                <Button Name ="No"                         
+                        Click="noClick"
+                        Margin="40"
+                        Width="80"
+                        Height="40"
+                        >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="./img/no.png" Width="40"></Image>
+                        <Label Content="No"></Label>
+                    </StackPanel>
+                </Button>
             </DockPanel>
         </StackPanel>
     </Grid>
