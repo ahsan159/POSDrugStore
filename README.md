@@ -51,3 +51,5 @@ App is almost ready. Time for reintegration with license manager software. which
 Updated viewDrug window.
 ## 28-Aug-2023
 Added images to tab items and drug views.
+## 31-Aug-2023
+Created XML report generator. Prepared initial XSLT. Report generator testing.

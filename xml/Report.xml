@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="report.xsl"?>
+<ReceiptData>
+  <Data>
+    <user>ahsan</user>
+    <InvoiceNo>Invoice_20230831091838_44</InvoiceNo>
+    <Customer>Taha</Customer>
+    <Checkout>8/31/2023 12:00:00 AM 11:23:46</Checkout>
+    <GrandTotal>3300</GrandTotal>
+    <Payment>3500</Payment>
+    <Balance>200</Balance>
+  </Data>
+  <Drug>
+    <Sr>1</Sr>
+    <Name>CaC</Name>
+    <Quantity>1</Quantity>
+    <Disc>0</Disc>
+    <Total>400</Total>
+  </Drug>
+  <Drug>
+    <Sr>2</Sr>
+    <Name>Xaltide</Name>
+    <Quantity>1</Quantity>
+    <Disc>0</Disc>
+    <Total>550</Total>
+  </Drug>
+  <Drug>
+    <Sr>3</Sr>
+    <Name>Revital Multi</Name>
+    <Quantity>2</Quantity>
+    <Disc>0</Disc>
+    <Total>1290</Total>
+  </Drug>
+  <Drug>
+    <Sr>4</Sr>
+    <Name>Clexane</Name>
+    <Quantity>2</Quantity>
+    <Disc>0</Disc>
+    <Total>1060</Total>
+  </Drug>
+</ReceiptData>
