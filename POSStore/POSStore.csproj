@@ -57,4 +57,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XMLReportGenerator\XMLReportGenerator.csproj" />
+  </ItemGroup>
 </Project>

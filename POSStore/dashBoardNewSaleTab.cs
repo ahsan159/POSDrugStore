@@ -271,8 +271,9 @@ namespace POSStore
                     DateTime.Now.ToString("yyyy-MM-dd") + "','" +
                     DateTime.Now.ToString("hh:mm:ss") + "','" +
                     saleTableName + "');";
-                //MessageBox.Show(invoiceString);
+                // MessageBox.Show(invoiceString);
                 dWrap.executeNonQuery(invoiceString);
+                // MessageBox.Show(dWrap.commandStatus +  Environment.NewLine + dWrap.errorMessage);
                 ClearForNewSale();
 
             }

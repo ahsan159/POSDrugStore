@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "registryTest", "registryTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "loginWindow", "loginWindow\loginWindow.csproj", "{6DDD07FE-E794-46DB-BEBD-4B299C6E1E48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataWrapper", "DataWrapper\DataWrapper.csproj", "{BE1E062D-FA75-4E48-B240-A0D9A10C97B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLReportGenerator", "XMLReportGenerator\XMLReportGenerator.csproj", "{1372FB86-F1BD-41A6-87D9-9C4E9F6436C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,5 +64,13 @@ Global
 		{6DDD07FE-E794-46DB-BEBD-4B299C6E1E48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DDD07FE-E794-46DB-BEBD-4B299C6E1E48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DDD07FE-E794-46DB-BEBD-4B299C6E1E48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE1E062D-FA75-4E48-B240-A0D9A10C97B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE1E062D-FA75-4E48-B240-A0D9A10C97B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE1E062D-FA75-4E48-B240-A0D9A10C97B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE1E062D-FA75-4E48-B240-A0D9A10C97B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1372FB86-F1BD-41A6-87D9-9C4E9F6436C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1372FB86-F1BD-41A6-87D9-9C4E9F6436C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1372FB86-F1BD-41A6-87D9-9C4E9F6436C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1372FB86-F1BD-41A6-87D9-9C4E9F6436C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

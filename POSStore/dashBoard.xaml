@@ -690,7 +690,7 @@
                             ></DataGridTextColumn>
                                     <DataGridTextColumn
                             Header="Added By"
-                            Binding="{Binding User}"
+                            Binding="{Binding Username}"
                             IsReadOnly="True"
                             ></DataGridTextColumn>
                                 </DataGrid.Columns> 

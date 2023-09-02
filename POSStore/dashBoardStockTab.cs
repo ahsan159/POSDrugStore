@@ -97,7 +97,7 @@ namespace POSStore
                     if (Wrap.commandStatus != "Success")
                     {
                         MessageBox.Show(Wrap.errorMessage + Environment.NewLine +
-                            Wrap.commandStatus);
+                            query);
                     }
                 }
             }

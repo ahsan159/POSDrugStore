@@ -99,7 +99,7 @@ namespace POSStore
             pBtn.Content = "Products" + Environment.NewLine + "(" + drugCount.ToString() + ")";
             int stockCount = wrap.itemCount("stockTable");
             stockBtn.Content = "Stocks " + Environment.NewLine + "(" + stockCount.ToString() + ")";
-            int saleCount = wrap.itemCount("mainLedger");
+            int saleCount = wrap.itemCount("invoiceLedger");
             saleBtn.Content = "Sales " + Environment.NewLine + "(" + saleCount.ToString() + ")";
             int customerCount = 0;
             cBtn.Content = "Customer " + Environment.NewLine + "(" + customerCount.ToString() + ")";
