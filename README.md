@@ -53,3 +53,5 @@ Updated viewDrug window.
 Added images to tab items and drug views.
 ## 31-Aug-2023
 Created XML report generator. Prepared initial XSLT. Report generator testing.
+## 7-Sep-2023
+Windows installer project is almost complete. Installation class libraries for setup are required to be created for registry and sql server scripts running rest is all well. 
