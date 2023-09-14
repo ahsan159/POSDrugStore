@@ -53,6 +53,9 @@ namespace POSStore
 
             // for new sale
             initializeNewSale();
+
+            // for cutomer tab initialization
+            updateCustomerTable();
         }        
         private void closeWindow(object sender, RoutedEventArgs evt)
         {

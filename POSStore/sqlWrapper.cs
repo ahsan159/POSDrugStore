@@ -20,8 +20,8 @@ namespace POSStore
 {
     class sqlWrapper
     {
-        // public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
-        public string connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";        
+        public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
+        // public string connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";        
         public string lastCommand { get; set; }
         public string commandType { get; set; }
         public string commandStatus { get; set; }
@@ -101,6 +101,10 @@ namespace POSStore
             string countString = dt.Rows[0].ItemArray[0].ToString();
             count = int.Parse(countString);
             return count;
+        }
+        public DataTable getCustumerData()
+        {
+            return executeBasicQuery("Select Customer,Contact from invoiceLedger where len(Customer)>0;");
         }
         public void executeNonQuery(string commandString)
         {

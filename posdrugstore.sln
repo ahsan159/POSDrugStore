@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataWrapper", "DataWrapper\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLReportGenerator", "XMLReportGenerator\XMLReportGenerator.csproj", "{1372FB86-F1BD-41A6-87D9-9C4E9F6436C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "setupEnvironment", "setupEnvironment\setupEnvironment.csproj", "{033ECF31-09CC-4C68-9694-5F266F3A61C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,5 +74,9 @@ Global
 		{1372FB86-F1BD-41A6-87D9-9C4E9F6436C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1372FB86-F1BD-41A6-87D9-9C4E9F6436C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1372FB86-F1BD-41A6-87D9-9C4E9F6436C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{033ECF31-09CC-4C68-9694-5F266F3A61C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{033ECF31-09CC-4C68-9694-5F266F3A61C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{033ECF31-09CC-4C68-9694-5F266F3A61C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{033ECF31-09CC-4C68-9694-5F266F3A61C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

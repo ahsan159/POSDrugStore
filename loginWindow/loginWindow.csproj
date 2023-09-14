@@ -15,5 +15,8 @@
   <HintPath>../registryData/registryData.dll</HintPath>
   </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\setupEnvironment\setupEnvironment.csproj" />
+  </ItemGroup>
 
 </Project>
