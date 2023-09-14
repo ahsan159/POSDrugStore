@@ -19,4 +19,69 @@
     <ProjectReference Include="..\setupEnvironment\setupEnvironment.csproj" />
   </ItemGroup>
 
+ <ItemGroup>
+    <None Remove="img\add.png" />
+    <None Remove="img\checkout.png" />
+    <None Remove="img\customers.png" />
+    <None Remove="img\dashboard.png" />
+    <None Remove="img\delete.png" />
+    <None Remove="img\newSalesTab.png" />
+    <None Remove="img\no.png" />
+    <None Remove="img\products.png" />
+    <None Remove="img\RX.png" />
+    <None Remove="img\salesTab.png" />
+    <None Remove="img\save.png" />
+    <None Remove="img\stocks.png" />
+    <None Remove="img\stop.png" />
+    <None Remove="img\view.png" />
+    <None Remove="img\yes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\add.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\checkout.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\customers.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\dashboard.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\delete.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\newSalesTab.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\no.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\products.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\RX.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\salesTab.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\save.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\stocks.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\stop.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\view.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\yes.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  
 </Project>

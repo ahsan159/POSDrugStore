@@ -89,16 +89,17 @@
                     </TabItem.Header>
                     <Grid Background="#FFE5E5E5">
                         <DockPanel VerticalAlignment="Top">
-                            <StackPanel DockPanel.Dock="Top" VerticalAlignment="Top" MinWidth="300" HorizontalAlignment="Left">
+                            <DockPanel VerticalAlignment="Top" DockPanel.Dock="Top">
+                                <StackPanel DockPanel.Dock="Left" VerticalAlignment="Top" MinWidth="300" HorizontalAlignment="Left">
                                 <DockPanel>                                    
-                                <Label Content="Invoice No." Margin="0,10,0,10" HorizontalAlignment="Left"></Label>
-                                <TextBox Name="invoiceNo" 
-                                         HorizontalAlignment="Right" 
-                                         Margin="10,10,10,10" 
-                                         Width="180"                                          
-                                         IsReadOnly="True"
-                                         Text="{Binding nsSaleTableName}"
-                                         ></TextBox>
+                                    <Label Content="Invoice No." Margin="0,10,0,10" HorizontalAlignment="Left"></Label>
+                                    <TextBox Name="invoiceNo" 
+                                             HorizontalAlignment="Right" 
+                                             Margin="10,10,10,10" 
+                                             Width="180"                                          
+                                             IsReadOnly="True"
+                                             Text="{Binding nsSaleTableName}"
+                                             ></TextBox>
                                 </DockPanel>
                                 <DockPanel>
                                     <Label Content="Customer Name:" Margin="0,10,0,10" HorizontalAlignment="Left"></Label>
@@ -118,18 +119,42 @@
                                          Text="{Binding nsCustomerContact}"
                                          ></TextBox>
                                 </DockPanel>
-                            </StackPanel>                          
+                            </StackPanel>
+                                <StackPanel DockPanel.Dock="Right" VerticalAlignment="Top" MinWidth="300" HorizontalAlignment="Right">
+                                    <DockPanel>
+                                        <Label Content="Products" Margin="0,10,0,10" HorizontalAlignment="Left"></Label>
+                                        <TextBox 
+                                            x:Name="newProductEntry"
+                                            HorizontalAlignment="Right" 
+                                            Margin="10,10,10,10" 
+                                            Width="180"                                          
+                                            IsReadOnly="True"                                            
+                                            ></TextBox>
+                                    </DockPanel>
+                                    <DockPanel>
+                                        <Label Content="Quantity" Margin="0,10,0,10" HorizontalAlignment="Left"></Label>
+                                        <TextBox 
+                                            x:Name="newProductQuantity"
+                                            HorizontalAlignment="Right" 
+                                            Margin="10,10,10,10" 
+                                            Width="180"                                          
+                                            IsReadOnly="True"                                            
+                                            ></TextBox>
+                                    </DockPanel>
+                                </StackPanel>
+                            </DockPanel>
                             <DataGrid 
-                                DockPanel.Dock="Left"
-                                HorizontalAlignment="Left"
-                                MinWidth="450"
+                                Margin="10"
+                                DockPanel.Dock="Top"
+                                HorizontalAlignment="Stretch"                                
                                 Name="newSaleDataGrid"
-                                              AutoGenerateColumns="False"
-                                              CanUserSortColumns="False"
-                                              ItemsSource="{Binding}"
-                                              SelectionUnit="FullRow"
-                                              SelectedIndex="{Binding indexSelected}"
-                                              SelectedCellsChanged="newSaleTable_SelectionChanged"                                              
+                                Height="300"
+                                AutoGenerateColumns="False"
+                                CanUserSortColumns="False"
+                                ItemsSource="{Binding}"
+                                SelectionUnit="FullRow"
+                                SelectedIndex="{Binding indexSelected}"
+                                SelectedCellsChanged="newSaleTable_SelectionChanged"                                              
                                         >
                                         <!--SelectionChanged="newSaleTable_SelectionChanged"-->
                                         <DataGrid.Columns>
@@ -168,53 +193,61 @@
                                                                 ></DataGridTextColumn>
                                         </DataGrid.Columns>
                                     </DataGrid>                                                         
-                            <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right" DockPanel.Dock="Right" Width="300">
-                                        <Label Name="drugName" Margin="10,10,10,10" FontSize="24" FontWeight="Bold"
-                                        ></Label>
-                                        <Label Name="drugPrice" Margin="10,10,10,10" FontSize="20" FontWeight="Normal"
-                                        ></Label>
-                                        <Label Name="drugStock" Margin="10,10,10,10" FontSize="20" FontWeight="Normal"
-                                        ></Label>
-                                        <Label Content="Total:" Margin="10,20,10,10" FontSize="20" FontWeight="Bold"></Label>
-                                        <Label Name="totalCost"  Margin="10,10,10,10" FontSize="20" FontWeight="Bold"
-                                        ></Label>
-                                        <DockPanel HorizontalAlignment="Stretch">
-                                            <Label Content="Discount" Margin="10,10,10,10" FontSize="20" FontWeight="Bold"                                                   
-                                                   HorizontalAlignment="Left"
-                                                   ></Label>
-                                            <TextBox Name="discountTotal" Margin="0,10,10,10"  FontSize="20" FontWeight="Bold" MinWidth="140"
-                                                     HorizontalAlignment="Right"                                                     
-                                            KeyDown="paidTotal_KeyDown"
-                                        ></TextBox>
-                                        </DockPanel>
-                                        <DockPanel HorizontalAlignment="Stretch" >
-                                            <Label Content="Paid" Margin="10,10,10,10" FontSize="20" FontWeight="Bold"
-                                                   HorizontalAlignment="Left"
-                                                   ></Label>
-                                            <TextBox Name="paidTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" MinWidth="140"
-                                                     HorizontalAlignment="Right"                                                     
-                                             KeyUp="paidTotal_KeyDown"
-                                        ></TextBox>
-                                            <!-- Text="{Binding nsGrandTotal}"                                      -->
-                                        </DockPanel>
-                                        <DockPanel HorizontalAlignment="Stretch" >
-                                            <Label Content="Balance" Margin="10,10,10,10" FontSize="20" FontWeight="Bold" HorizontalAlignment="Left"></Label>
-                                            <TextBox Name="balanceTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" IsReadOnly="True"
-                                                     MinWidth="140"
-                                                     HorizontalAlignment="Right"
-                                                     ></TextBox>
-                                        </DockPanel>
-                                        <Button x:Name="checkoutBtn" Height="80" 
-                                                Click="checkOut"
-                                                Margin="10 0 10 0"
-                                                >
-                                            <!--Content="Checkout"-->
-                                            <StackPanel Orientation="Vertical">
-                                                <Label Content="Checkout" FontWeight="Normal" FontSize="16"></Label>
-                                                <Image Source="./img/checkout.png" Width="40"/>
-                                            </StackPanel>
-                                        </Button>
-                                    </StackPanel>                                      
+                            <StackPanel 
+                                Orientation="Horizontal" 
+                                VerticalAlignment="Bottom" 
+                                HorizontalAlignment="Stretch" 
+                                DockPanel.Dock="Bottom" >
+                                <DockPanel Visibility="Collapsed">
+                                    <Label Name="drugName" Margin="10,10,10,10" FontSize="24" FontWeight="Bold"
+                                    ></Label>
+                                    <Label Name="drugPrice" Margin="10,10,10,10" FontSize="20" FontWeight="Normal"
+                                    ></Label>
+                                    <Label Name="drugStock" Margin="10,10,10,10" FontSize="20" FontWeight="Normal"
+                                    ></Label>
+                                    <Label Content="Total:" Margin="10,20,10,10" FontSize="20" FontWeight="Bold"></Label>
+                                    <Label Name="totalCost"  Margin="10,10,10,10" FontSize="20" FontWeight="Bold"
+                                    ></Label>
+                                </DockPanel>
+                                <DockPanel HorizontalAlignment="Stretch">
+                                        <Label Content="Discount" Margin="10,10,10,10" FontSize="20" FontWeight="Bold"                                                   
+                                                HorizontalAlignment="Left"
+                                                ></Label>
+                                        <TextBox Name="discountTotal" Margin="0,10,10,10"  FontSize="20" FontWeight="Bold" MinWidth="140"
+                                                    HorizontalAlignment="Right"                                                     
+                                        KeyDown="paidTotal_KeyDown"
+                                    ></TextBox>
+                                    </DockPanel>
+                                    <DockPanel HorizontalAlignment="Stretch" >
+                                        <Label Content="Paid" Margin="10,10,10,10" FontSize="20" FontWeight="Bold"
+                                                HorizontalAlignment="Left"
+                                                ></Label>
+                                        <TextBox Name="paidTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" MinWidth="140"
+                                                    HorizontalAlignment="Right"                                                     
+                                            KeyUp="paidTotal_KeyDown"
+                                    ></TextBox>
+                                        <!-- Text="{Binding nsGrandTotal}"                                      -->
+                                    </DockPanel>
+                                    <DockPanel HorizontalAlignment="Stretch" >
+                                        <Label Content="Balance" Margin="10,10,10,10" FontSize="20" FontWeight="Bold" HorizontalAlignment="Left"></Label>
+                                        <TextBox Name="balanceTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" IsReadOnly="True"
+                                                    MinWidth="140"
+                                                    HorizontalAlignment="Right"
+                                                    ></TextBox>
+                                    </DockPanel>
+                                <DockPanel>
+                                    <Button x:Name="checkoutBtn" Height="80" HorizontalAlignment="Stretch"
+                                            Click="checkOut"
+                                            Margin="10 0 10 0"
+                                            >
+                                        <!--Content="Checkout"-->
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+                                            <Label Content="Checkout" FontWeight="Normal" FontSize="16"></Label>
+                                            <Image Source="./img/checkout.png" Width="40"/>
+                                        </StackPanel>
+                                    </Button>
+                                </DockPanel>
+                            </StackPanel>                                      
                         </DockPanel>
                     </Grid>
                 </TabItem>

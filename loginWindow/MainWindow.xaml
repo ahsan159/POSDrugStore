@@ -8,10 +8,21 @@
         WindowState="Normal"        
         WindowStyle="SingleBorderWindow"
         ResizeMode="NoResize"        
-        Title="Companion POS Login" Height="350" Width="450">
+        Title="Companion POS Login" Height="380" Width="450">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Label Content="Companion POS" HorizontalAlignment="Center"></Label>
+                        <Label DockPanel.Dock="Top" 
+                   FontSize="32" FontWeight="Bold"
+                   VerticalAlignment="Top" HorizontalAlignment="Center"
+                   >
+                   <!--Margin="10"-->
+                <StackPanel Orientation="Horizontal">
+                    <Image Source=".\img\RX.png" Height="60"></Image>
+                    <Label
+                    Content="Companion POS" 
+                        ></Label>
+                </StackPanel>
+            </Label>
                      <!--Text="{Binding username}"-->
             <TextBox ToolTip="Username"
                      Width="240" 
