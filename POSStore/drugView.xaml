@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        Title="Companion POS: Drug View" Height="600" Width="400"
+        Title="Companion POS: Drug View" Height="600" Width="450"
         Icon="./img/RX.png"
         >
     <Grid Background="Azure">

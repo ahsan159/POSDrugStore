@@ -8,6 +8,7 @@
         WindowState="Normal"        
         WindowStyle="SingleBorderWindow"
         ResizeMode="NoResize"        
+        WindowStartupLocation="CenterScreen"
         Title="Companion POS Login" Height="380" Width="450">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
