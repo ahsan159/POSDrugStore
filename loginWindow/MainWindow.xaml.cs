@@ -23,11 +23,47 @@ namespace loginWindow
     {
         sqlWrapper sWrap = sqlWrapper.getInstance();
         registryData.registryDataClass reg = new registryData.registryDataClass();
-        string? exeLocation;
+        string exeLocation;
         public MainWindow()
         {
             InitializeComponent();            
+            if(reg.firstRun())
+            {
+                MessageBox.Show("Your Application is running for first Time");
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                string exeName = @"..\setup\setupEnvironment.exe";
+                //string exeName = @".\setupEnvironment.exe";
+                System.Diagnostics.ProcessStartInfo processStartInfo = new System.Diagnostics.ProcessStartInfo(exeName);
+                processStartInfo.Verb = "runas";
+                processStartInfo.UseShellExecute = true;
+                try
+                {
+                    System.Diagnostics.Process.Start(processStartInfo);
+                    //MessageBox.Show("ReadingDone");                    
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+            }
+            else
+            {
+                //MessageBox.Show("Setup complete");
+            }
             exeLocation = reg.getInstallLocation();
+            // get sql server instances
+            //string baseAddrss = @"SOFTWARE\Microsoft\Microsoft SQL Server\";
+            RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL", false);
+            string str = string.Empty;
+            if (key!=null)
+            {
+                foreach(var keyVal in key.GetValueNames())
+                {                    
+                    str = str + Environment.MachineName + "\\" + keyVal.ToString() + "," + key.GetValue(keyVal.ToString()) + Environment.NewLine ;
+                }
+            }
+            MessageBox.Show(str);
+
 
         }
         private void loginClick(object sender, RoutedEventArgs evt)
@@ -39,7 +75,8 @@ namespace loginWindow
             {
                 if (passwordString == str[0])
                 {
-                    reg.setUser(usernameString, str[1]);                                
+                    reg.setUser(usernameString, str[1]);
+                    exeLocation = @"..\POSStore\POSStore.exe";
                     System.Diagnostics.Process.Start(exeLocation);
                     this.Close();
                 }

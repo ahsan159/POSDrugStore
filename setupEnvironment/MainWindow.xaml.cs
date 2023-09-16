@@ -70,7 +70,11 @@ namespace setupEnvironment
                 string connectionString = "Data Source=.; Integrated Security = True";
                 SqlConnection connection = new SqlConnection(connectionString);
                 connection.Open();
-                SqlCommand cmd = new SqlCommand("create database CPOSDB;", connection);
+                string cmdStr = @"if not exists(select name  from sys.databases where name ='DSPOS'                                  
+                                  begin
+                                  create database DSPOS;                                  
+                                  end";
+                SqlCommand cmd = new SqlCommand(cmdStr, connection);
                 cmd.ExecuteNonQuery();
                 connection.Close();
                 return true;
