@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:POSStore"
         mc:Ignorable="d"
-        Title="Companion POS" Height="750" Width="800">
+        Title="Companion POS" Height="750" Width="1050">
     <Grid>
         <Viewbox Stretch="Fill" StretchDirection="Both"></Viewbox>
         <DockPanel>
@@ -13,7 +13,7 @@
                    FontSize="32" FontWeight="Bold"
                    VerticalAlignment="Top" HorizontalAlignment="Center"
                    >
-                   <!--Margin="10"-->
+                <!--Margin="10"-->
                 <StackPanel Orientation="Horizontal">
                     <Image Source="./img/RX.png" Height="60"></Image>
                     <Label
@@ -29,7 +29,7 @@
                      Height="40"                     
                      GotFocus="dashBoardOpen"
                      Name="dashboardtab"
-                     >                    
+                     >
                     <!--Header="Dash Board"-->
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
@@ -91,45 +91,46 @@
                         <DockPanel VerticalAlignment="Top">
                             <DockPanel VerticalAlignment="Top" DockPanel.Dock="Top">
                                 <StackPanel DockPanel.Dock="Left" VerticalAlignment="Top" MinWidth="300" HorizontalAlignment="Left">
-                                <DockPanel>                                    
-                                    <Label Content="Invoice No." Margin="0,10,0,10" HorizontalAlignment="Left"></Label>
-                                    <TextBox Name="invoiceNo" 
+                                    <DockPanel>
+                                        <Label Content="Invoice No." Margin="0,10,0,10" HorizontalAlignment="Left"></Label>
+                                        <TextBox Name="invoiceNo" 
                                              HorizontalAlignment="Right" 
                                              Margin="10,10,10,10" 
                                              Width="180"                                          
                                              IsReadOnly="True"
                                              Text="{Binding nsSaleTableName}"
                                              ></TextBox>
-                                </DockPanel>
-                                <DockPanel>
-                                    <Label Content="Customer Name:" Margin="0,10,0,10" HorizontalAlignment="Left"></Label>
-                                    <TextBox Name="customerName" 
+                                    </DockPanel>
+                                    <DockPanel>
+                                        <Label Content="Customer Name:" Margin="0,10,0,10" HorizontalAlignment="Left"></Label>
+                                        <TextBox Name="customerName" 
                                          Margin="10,10,10,10" 
                                          Width="180"                                          
                                          HorizontalAlignment="Right" 
                                          Text="{Binding nsCustomerName}"
                                         ></TextBox>
-                                </DockPanel>
-                                <DockPanel>
-                                <Label Content="Contact:" Margin="0,10,0,10" HorizontalAlignment="Left"></Label>
-                                <TextBox Name="contactNo" 
+                                    </DockPanel>
+                                    <DockPanel>
+                                        <Label Content="Contact:" Margin="0,10,0,10" HorizontalAlignment="Left"></Label>
+                                        <TextBox Name="contactNo" 
                                          Margin="10,10,10,10" 
                                          Width="180"
                                          HorizontalAlignment="Right" 
                                          Text="{Binding nsCustomerContact}"
                                          ></TextBox>
-                                </DockPanel>
-                            </StackPanel>
+                                    </DockPanel>
+                                </StackPanel>
                                 <StackPanel DockPanel.Dock="Right" VerticalAlignment="Top" MinWidth="300" HorizontalAlignment="Right">
                                     <DockPanel>
                                         <Label Content="Products" Margin="0,10,0,10" HorizontalAlignment="Left"></Label>
-                                        <TextBox 
+                                        <ComboBox 
                                             x:Name="newProductEntry"
                                             HorizontalAlignment="Right" 
                                             Margin="10,10,10,10" 
                                             Width="180"                                          
-                                            IsReadOnly="True"                                            
-                                            ></TextBox>
+                                            IsEditable="True"
+                                            ItemsSource="{Binding drugListComboItems}"                                            
+                                            ></ComboBox>
                                     </DockPanel>
                                     <DockPanel>
                                         <Label Content="Quantity" Margin="0,10,0,10" HorizontalAlignment="Left"></Label>
@@ -156,45 +157,44 @@
                                 SelectedIndex="{Binding indexSelected}"
                                 SelectedCellsChanged="newSaleTable_SelectionChanged"                                              
                                         >
-                                        <!--SelectionChanged="newSaleTable_SelectionChanged"-->
-                                        <DataGrid.Columns>
-                                            <DataGridComboBoxColumn Header="Product"        
+                                <!--SelectionChanged="newSaleTable_SelectionChanged"-->
+                                <DataGrid.Columns>
+                                    <DataGridComboBoxColumn Header="Product"        
                                                                     SelectedItemBinding="{Binding selectedProduct}"
                                                                 >
-                                                <DataGridComboBoxColumn.EditingElementStyle>
-                                                    <Style TargetType="ComboBox">
-                                                        <EventSetter Event="GotFocus" Handler="comboFocused"></EventSetter>
-                                                        <EventSetter Event="SelectionChanged" Handler="comboSelected"></EventSetter>
-                                                        <Setter Property="SelectedIndex" Value="{Binding selectedComboIndex}"></Setter>
-                                                        <Setter Property="IsEditable" Value="True"></Setter>
-                                                    </Style>
-                                                </DataGridComboBoxColumn.EditingElementStyle>
-                                            </DataGridComboBoxColumn>
-                                            <DataGridTextColumn Header="Quantity"
+                                        <DataGridComboBoxColumn.EditingElementStyle>
+                                            <Style TargetType="ComboBox">
+                                                <EventSetter Event="GotFocus" Handler="comboFocused"></EventSetter>
+                                                <EventSetter Event="SelectionChanged" Handler="comboSelected"></EventSetter>
+                                                <Setter Property="SelectedIndex" Value="{Binding selectedComboIndex}"></Setter>
+                                                <Setter Property="IsEditable" Value="True"></Setter>
+                                            </Style>
+                                        </DataGridComboBoxColumn.EditingElementStyle>
+                                    </DataGridComboBoxColumn>
+                                    <DataGridTextColumn Header="Quantity"
                                                                 Binding="{Binding Quantity}"
                                                                 ></DataGridTextColumn>
-                                            <DataGridTextColumn Header="Price"
+                                    <DataGridTextColumn Header="Price"
                                                                 Binding="{Binding Price}"
                                                                 IsReadOnly="True"
                                                                 ></DataGridTextColumn>
-                                            <DataGridTextColumn Header="Discount(%)"
+                                    <DataGridTextColumn Header="Discount(%)"
                                                                 Binding="{Binding Discount100}"
                                                                 ></DataGridTextColumn>
-                                            <DataGridTextColumn Header="Discount"
+                                    <DataGridTextColumn Header="Discount"
                                                                 Binding="{Binding Discount}"
                                                                 ></DataGridTextColumn>
-                                            <DataGridTextColumn Header="Sale Tax"
+                                    <DataGridTextColumn Header="Sale Tax"
                                                                 Binding="{Binding SaleTax}"
                                                                 IsReadOnly="True"
                                                                 ></DataGridTextColumn>
-                                            <DataGridTextColumn Header="Total"
+                                    <DataGridTextColumn Header="Total"
                                                                 IsReadOnly="True"
                                                                 Binding="{Binding Total}"
                                                                 ></DataGridTextColumn>
-                                        </DataGrid.Columns>
-                                    </DataGrid>                                                         
-                            <StackPanel 
-                                Orientation="Horizontal" 
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <DockPanel                                
                                 VerticalAlignment="Bottom" 
                                 HorizontalAlignment="Stretch" 
                                 DockPanel.Dock="Bottom" >
@@ -210,33 +210,33 @@
                                     ></Label>
                                 </DockPanel>
                                 <DockPanel HorizontalAlignment="Stretch">
-                                        <Label Content="Discount" Margin="10,10,10,10" FontSize="20" FontWeight="Bold"                                                   
+                                    <Label Content="Discount" Margin="10,10,10,10" FontSize="20" FontWeight="Bold"                                                   
                                                 HorizontalAlignment="Left"
                                                 ></Label>
-                                        <TextBox Name="discountTotal" Margin="0,10,10,10"  FontSize="20" FontWeight="Bold" MinWidth="140"
+                                    <TextBox Name="discountTotal" Margin="0,10,10,10"  FontSize="20" FontWeight="Bold" MinWidth="140"
                                                     HorizontalAlignment="Right"                                                     
                                         KeyDown="paidTotal_KeyDown"
                                     ></TextBox>
-                                    </DockPanel>
-                                    <DockPanel HorizontalAlignment="Stretch" >
-                                        <Label Content="Paid" Margin="10,10,10,10" FontSize="20" FontWeight="Bold"
+                                </DockPanel>
+                                <DockPanel HorizontalAlignment="Stretch" >
+                                    <Label Content="Paid" Margin="10,10,10,10" FontSize="20" FontWeight="Bold"
                                                 HorizontalAlignment="Left"
                                                 ></Label>
-                                        <TextBox Name="paidTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" MinWidth="140"
+                                    <TextBox Name="paidTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" MinWidth="140"
                                                     HorizontalAlignment="Right"                                                     
                                             KeyUp="paidTotal_KeyDown"
                                     ></TextBox>
-                                        <!-- Text="{Binding nsGrandTotal}"                                      -->
-                                    </DockPanel>
-                                    <DockPanel HorizontalAlignment="Stretch" >
-                                        <Label Content="Balance" Margin="10,10,10,10" FontSize="20" FontWeight="Bold" HorizontalAlignment="Left"></Label>
-                                        <TextBox Name="balanceTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" IsReadOnly="True"
+                                    <!-- Text="{Binding nsGrandTotal}"                                      -->
+                                </DockPanel>
+                                <DockPanel HorizontalAlignment="Stretch" >
+                                    <Label Content="Balance" Margin="10,10,10,10" FontSize="20" FontWeight="Bold" HorizontalAlignment="Left"></Label>
+                                    <TextBox Name="balanceTotal" Margin="10,10,10,10"  FontSize="20" FontWeight="Bold" IsReadOnly="True"
                                                     MinWidth="140"
                                                     HorizontalAlignment="Right"
                                                     ></TextBox>
-                                    </DockPanel>
-                                <DockPanel>
-                                    <Button x:Name="checkoutBtn" Height="80" HorizontalAlignment="Stretch"
+                                </DockPanel>
+                                <DockPanel HorizontalAlignment="Stretch">
+                                    <Button x:Name="checkoutBtn" Height="80" HorizontalAlignment="Stretch" 
                                             Click="checkOut"
                                             Margin="10 0 10 0"
                                             >
@@ -247,7 +247,7 @@
                                         </StackPanel>
                                     </Button>
                                 </DockPanel>
-                            </StackPanel>                                      
+                            </DockPanel>
                         </DockPanel>
                     </Grid>
                 </TabItem>
@@ -267,16 +267,20 @@
                             <ColumnDefinition Width="auto"></ColumnDefinition>
                             <ColumnDefinition Width="auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <StackPanel Margin="10,10,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="0">
-                            <DockPanel Margin="10,10,10,10">
+                        <DockPanel Margin="10,10,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="0">
+                            <DockPanel Margin="10,10,10,10" DockPanel.Dock="Top">
                                 <Label Content="Start Date"></Label>
                                 <DatePicker Name="startDatesaleTab" CalendarClosed="calenderDateChanged"></DatePicker>
                             </DockPanel>
-                            <DockPanel Margin="10,10,10,10">
+                            <DockPanel Margin="10,10,10,10" DockPanel.Dock="Top">
                                 <Label Content="End Date"></Label>
                                 <DatePicker Name="endDatesaleTab" CalendarClosed="calenderDateChanged"></DatePicker>
                             </DockPanel>
-                            <DockPanel>
+                            <DockPanel DockPanel.Dock="Top">
+                                <Label Content="Total Sales: "    ></Label>
+                                <TextBox Name="totalSalesaleTab" Margin="10,10,10,10"></TextBox>
+                            </DockPanel>
+                            <DockPanel DockPanel.Dock="Top" Margin="0 0 10 10">
                                 <DataGrid
                                     Name ="invoiceTablesaleTab"
                                     DockPanel.Dock="Top"
@@ -287,8 +291,7 @@
                                     SelectedIndex="{Binding selectedInvoiceIndex}"
                                     SelectedCellsChanged="invoiceTable_SelectedCellsChanged"
                                     CanUserSortColumns="False"
-                                    VerticalScrollBarVisibility="Visible"
-                                    Height="200"
+                                    VerticalScrollBarVisibility="Visible"                                    
                                     >
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Invoice" Binding="{Binding Invoice}"></DataGridTextColumn>
@@ -306,11 +309,7 @@
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </DockPanel>
-                            <DockPanel>
-                                <Label Content="Total Sales: "    ></Label>
-                                <TextBox Name="totalSalesaleTab" Margin="10,10,10,10"></TextBox>
-                            </DockPanel>
-                        </StackPanel>
+                        </DockPanel>
                         <DockPanel Grid.Column="1" 
                                    VerticalAlignment="Top"
                                    HorizontalAlignment="Stretch">
@@ -472,14 +471,14 @@
                 <TabItem 
                      Height="40"
                      Name="stockstab"
-                     >                    
+                     >
                     <!--Header="Stocks"-->
-                        <TabItem.Header>
-                        <StackPanel Orientation="Horizontal">                            
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
                             <Image Source="./img/stocks.png" Height="30"></Image>
                             <Label Content="Stocks"></Label>
                         </StackPanel>
-                        </TabItem.Header>                    
+                    </TabItem.Header>
                     <Grid Background="#FFE5E5E5">
                         <StackPanel>
                             <DockPanel VerticalAlignment="Top">
@@ -629,7 +628,7 @@
                             Binding="{Binding User}"
                             IsReadOnly="True"
                             ></DataGridTextColumn>
-                                </DataGrid.Columns> 
+                                </DataGrid.Columns>
                             </DataGrid>
                         </StackPanel>
                     </Grid>
@@ -654,18 +653,18 @@
                                 AutoGenerateColumns="False"
                                 IsReadOnly="True"
                                 >
-                                <DataGrid.Columns>                                    
+                                <DataGrid.Columns>
                                     <DataGridTextColumn
                                         Header="Customer Name"
                                         Binding="{Binding Customer}"
-                                        >                                        
+                                        >
                                     </DataGridTextColumn>
                                     <DataGridTextColumn
                                         Header="Customer Contact"
                                         Binding="{Binding Contact}"
-                                        >                                        
+                                        >
                                     </DataGridTextColumn>
-                                </DataGrid.Columns>                                
+                                </DataGrid.Columns>
                             </DataGrid>
                         </DockPanel>
                     </Grid>
