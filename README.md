@@ -1,5 +1,16 @@
 # POSDrugStore
 Point of Sale for drug/medical store
+# INSTRUCTIONS
+software requires Microsoft SQL Server 2012 and .net 6.0 Runtime
+1) SQL SERVER: https://download.microsoft.com/download/F/6/7/F673709C-D371-4A64-8BF9-C1DD73F60990/ENU/x64/SQLEXPR_x64_ENU.exe
+2) .net 6.0: https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.22-windows-x64-installer
+
+1. start microsoft powershell in the main folder apply command
+dotnet build
+2. run the exe 
+F:\cswork\drugStore\POSDrugStore\CPOS\login\loginWindow.exe
+
+# WORK LOG
 ## 22-jun-2023
 Created the basic drug class and reused persons class from previous project
 ## 27-Jun-2023
@@ -55,3 +66,5 @@ Added images to tab items and drug views.
 Created XML report generator. Prepared initial XSLT. Report generator testing.
 ## 7-Sep-2023
 Windows installer project is almost complete. Installation class libraries for setup are required to be created for registry and sql server scripts running rest is all well. 
+## 16-Sep-2023
+Made small changes in *.csproj files to update the output and software assembly
