@@ -6,7 +6,7 @@
   <?define ProductCode = {C1002D7B-5674-49DF-868B-80FA278102E3}?>
   <?endif?>
   
-  <?define BuildVersion=1.0.0.0?>
+  <!--<?define BuildVersion=1.0.0.0?>-->
   
   
   
@@ -33,7 +33,7 @@
     <Icon Id="CPOS.ico" SourceFile="$(var.POSStore.ProjectDir)\CPOS.ico"/>
 
     <!--connect product icon by id-->
-    <Property Id="APPPRODUCTICON">CPOS.ico</Property>
+    <Property Id="ARPPRODUCTICON">CPOS.ico</Property>
     
     <!--built in UI activation-->
     <UIRef Id="WixUI_Minimal"/>
@@ -43,7 +43,8 @@
 		<WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\Assets\lic.rtf"/>
     
 		<Feature Id="ProductFeature" Title="CompanionPOS_Installer" Level="1">
-			<ComponentGroupRef Id="ProductComponents" />      
+			<ComponentGroupRef Id="ProductComponents" />
+			<ComponentGroupRef Id="PublishedComponents"/>
 		</Feature>
 	</Product>
 

@@ -10,7 +10,15 @@
 			
 			<!--for every single file to be copied to INSTALLFOLDER these 3 lines below are required :p-->
 			<Component Id="TestFile" Guid="{91A0AFEB-C49E-44C1-B907-0D00A9836D66}" >
-				<File Id="fileTestFile" Name="POSStore.exe" KeyPath="yes"></File>
+				<!--<File Id="fileTestFile" Name="POSStore.exe" KeyPath="yes"></File>-->
+				<Shortcut Id="TestFile"
+						  Name="CPOS.exe"
+						  Target="[INSTALLFOLDER]POSStore.exe"
+						  Directory="InstallProgramFolderMenu"
+						  WorkingDirectory="INSTALLFOLDER"
+						  Icon="CPOS.ico"
+						  ></Shortcut>
+				<RegistryValue Id="RegShortcutKey" Root="HKCU" Key="SOFTWARE\CompanionPOS" Name="Shortcut" Value="1" Type="integer" KeyPath="yes"></RegistryValue>
 				<!--wix requirement to remove start menu folder-->
 				<RemoveFolder Id="RemoveStartMenu" Directory="InstallProgramFolderMenu" On="both"/>
 			</Component>
