@@ -108,6 +108,5 @@ namespace POSStore
             cBtn.Content = "Customer " + Environment.NewLine + "(" + customerCount.ToString() + ")";
         }
 
-
     }
 }

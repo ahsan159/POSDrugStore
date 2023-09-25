@@ -69,3 +69,5 @@ Created XML report generator. Prepared initial XSLT. Report generator testing.
 Windows installer project is almost complete. Installation class libraries for setup are required to be created for registry and sql server scripts running rest is all well. 
 ## 16-Sep-2023
 Made small changes in *.csproj files to update the output and software assembly
+## 25-Sep-2023
+Using Wixv3 requires a full project process to make the msi installer. However, I am trying to get along. I can not understand that Wix and VS 2022 has not properly integrated. I can either compile for x64 or x86 and that by changing the wix project file. Tutorial I am following is asking to use "Typora" for creating license agreement files for installation UI display.

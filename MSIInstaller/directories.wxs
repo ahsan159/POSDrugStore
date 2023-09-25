@@ -2,9 +2,21 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
     <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="ProgramFilesFolder">
-        <Directory Id="INSTALLFOLDER" Name="CompanionPOS" />
-      </Directory>
+
+		<Directory Id="ProgramMenuFolder">
+			<Directory Id="InstallProgramFolderMenu" Name="!(loc.ProductNameFolder)"></Directory>
+		</Directory>
+		
+		<?if $(var.Platform)=x64?>
+		<Directory Id="ProgramFiles64Folder">
+			<Directory Id="INSTALLFOLDER" Name="!(loc.ProductNameFolder)" />
+		</Directory>
+		<?else?>
+		<Directory Id="ProgramFilesFolder">
+			<Directory Id="INSTALLFOLDER" Name="!(loc.ProductNameFolder)" />
+		</Directory>
+		<?endif?>
+		<!--Pointing to program files folder-->
     </Directory>
   </Fragment>
 </Wix>

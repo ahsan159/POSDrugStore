@@ -22,7 +22,7 @@ namespace POSStore
     {
         public DataTable newSaleCollection { get; set; } = new DataTable("NewSale");
         string saleTableName = string.Empty;
-        public List<string> drugListComboItems { get; set; } = new List<string>();
+        public List<string?> drugListComboItems { get; set; } = new List<string?>();
         public List<int> drugListComboID { get; set; } = new List<int>();
         public string selectValueBind { get; set; }
         public int indexSelected { get; set; } = 0;
@@ -110,6 +110,7 @@ namespace POSStore
             DataTable dt = dWrap.executeBasicQuery("SELECT DISTINCT(name),id FROM mainLedger");
             drugListComboItems = dt.Rows.Cast<DataRow>().Select(r => r.Field<string>("name")).ToList();
             drugListComboID = dt.Rows.Cast<DataRow>().Select(r => r.Field<int>("id")).ToList();
+            MessageBox.Show(drugListComboItems.Count.ToString(), "Populate", MessageBoxButton.OK);
         }
 
         private void deleteDataRow(object sender, RoutedEventArgs evt)
@@ -273,7 +274,7 @@ namespace POSStore
                     saleTableName + "');";
                 // MessageBox.Show(invoiceString);
                 dWrap.executeNonQuery(invoiceString);
-                // MessageBox.Show(dWrap.commandStatus +  Environment.NewLine + dWrap.errorMessage);
+                //MessageBox.Show(dWrap.commandStatus + Environment.NewLine + dWrap.errorMessage);
                 ClearForNewSale();
 
             }
@@ -298,5 +299,23 @@ namespace POSStore
             invoiceNo.Text = nsSaleTableName;
 
         }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (newSaleTab.IsSelected)
+            {
+                MessageBox.Show("Selecting New Sale Tab");
+                populateDrugListCombo();
+            }
+        }
+
+        private void newProductEntry_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                MessageBox.Show("Enter is pressed");
+            }
+        }
+
     }
 }

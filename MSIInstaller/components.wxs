@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Fragment>
-    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-      <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
-      <!-- <Component Id="ProductComponent"> -->
-      <!-- TODO: Insert files, registry keys, and other resources here. -->
-      <!-- </Component> -->
-    </ComponentGroup>
-  </Fragment>
+	<Fragment>
+		<!--<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">-->
+		<ComponentGroup Id="ProductComponents">
+			<ComponentRef Id="TestFile"></ComponentRef>
+		</ComponentGroup>
+
+		<DirectoryRef Id="INSTALLFOLDER" FileSource="..\CPOS\POSStore\win-$(var.Platform)\publish\">
+			
+			<!--for every single file to be copied to INSTALLFOLDER these 3 lines below are required :p-->
+			<Component Id="TestFile" Guid="{91A0AFEB-C49E-44C1-B907-0D00A9836D66}" >
+				<File Id="fileTestFile" Name="POSStore.exe" KeyPath="yes"></File>
+				<!--wix requirement to remove start menu folder-->
+				<RemoveFolder Id="RemoveStartMenu" Directory="InstallProgramFolderMenu" On="both"/>
+			</Component>
+		</DirectoryRef>
+	</Fragment>
 </Wix>

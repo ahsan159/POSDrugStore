@@ -20,7 +20,7 @@
 		<Package InstallerVersion="200" 
              Compressed="yes" 
              InstallScope="perMachine" 
-             Platforms="$(var.Platform)"
+             Platform="$(var.Platform)"
              Manufacturer="!(loc.Company)"
              Description="!(loc.Description)"
              
@@ -37,6 +37,10 @@
     
     <!--built in UI activation-->
     <UIRef Id="WixUI_Minimal"/>
+		<!--change in installer UI images-->
+		<WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\Assets\Background.bmp"/>
+		<WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\Assets\Banner.bmp"/>
+		<WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\Assets\lic.rtf"/>
     
 		<Feature Id="ProductFeature" Title="CompanionPOS_Installer" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />      
