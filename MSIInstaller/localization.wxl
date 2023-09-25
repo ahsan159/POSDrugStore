@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+
+  <String Id="ProductName_x86">Companion POS (32bit)</String>
+  <String Id="ProductName_x64">Companion POS (64bit)</String>
+  <String Id="Company">Companion Group</String>
+  <String Id="Description">Companion Point of Sale Software</String>
+</WixLocalization>

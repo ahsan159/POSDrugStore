@@ -494,7 +494,7 @@
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Width="360" HorizontalAlignment="Left" Grid.Column="0">
                                     <DockPanel Margin="10,10,10,10">
-                                        <Label Content="Drug Name"s
+                                        <Label Content="Drug Name"
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Left"                           
                                 ></Label>

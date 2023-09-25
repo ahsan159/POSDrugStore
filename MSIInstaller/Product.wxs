@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?if $(var.Platform)=x64?>
+  <?define ProductCode = {471FC1DC-3907-48B5-926A-2DD0E892F936}?>
+  <?else?>
+  <?define ProductCode = {C1002D7B-5674-49DF-868B-80FA278102E3}?>
+  <?endif?>
+  
+  <?define BuildVersion=1.0.0.0?>
+  
+  
+  
+	<Product Id="$(var.ProductCode)" 
+           Name="!(loc.ProductName_$(var.Platform))"
+           Language="1033" Version="$(var.BuildVersion)" 
+           Manufacturer="!(loc.Company)" 
+           UpgradeCode="e6196fbf-887b-46c1-9904-fcfb24a64291">
+    
+    
+		<Package InstallerVersion="200" 
+             Compressed="yes" 
+             InstallScope="perMachine" 
+             Platforms="$(var.Platform)"
+             Manufacturer="!(loc.Company)"
+             Description="!(loc.Description)"
+             
+             />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate 
+      EmbedCab="yes"      
+      />
+    <Icon Id="CPOS.ico" SourceFile="$(var.POSStore.ProjectDir)\CPOS.ico"/>
+
+    <!--connect product icon by id-->
+    <Property Id="APPPRODUCTICON">CPOS.ico</Property>
+    
+    <!--built in UI activation-->
+    <UIRef Id="WixUI_Minimal"/>
+    
+		<Feature Id="ProductFeature" Title="CompanionPOS_Installer" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />      
+		</Feature>
+	</Product>
+
+
+
+
+</Wix>
