@@ -3,7 +3,8 @@ Point of Sale for drug/medical store
 # INSTRUCTIONS
 software requires Microsoft SQL Server 2012 and .net 6.0 Runtime
 1) SQL SERVER: https://download.microsoft.com/download/F/6/7/F673709C-D371-4A64-8BF9-C1DD73F60990/ENU/x64/SQLEXPR_x64_ENU.exe
-2) .net 6.0: https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.22-windows-x64-installer
+2) .net 6.0 (runtime): https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.22-windows-x64-installer
+2) .net 6.0 (sdk): https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-6.0.414-windows-x64-installer
 
 1. start microsoft powershell in the main folder apply command
 dotnet build
