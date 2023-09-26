@@ -45,6 +45,7 @@
 		<Feature Id="ProductFeature" Title="CompanionPOS_Installer" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
 			<ComponentGroupRef Id="PublishedComponents"/>
+			<ComponentGroupRef Id="PublishedComponentsLogin"/>
 		</Feature>
 	</Product>
 

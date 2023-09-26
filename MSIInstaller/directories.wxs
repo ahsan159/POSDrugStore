@@ -9,11 +9,17 @@
 		
 		<?if $(var.Platform)=x64?>
 		<Directory Id="ProgramFiles64Folder">
-			<Directory Id="INSTALLFOLDER" Name="!(loc.ProductNameFolder)" />
+			<Directory Id="INSTALLFOLDER" Name="!(loc.ProductNameFolder)" >
+				<Directory Id="POSStore" Name="POSStore"></Directory>
+				<Directory Id="Login" Name="Login"></Directory>
+			</Directory>
 		</Directory>
 		<?else?>
 		<Directory Id="ProgramFilesFolder">
-			<Directory Id="INSTALLFOLDER" Name="!(loc.ProductNameFolder)" />
+			<Directory Id="INSTALLFOLDER" Name="!(loc.ProductNameFolder)" >
+				<Directory Id="POSStore" Name="POSStore"></Directory>
+				<Directory Id="Login" Name="Login"></Directory>
+			</Directory>
 		</Directory>
 		<?endif?>
 		<!--Pointing to program files folder-->

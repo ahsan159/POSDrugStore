@@ -6,14 +6,14 @@
 			<ComponentRef Id="TestFile"></ComponentRef>
 		</ComponentGroup>
 
-		<DirectoryRef Id="INSTALLFOLDER" FileSource="..\CPOS\POSStore\win-$(var.Platform)\publish\">
+		<DirectoryRef Id="POSStore" FileSource="..\CPOS\POSStore\win-$(var.Platform)\publish\">
 			
 			<!--for every single file to be copied to INSTALLFOLDER these 3 lines below are required :p-->
 			<Component Id="TestFile" Guid="{91A0AFEB-C49E-44C1-B907-0D00A9836D66}" >
 				<!--<File Id="fileTestFile" Name="POSStore.exe" KeyPath="yes"></File>-->
 				<Shortcut Id="TestFile"
 						  Name="CPOS.exe"
-						  Target="[INSTALLFOLDER]POSStore.exe"
+						  Target="[INSTALLFOLDER]\POSStore\POSStore.exe"
 						  Directory="InstallProgramFolderMenu"
 						  WorkingDirectory="INSTALLFOLDER"
 						  Icon="CPOS.ico"
