@@ -24,8 +24,8 @@
             <TabControl DockPanel.Dock="Top" TabStripPlacement="Top" 
                     Margin="10"
                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                        SelectionChanged="TabControl_SelectionChanged"
                     >
+                        <!--SelectionChanged="TabControl_SelectionChanged"-->
                 <TabItem 
                      Height="40"                     
                      GotFocus="dashBoardOpen"

@@ -67,10 +67,10 @@ namespace setupEnvironment
         {
             try
             {
-                string connectionString = "Data Source=.; Integrated Security = True";
+                string connectionString = @"Data Source=.\; Integrated Security = True; Initial Catalog = master;";
                 SqlConnection connection = new SqlConnection(connectionString);
                 connection.Open();
-                string cmdStr = @"if not exists(select name  from sys.databases where name ='DSPOS'                                  
+                string cmdStr = @"if not exists(select name  from sys.databases where name='DSPOS')                                  
                                   begin
                                   create database DSPOS;                                  
                                   end";
@@ -81,18 +81,18 @@ namespace setupEnvironment
             }
             catch(Exception e)
             {
-                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(e.Message, "Error1", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
         }
         private bool generateTables()
         {
-            string connectionString = "Data Source=.; Integrated Security = True; Initial Catalog = CPOSDB;";
+            string connectionString = @"Data Source=.\; Integrated Security = True; Initial Catalog = DSPOS;";
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
             string invoiceLedger = @"CREATE TABLE invoiceLedger
                                     (
-                                        --[Sr] INT IDENTITY(1,1) NOT NULL, 	
+                                        [Sr] INT IDENTITY(1,1) NOT NULL, 	
                                         [Invoice] VARCHAR(50) NOT NULL, 
                                         [UserName] VARCHAR(50) NULL, 
                                         [Customer] VARCHAR(50) NULL, 
@@ -105,7 +105,8 @@ namespace setupEnvironment
 	                                    [PaymentType] VARCHAR(50) NULL, 
 	                                    [DrugCount] INT NULL,
 	                                    [CheckoutDate] DATE NULL,
-	                                    [CheckoutTime] TIME NULL    
+	                                    [CheckoutTime] TIME NULL,
+                                        [DBName] VARCHAR(50) NULL
                                     )";
             SqlCommand cmd1 = new SqlCommand(invoiceLedger, connection);
             cmd1.ExecuteNonQuery();
@@ -161,7 +162,7 @@ namespace setupEnvironment
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(e.Message, "Error2", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
         }

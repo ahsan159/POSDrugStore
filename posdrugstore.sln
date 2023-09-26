@@ -23,6 +23,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "setupEnvironment", "setupEn
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "CompanionPOS_Installer", "MSIInstaller\CompanionPOS_Installer.wixproj", "{2C82937F-5183-4D8A-BBBD-182294ED17CA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{084A28C2-6883-43DB-B393-36029ECBB835}"
+	ProjectSection(SolutionItems) = preProject
+		sqlscripts\checkDB.sql = sqlscripts\checkDB.sql
+		sqlscripts\checkTable.sql = sqlscripts\checkTable.sql
+		sqlscripts\dbo.invoiceLedger.sql = sqlscripts\dbo.invoiceLedger.sql
+		sqlscripts\dbo.mainLedger.sql = sqlscripts\dbo.mainLedger.sql
+		sqlscripts\dbo.Table.sql = sqlscripts\dbo.Table.sql
+		sqlscripts\insertdata.sql = sqlscripts\insertdata.sql
+		sqlscripts\loginTable.sql = sqlscripts\loginTable.sql
+		sqlscripts\select_all.sql = sqlscripts\select_all.sql
+		sqlscripts\stockTable.sql = sqlscripts\stockTable.sql
+		sqlscripts\testTable.sql = sqlscripts\testTable.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
