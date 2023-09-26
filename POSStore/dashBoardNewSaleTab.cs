@@ -110,7 +110,7 @@ namespace POSStore
             DataTable dt = dWrap.executeBasicQuery("SELECT DISTINCT(name),id FROM mainLedger");
             drugListComboItems = dt.Rows.Cast<DataRow>().Select(r => r.Field<string>("name")).ToList();
             drugListComboID = dt.Rows.Cast<DataRow>().Select(r => r.Field<int>("id")).ToList();
-            MessageBox.Show(drugListComboItems.Count.ToString(), "Populate", MessageBoxButton.OK);
+            //MessageBox.Show(drugListComboItems.Count.ToString(), "Populate", MessageBoxButton.OK);
         }
 
         private void deleteDataRow(object sender, RoutedEventArgs evt)
