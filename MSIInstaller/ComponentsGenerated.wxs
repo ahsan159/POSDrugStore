@@ -2,38 +2,38 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="POSStore">
-            <Component Id="cmpB390CD138EA3F8F28243C33AA643362C" Guid="{0E192403-1713-46B2-B8CE-DCD040328956}">
+            <Component Id="cmpB390CD138EA3F8F28243C33AA643362C" Guid="{0351D14A-C6F3-4EE5-8780-F848D2BCA28F}">
                 <File Id="fil167B830630B910EC68ED95CDC73B8317" KeyPath="yes" Source="$(var.BasePath)\DataWrapper.dll" />
             </Component>
-            <Component Id="cmpEEB2EBD9BCEC156880F1284DDE91D530" Guid="{1D2499BB-ADCD-4E6A-90D7-300E5F4D4BFE}">
-                <File Id="fil74F4D16BEFF40EB5DDA168F96B127EBA" KeyPath="yes" Source="$(var.BasePath)\DataWrapper.pdb" />
+            <Component Id="cmpA1DADE033DA086D6F50350CADED089E2" Guid="{C282DD5B-3A9E-44D6-B9B2-4337CED26D5B}">
+                <File Id="filD1DB8A91D1AC9109C52AB454AFA6942E" KeyPath="yes" Source="$(var.BasePath)\DataWrapper.pdb" />
             </Component>
-            <Component Id="cmpCF5269C9DBBED6BBC235E47A31F14A91" Guid="{0EA6CAED-90D3-4B5F-8388-335EBD7E6BA0}">
-                <File Id="fil7F9C54600B57C05C502D740788A8C11B" KeyPath="yes" Source="$(var.BasePath)\POSStore.deps.json" />
+            <Component Id="cmp0C6193128DFDCF67C2EDFFE1FE411796" Guid="{C00866B7-F130-4562-9AA5-6CD57D8ECFAD}">
+                <File Id="fil123BCB4AE7F8B4068EFD6B3B87B93F74" KeyPath="yes" Source="$(var.BasePath)\POSStore.deps.json" />
             </Component>
-            <Component Id="cmp8E02876C3DE8936DAC73AD769F3397EA" Guid="{57FC9C1B-4295-4A41-9808-995430E339A0}">
-                <File Id="fil663253A4CC665C0DA0000E5D2DE0FCFC" KeyPath="yes" Source="$(var.BasePath)\POSStore.dll" />
+            <Component Id="cmp72B786692EF88A61235E73E80FDE4DC4" Guid="{F5C4A377-0BC5-4E3A-80FE-874C83139A90}">
+                <File Id="filB9ED1844A5F459A026FB94F30F3EB553" KeyPath="yes" Source="$(var.BasePath)\POSStore.dll" />
             </Component>
-            <Component Id="cmp7BF6F6BA83FC155497C32AE4B21EFD7C" Guid="{2F6AB957-FD6F-4819-AA85-9CEA4100C066}">
-                <File Id="filD94295CAE26F275499250CB9E6A46FB8" KeyPath="yes" Source="$(var.BasePath)\POSStore.exe" />
+            <Component Id="cmp9ED5873F52A382AFFBBF393B127F5AEB" Guid="{D1BDDC21-45EC-4041-AA67-E1CE8ADCC6A3}">
+                <File Id="filDD49A057959B82C73D7A1237F4D2B3A1" KeyPath="yes" Source="$(var.BasePath)\POSStore.exe" />
             </Component>
-            <Component Id="cmpBBB4FF091DC9FA7EDB19A59A2E0C9BE3" Guid="{A42A3ED6-E4BF-4368-A411-F153215A22F2}">
-                <File Id="fil72D04378FE0D25FB28000B459A7CC3CC" KeyPath="yes" Source="$(var.BasePath)\POSStore.pdb" />
+            <Component Id="cmp23933E3CE783FCE27D79FA80EAC727C0" Guid="{5594031B-15C9-43FC-9E9A-130745AB21E8}">
+                <File Id="fil7DCF11FBA4F0D4CD34982EEB28FA40E1" KeyPath="yes" Source="$(var.BasePath)\POSStore.pdb" />
             </Component>
-            <Component Id="cmp4CEC42FC49E387B1D5B9F0E19CAABC6C" Guid="{D686BBBF-4A6D-44D4-8D99-87AC21684432}">
-                <File Id="fil91870517A54376A0CDF37C9F6236924F" KeyPath="yes" Source="$(var.BasePath)\POSStore.runtimeconfig.json" />
+            <Component Id="cmpD372131F3D2197454CE0640C9C5D83C5" Guid="{6F1250CF-18CB-4255-927B-77CA17B73A72}">
+                <File Id="fil1C4D95C0A11892BC1038ADDF820F37D0" KeyPath="yes" Source="$(var.BasePath)\POSStore.runtimeconfig.json" />
             </Component>
-            <Component Id="cmpE78757BD03463E74652C32CEEAB79A64" Guid="{F89632E2-DEF2-41AC-AC47-7AEF90CCD6A7}">
-                <File Id="fil3D4C95920C2AC75503C11D9296D4B8BB" KeyPath="yes" Source="$(var.BasePath)\sni.dll" />
+            <Component Id="cmp86E320355224528281F6C78452CB8B72" Guid="{9384CF03-4042-4A04-BE15-ADC7B1C0CD11}">
+                <File Id="filF6B84AEF7D37F69F07A1FC4F20583224" KeyPath="yes" Source="$(var.BasePath)\sni.dll" />
             </Component>
-            <Component Id="cmp7FFA1CFB45EDA1442E42E34E1F3DB27E" Guid="{24F33AAA-18C1-47CC-BFB0-64673B3184C9}">
-                <File Id="filEF4B8F9C45AD18CA9F559E7A542D0C98" KeyPath="yes" Source="$(var.BasePath)\System.Data.SqlClient.dll" />
+            <Component Id="cmpE8DB306F64D4EE68557150AA220EF63F" Guid="{2E59F5E0-95B1-4CC7-B7FA-C907A828F56E}">
+                <File Id="fil103955103638FC06D00ECACB511C180F" KeyPath="yes" Source="$(var.BasePath)\System.Data.SqlClient.dll" />
             </Component>
-            <Component Id="cmp9A4D236EA59F3729E46CE4AAEC2B85A5" Guid="{FCFA61E0-949A-4631-8D16-BAF9C78D5284}">
-                <File Id="fil0E2476CF1B6DB446764DE2A9F4ADAFFF" KeyPath="yes" Source="$(var.BasePath)\XMLReportGenerator.dll" />
+            <Component Id="cmp32D69FB6561ED0BD64D8F18829B10663" Guid="{95392789-668E-41EB-B01F-65DC1971AF3D}">
+                <File Id="filC845D905E11856CBCE480E8041867687" KeyPath="yes" Source="$(var.BasePath)\XMLReportGenerator.dll" />
             </Component>
-            <Component Id="cmpEB4C31EEF8B7C4F347E603FE8B98E830" Guid="{AF533098-FA42-4F77-9840-6982372C9CD2}">
-                <File Id="filE266A4799B2C5BB094B51179F5539D23" KeyPath="yes" Source="$(var.BasePath)\XMLReportGenerator.pdb" />
+            <Component Id="cmp01F0955ED006F50E8F0A9C885433A9B2" Guid="{213CB1B8-82B2-4C18-9F6A-75F232FEAB78}">
+                <File Id="filADA49C8ECFB12433B02A629B2A96F0ED" KeyPath="yes" Source="$(var.BasePath)\XMLReportGenerator.pdb" />
             </Component>
         </DirectoryRef>
     </Fragment>
