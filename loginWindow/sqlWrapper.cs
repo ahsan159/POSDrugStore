@@ -20,14 +20,14 @@ namespace loginWindow
 {
     class sqlWrapper
     {
-        public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
+        public string connectionString = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog = DSPOS; Integrated Security = True";
         //public string connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
         public string lastCommand { get; set; }
         public string commandType { get; set; }
         public string commandStatus { get; set; }
         public string errorMessage = string.Empty;
         private SqlConnection connection;
-        private static sqlWrapper instance = null;
+        private static sqlWrapper? instance = null;
 
         public static sqlWrapper getInstance()
         {
@@ -45,8 +45,9 @@ namespace loginWindow
             connection = new SqlConnection(connectionString);
             lastCommand = string.Empty;
             commandType = string.Empty;
+            commandStatus = String.Empty;
         }
-        public List<string> columnList(string tableName)
+        public List<string>? columnList(string tableName)
         {
             // get the list of column from table
             List<string> list = new List<string>();
@@ -99,7 +100,7 @@ namespace loginWindow
                 return -1;
             }
             connection.Close();
-            string countString = dt.Rows[0].ItemArray[0].ToString();
+            string? countString = dt.Rows[0].ItemArray[0].ToString();
             count = int.Parse(countString);
             return count;
         }
@@ -171,7 +172,7 @@ namespace loginWindow
             return executeQuery(tableName);
         }
         
-        public string[] executeLoginQuery(string query)
+        public string[]? executeLoginQuery(string query)
         {
             DataTable dt = executeBasicQuery(query);
             if (dt.Rows.Count > 0)

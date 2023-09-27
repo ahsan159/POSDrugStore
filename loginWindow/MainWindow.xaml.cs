@@ -22,9 +22,10 @@ namespace loginWindow
     /// </summary>
     public partial class MainWindow : Window
     {
-        sqlWrapper sWrap = sqlWrapper.getInstance();
+        sqlWrapper? sWrap = null;
         registryData.registryDataClass reg = new registryData.registryDataClass();
         string exeLocation;
+        string localdbInstance = "mssqllocaldb";
         public MainWindow()
         {
             InitializeComponent();
@@ -55,14 +56,22 @@ namespace loginWindow
                 // otherwise run the setup as normal and start the localdb server if it is not running
                 try
                 {
-                    string exeCmd = @"sqllocaldb s mssqllocaldb";
-                    ProcessStartInfo processStartInfo = new ProcessStartInfo(exeCmd);
-                    processStartInfo.UseShellExecute = true;
+                    ProcessStartInfo processStartInfo = new ProcessStartInfo();
+                    processStartInfo.FileName = "cmd.exe";
+                    processStartInfo.Arguments = @" /c sqllocaldb s " + localdbInstance;
+                    processStartInfo.RedirectStandardOutput = true;
+                    processStartInfo.UseShellExecute = false;
+                    processStartInfo.CreateNoWindow = true;
                     System.Diagnostics.Process p = new();
                     p.StartInfo = processStartInfo;
-                    if (p.Start())
+                    p.Start();
+                    string resultExpected = "LocalDB instance \"" + localdbInstance + "\" started.";
+                    string result = p.StandardOutput.ReadToEnd().Trim();
+                    //MessageBox.Show(result + Environment.NewLine + resultExpected);
+                    if (result.Equals(resultExpected))
                     {
                         MessageBox.Show("sql server started successfully");
+                        p.Close();
                     }
                     else
                     {
@@ -81,13 +90,14 @@ namespace loginWindow
                     App.Current.Shutdown();
                 }
             }
+            sWrap = sqlWrapper.getInstance();
             exeLocation = reg.getInstallLocation();
         }
         private void loginClick(object sender, RoutedEventArgs evt)
         {
             string usernameString = username.Text.ToString();
             string passwordString = password.Password.ToString();
-            string[] str = sWrap.executeLoginQuery("SELECT password,level from loginTable where Name='" + usernameString + "';");
+            string[]? str = sWrap.executeLoginQuery("SELECT password,level from loginTable where Name='" + usernameString + "';");
             if (str != null)
             {
                 if (passwordString == str[0])

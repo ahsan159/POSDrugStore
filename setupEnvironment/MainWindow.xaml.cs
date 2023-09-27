@@ -99,7 +99,7 @@ namespace setupEnvironment
         private bool setupRegistry()
         {
             registryData.registryDataClass reg = new registryData.registryDataClass();
-            return reg.writeNewRegistry(false);
+            return reg.writeNewRegistry(true);
 
         }
         private bool detectSQLInstallation()
@@ -228,6 +228,10 @@ namespace setupEnvironment
                                 )";
             SqlCommand cmd4 = new SqlCommand(stocktable, connection);
             cmd4.ExecuteNonQuery();
+
+            string adduser = @"insert into loginTable(Name,Password,Level) values('admin','admin','admin')";
+            SqlCommand cmdUser = new SqlCommand(adduser, connection);
+            cmdUser.ExecuteNonQuery();
 
             connection.Close();
             return false;

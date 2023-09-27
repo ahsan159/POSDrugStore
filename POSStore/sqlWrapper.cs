@@ -20,7 +20,8 @@ namespace POSStore
 {
     class sqlWrapper
     {
-        public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
+        public string connectionString = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog = DSPOS; Integrated Security = True";
+        //public string connectionString = "Data Source=ENG-RNR-05;Initial Catalog = DSPOS; Integrated Security = True";
         //public string connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
         public string lastCommand { get; set; }
         public string commandType { get; set; }
