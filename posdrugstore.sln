@@ -32,6 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		sqlscripts\dbo.Table.sql = sqlscripts\dbo.Table.sql
 		sqlscripts\insertdata.sql = sqlscripts\insertdata.sql
 		sqlscripts\loginTable.sql = sqlscripts\loginTable.sql
+		README.md = README.md
 		sqlscripts\select_all.sql = sqlscripts\select_all.sql
 		sqlscripts\stockTable.sql = sqlscripts\stockTable.sql
 		sqlscripts\testTable.sql = sqlscripts\testTable.sql
