@@ -72,7 +72,8 @@ namespace registryData
         private void createsqlKey()
         {
             RegistryKey sqlKey = Registry.CurrentUser.CreateSubKey(root + @"sql");
-            sqlKey.SetValue("Connection", "DSPOS");
+            sqlKey.SetValue("Connection", @"(LocalDB)\MSSQLLocalDB");
+            sqlKey.SetValue("Database","DSPOS");
             sqlKey.SetValue("Product", "mainLedger");
             sqlKey.SetValue("Stock", "stockTable");
             sqlKey.SetValue("Invoice", "invoiceLedger");

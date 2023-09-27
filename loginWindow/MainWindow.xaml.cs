@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
+using System.Diagnostics;
 
 namespace loginWindow
 {
@@ -26,45 +27,61 @@ namespace loginWindow
         string exeLocation;
         public MainWindow()
         {
-            InitializeComponent();            
-            if(reg.firstRun())
+            InitializeComponent();
+            if (reg.firstRun())
             {
-                MessageBox.Show("Your Application is running for first Time");
-                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                // if application run for the first time it should setup the environment                
                 string exeName = @"..\setup\setupEnvironment.exe";
-                //string exeName = @".\setupEnvironment.exe";
                 System.Diagnostics.ProcessStartInfo processStartInfo = new System.Diagnostics.ProcessStartInfo(exeName);
                 processStartInfo.Verb = "runas";
                 processStartInfo.UseShellExecute = true;
                 try
                 {
                     System.Diagnostics.Process.Start(processStartInfo);
-                    //MessageBox.Show("ReadingDone");                    
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    MessageBox.Show("ERR:1001" + Environment.NewLine +
+                                e.Message +
+                                e.StackTrace,
+                                "Error",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+                    App.Current.Shutdown();
                 }
             }
             else
             {
-                //MessageBox.Show("Setup complete");
-            }
-            exeLocation = reg.getInstallLocation();
-            // get sql server instances
-            //string baseAddrss = @"SOFTWARE\Microsoft\Microsoft SQL Server\";
-            RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL", false);
-            string str = string.Empty;
-            if (key!=null)
-            {
-                foreach(var keyVal in key.GetValueNames())
-                {                    
-                    str = str + Environment.MachineName + "\\" + keyVal.ToString() + "," + key.GetValue(keyVal.ToString()) + Environment.NewLine ;
+                // otherwise run the setup as normal and start the localdb server if it is not running
+                try
+                {
+                    string exeCmd = @"sqllocaldb s mssqllocaldb";
+                    ProcessStartInfo processStartInfo = new ProcessStartInfo(exeCmd);
+                    processStartInfo.UseShellExecute = true;
+                    System.Diagnostics.Process p = new();
+                    p.StartInfo = processStartInfo;
+                    if (p.Start())
+                    {
+                        MessageBox.Show("sql server started successfully");
+                    }
+                    else
+                    {
+                        MessageBox.Show("ERR:1002" + Environment.NewLine + "Unable to start sql server!!! contact administrator",
+                            "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("ERR:1003" + Environment.NewLine +
+                        e.Message +
+                        e.StackTrace,
+                        "Error",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                    App.Current.Shutdown();
                 }
             }
-            MessageBox.Show(str);
-
-
+            exeLocation = reg.getInstallLocation();
         }
         private void loginClick(object sender, RoutedEventArgs evt)
         {
@@ -99,7 +116,7 @@ namespace loginWindow
 
         private void password_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key==Key.Enter)
+            if (e.Key == Key.Enter)
             {
                 loginClick(this, new RoutedEventArgs());
             }

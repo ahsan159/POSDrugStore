@@ -2,46 +2,46 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="Login">
-            <Component Id="cmpE55177B0DF7B460C990C95CA0E340D7D" Guid="{C7E69F7E-7157-433F-BB83-4CBE389623CD}">
+            <Component Id="cmpE55177B0DF7B460C990C95CA0E340D7D" Guid="{34209C7E-6243-443A-B3CF-32F69C445950}">
                 <File Id="fil90380982EF8230FE8CB1D857F1CD6483" KeyPath="yes" Source="$(var.BasePath2)\loginWindow.deps.json" />
             </Component>
-            <Component Id="cmp01D974B2C166A0178D710D99DA87AC47" Guid="{A3FEA44C-F16B-4C63-AAD0-B537D1B95793}">
+            <Component Id="cmp01D974B2C166A0178D710D99DA87AC47" Guid="{A84E5020-E727-47B9-A50F-B929C7D70523}">
                 <File Id="fil80B68E532CDA5CBCECDF23CF41EBE4C0" KeyPath="yes" Source="$(var.BasePath2)\loginWindow.dll" />
             </Component>
-            <Component Id="cmp4709B1785A1119336471518A03716232" Guid="{C6C75518-27A4-4E4A-AF5A-02713A7A64B4}">
+            <Component Id="cmp4709B1785A1119336471518A03716232" Guid="{F6CB9E3C-30F2-4893-A8B1-D93AE001442C}">
                 <File Id="fil676FA9FBB84508D50500F46B8AD3385C" KeyPath="yes" Source="$(var.BasePath2)\loginWindow.exe" />
             </Component>
-            <Component Id="cmpA2BC7F361B8F9CFC27359A7122867C92" Guid="{1380D547-66B2-4256-B7CD-08272D19DEFC}">
+            <Component Id="cmpA2BC7F361B8F9CFC27359A7122867C92" Guid="{0F793DBD-5D6C-4931-A419-9A6D28175FF6}">
                 <File Id="fil4C117C15DC4A903E886A6BC1B9474A31" KeyPath="yes" Source="$(var.BasePath2)\loginWindow.pdb" />
             </Component>
-            <Component Id="cmp804E739A07F68F94D603543808096FBF" Guid="{256F443C-FBDB-43C4-BF6D-CE4DDB360AB3}">
+            <Component Id="cmp804E739A07F68F94D603543808096FBF" Guid="{A3D9F754-4ECF-49CB-B7CB-2A6AB37517BF}">
                 <File Id="filC2C0DE3B73F0E4ADFFCC1E0E060F45D8" KeyPath="yes" Source="$(var.BasePath2)\loginWindow.runtimeconfig.json" />
             </Component>
-            <Component Id="cmp0430BDEBDDF2751EE40B82899EE3FE21" Guid="{BD11EF88-0E98-4C1D-B338-14CD47A26C15}">
+            <Component Id="cmp0430BDEBDDF2751EE40B82899EE3FE21" Guid="{817C5252-0CF4-4463-91FE-3EFCCBC5C7E6}">
                 <File Id="fil7FB88037CBAD8C1BB556A7927D003D10" KeyPath="yes" Source="$(var.BasePath2)\registryData.dll" />
             </Component>
-            <Component Id="cmp3D74224FF87291FE91391C9E125526B4" Guid="{FC66D636-FE62-4FF0-A583-787E2CD148D3}">
+            <Component Id="cmp3D74224FF87291FE91391C9E125526B4" Guid="{E02B05B7-C71F-4EA1-80D3-CF2B98720177}">
                 <File Id="fil8769E139DE4EE604D5292A7E0ABFB704" KeyPath="yes" Source="$(var.BasePath2)\registryData.pdb" />
             </Component>
-            <Component Id="cmp8BE800B33407937E4062E90F1B35D673" Guid="{1117578D-3EDF-4229-8D9C-5D4E888FA60D}">
+            <Component Id="cmp8BE800B33407937E4062E90F1B35D673" Guid="{483189F1-7EB4-48E6-A7E7-65706C329674}">
                 <File Id="fil54350C745A8F48DD0314C17A038869CD" KeyPath="yes" Source="$(var.BasePath2)\setupEnvironment.deps.json" />
             </Component>
-            <Component Id="cmp56F67A0E07C50D25A7D3202B26E5091D" Guid="{CD73BAE8-21EB-4ACB-8E2E-64246D6DD700}">
+            <Component Id="cmp56F67A0E07C50D25A7D3202B26E5091D" Guid="{4FD82879-EB88-4E5A-97BB-9EF9EF9929FC}">
                 <File Id="fil9E8DF4351814B0E59E62F07DF9CBC4CF" KeyPath="yes" Source="$(var.BasePath2)\setupEnvironment.dll" />
             </Component>
-            <Component Id="cmpC3CB67CA6FD9CF9C07732A4253082E13" Guid="{8CF4D8D2-14DE-4684-8846-B82AACB8CC89}">
+            <Component Id="cmpC3CB67CA6FD9CF9C07732A4253082E13" Guid="{61971A75-5F3F-4D76-BBEC-80860DC1A7ED}">
                 <File Id="filFD7587867F3C874B2A2BD46074A77FC1" KeyPath="yes" Source="$(var.BasePath2)\setupEnvironment.exe" />
             </Component>
-            <Component Id="cmp9F5BA51C6BE7C39AA6AA94421350B40D" Guid="{32075C27-AFB0-4B6D-9097-01949155320C}">
+            <Component Id="cmp9F5BA51C6BE7C39AA6AA94421350B40D" Guid="{B544EBA3-A8D8-4CD8-BC51-2987A0532ED5}">
                 <File Id="filDD8ABBD162EEE4702958AFCC48499B63" KeyPath="yes" Source="$(var.BasePath2)\setupEnvironment.pdb" />
             </Component>
-            <Component Id="cmpC41376372BA6D6493362AB32D741F27B" Guid="{59D3C090-03C3-4CD1-94A0-9E115A80B89B}">
+            <Component Id="cmpC41376372BA6D6493362AB32D741F27B" Guid="{407A9731-2F6E-4BC5-A932-BC04EA8B69D1}">
                 <File Id="fil2B6C5C3939E90FC9D4E4DE8A2E436BAA" KeyPath="yes" Source="$(var.BasePath2)\setupEnvironment.runtimeconfig.json" />
             </Component>
-            <Component Id="cmp5960CCB1725969D1BB9A9F9C9FB83FD9" Guid="{C7A622D6-1927-4406-B881-CBEE9955063E}">
+            <Component Id="cmp5960CCB1725969D1BB9A9F9C9FB83FD9" Guid="{8FD5F001-E97A-453D-8FC7-1B739DC435F0}">
                 <File Id="filE78FCD7F09C2369C5A75F3289E0073B8" KeyPath="yes" Source="$(var.BasePath2)\sni.dll" />
             </Component>
-            <Component Id="cmpDE5EFBCB317CF48AD7FC3B3D5A6F4D0D" Guid="{8B50D701-178C-4D8C-BE08-0FB5238C1261}">
+            <Component Id="cmpDE5EFBCB317CF48AD7FC3B3D5A6F4D0D" Guid="{8E198716-8BCB-4834-92D9-2D911C3F1A22}">
                 <File Id="fil3380B39333359E54417FD9702D69532F" KeyPath="yes" Source="$(var.BasePath2)\System.Data.SqlClient.dll" />
             </Component>
         </DirectoryRef>
