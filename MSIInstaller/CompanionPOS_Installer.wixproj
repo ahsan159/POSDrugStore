@@ -49,6 +49,7 @@
     <Compile Include="components.wxs" />
     <Compile Include="ComponentsGenerated.wxs" />
     <Compile Include="ComponentsGeneratedLogin.wxs" />
+    <Compile Include="ComponentsGeneratedSetup.wxs" />
     <Compile Include="directories.wxs" />
     <Compile Include="Product.wxs" />
   </ItemGroup>
@@ -96,16 +97,20 @@
     </Exec>
     <Exec Command="rd /s /q ..\CPOS\login\win-$(Platform)">
     </Exec>
+    <Exec Command="rd /s /q ..\CPOS\setup\win-$(Platform)">
+    </Exec>
     <Exec Command="dotnet publish ..\POSStore\POSStore.csproj -r win-$(Platform) -c $(Configuration) --sc false">
     </Exec>
     <Exec Command="dotnet publish ..\loginWindow\loginWindow.csproj -r win-$(Platform) -c $(Configuration) --sc false">
+    </Exec>
+    <Exec Command="dotnet publish ..\setupEnvironment\setupEnvironment.csproj -r win-$(Platform) -c $(Configuration) --sc false">
     </Exec>
     <!--get assembly version directly from application project-->
     <GetAssemblyIdentity AssemblyFiles="..\CPOS\POSStore\win-$(Platform)\publish\POSStore.dll">
       <Output TaskParameter="Assemblies" ItemName="AssemblyVersion" />
     </GetAssemblyIdentity>
     <PropertyGroup>
-      <DefineConstants>BuildVersion=%(AssemblyVersion.Version);BasePath=..\CPOS\POSStore\win-$(Platform)\publish\;BasePath2=..\CPOS\login\win-$(Platform)\publish\</DefineConstants>
+      <DefineConstants>BuildVersion=%(AssemblyVersion.Version);BasePath=..\CPOS\POSStore\win-$(Platform)\publish\;BasePath2=..\CPOS\login\win-$(Platform)\publish\;BasePath3=..\CPOS\setup\win-$(Platform)\publish\</DefineConstants>
     </PropertyGroup>
     <PropertyGroup>
       <!--<RunWixToolsOutOfProc Condition=" '$(PROCESSOR_ARCHITECTURE)'!='x86' ">true</RunWixToolsOutOfProc>-->
@@ -115,6 +120,8 @@
     <HeatDirectory OutputFile="ComponentsGenerated.wxs" DirectoryRefId="POSStore" ComponentGroupName="PublishedComponents" Directory="..\CPOS\POSStore\win-$(Platform)\publish" SuppressCom="true" SuppressFragments="true" SuppressRegistry="true" SuppressRootDirectory="true" AutoGenerateGuids="false" GenerateGuidsNow="true" ToolPath="$(WixToolPath)" PreprocessorVariable="var.BasePath" RunAsSeparateProcess="$(RunWixToolsOutOfProc)">
     </HeatDirectory>
     <HeatDirectory OutputFile="ComponentsGeneratedLogin.wxs" DirectoryRefId="Login" ComponentGroupName="PublishedComponentsLogin" Directory="..\CPOS\login\win-$(Platform)\publish" SuppressCom="true" SuppressFragments="true" SuppressRegistry="true" SuppressRootDirectory="true" AutoGenerateGuids="false" GenerateGuidsNow="true" ToolPath="$(WixToolPath)" PreprocessorVariable="var.BasePath2" RunAsSeparateProcess="$(RunWixToolsOutOfProc)">
+    </HeatDirectory>
+    <HeatDirectory OutputFile="ComponentsGeneratedSetup.wxs" DirectoryRefId="Setup" ComponentGroupName="PublishedComponentsSetup" Directory="..\CPOS\setup\win-$(Platform)\publish" SuppressCom="true" SuppressFragments="true" SuppressRegistry="true" SuppressRootDirectory="true" AutoGenerateGuids="false" GenerateGuidsNow="true" ToolPath="$(WixToolPath)" PreprocessorVariable="var.BasePath3" RunAsSeparateProcess="$(RunWixToolsOutOfProc)">
     </HeatDirectory>
   </Target>
   <Target Name="AfterBuild">

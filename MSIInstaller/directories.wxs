@@ -12,6 +12,7 @@
 			<Directory Id="INSTALLFOLDER" Name="!(loc.ProductNameFolder)" >
 				<Directory Id="POSStore" Name="POSStore"></Directory>
 				<Directory Id="Login" Name="Login"></Directory>
+				<Directory Id="Setup" Name="Setup"></Directory>
 			</Directory>
 		</Directory>
 		<?else?>
@@ -19,6 +20,7 @@
 			<Directory Id="INSTALLFOLDER" Name="!(loc.ProductNameFolder)" >
 				<Directory Id="POSStore" Name="POSStore"></Directory>
 				<Directory Id="Login" Name="Login"></Directory>
+				<Directory Id="Setup" Name="Setup"></Directory>
 			</Directory>
 		</Directory>
 		<?endif?>

@@ -1,15 +1,23 @@
 # POSDrugStore
 Point of Sale for drug/medical store
 # INSTRUCTIONS
-software requires Microsoft SQL Server 2012 and .net 6.0 Runtime
-1) SQL SERVER: https://download.microsoft.com/download/F/6/7/F673709C-D371-4A64-8BF9-C1DD73F60990/ENU/x64/SQLEXPR_x64_ENU.exe
+software requires Microsoft SQL Server 2012 LocalDB and .net 6.0 Runtime
+Minimum
+1) SQL SERVER LOCALDB: https://download.microsoft.com/download/F/6/7/F673709C-D371-4A64-8BF9-C1DD73F60990/ENU/x64/SqlLocalDB.msi
 2) .net 6.0 (runtime): https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.22-windows-x64-installer
-2) .net 6.0 (sdk): https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-6.0.414-windows-x64-installer
+Optional
+3) SQL SERVER: https://download.microsoft.com/download/F/6/7/F673709C-D371-4A64-8BF9-C1DD73F60990/ENU/x64/SQLEXPR_x64_ENU.exe
+4) .net 6.0 (sdk): https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-6.0.414-windows-x64-installer
 
 1. start microsoft powershell in the main folder apply command
 dotnet build
 2. run the exe 
 F:\cswork\drugStore\POSDrugStore\CPOS\login\loginWindow.exe
+
+# DIARY
+Problem may arise if you have multiple instances of sql server installed currently or previously. The server is exclusively testing on sql server local db version 2012. So problem may arise when we have previous or current installations of sql server localdb versions. It usually causes error while we try to access, create or delete servers on localdb. 
+The way requires to parts first backup and delete any data in the following user app data folder "AppData\Local\Microsoft\Microsoft SQL Server Local DB\Instances" and delete all the keys in the following registry of "HKCU\Software\Microsoft SQL Server\UserInstances". 
+Now, recreate and start the default server "mssqllocaldb" or in C# program "(localdb)\mssqllocaldb".
 
 # WORK LOG
 ## 22-jun-2023
