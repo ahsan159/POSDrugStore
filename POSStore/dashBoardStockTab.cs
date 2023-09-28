@@ -143,5 +143,39 @@ namespace POSStore
                 stockCollection.Rows.Add(dr.ItemArray);
             }
         }
+        private void deleteStock(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                dialogYESNO dlyn = new dialogYESNO();
+                dlyn.ShowDialog();
+                if (dlyn.result == 1)
+                {
+                    DataRow selectedRow = stockCollection.Rows[stockTable.SelectedIndex];
+                    string? pid = selectedRow["ProductID"].ToString();
+                    string? sid = selectedRow["Sr"].ToString();
+                    string? stockQuantity = selectedRow["QuantityAdded"].ToString();
+
+
+                    string query = @"select quantity from " + " mainLedger " + " where id='" +
+                        pid + "';";
+                    string? previousQuantity = dWrap.executeBasicQuery(query).Rows[0]["quantity"].ToString();
+                    string newQuantity = (int.Parse(previousQuantity) - int.Parse(stockQuantity)).ToString();
+
+                    string query2 = "Update mainLedger set quantity='" +
+                        newQuantity + "' where id='" +
+                        pid + "';";
+                    dWrap.executeNonQuery(query2);
+
+                    string deleteQuery = @"delete from stockTable where Sr='" + sid + @"'";
+                    dWrap.executeNonQuery(deleteQuery);
+                    refreshStocks();
+                }
+            }
+            catch (Exception exp)
+            {
+                MessageBox.Show(exp.Message + Environment.NewLine + exp.StackTrace, "Stock Error");
+            }
+        }
     }
 }

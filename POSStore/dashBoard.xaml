@@ -648,6 +648,13 @@
                             Binding="{Binding User}"
                             IsReadOnly="True"
                             ></DataGridTextColumn>
+                                    <DataGridTemplateColumn Header="Delete">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Click="deleteStock">Delete</Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </StackPanel>

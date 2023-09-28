@@ -8,6 +8,7 @@
         Title="Companion POS" 
         Height="250" Width="400"
         ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
         Icon="./img/RX.png"
         >
     <Grid>
@@ -18,14 +19,14 @@
                        Margin="0 40 0 0"
                        HorizontalAlignment="Center"
                        ></Image>
-            <Label Content="Are You Sure?" 
+                <Label Content="Are You Sure?" 
                HorizontalAlignment="Center" VerticalAlignment="Center" 
                Margin="0 40 0 0"
                FontSize="18"
                ></Label>
             </DockPanel>
             <DockPanel Margin="20,0,0,0">
-                        <!--Content="Yes"--> 
+                <!--Content="Yes"-->
                 <Button Name="Yes" 
                         Click="yesClick" Margin="40"
                         Width="80"

@@ -14,11 +14,12 @@
 --delete from testTable;
 --select count(*) from invoiceLedger;
 --drop table invoiceLedger;
-select * from mainLedger where name='panadoel';
+--select * from mainLedger where name='panadoel';
 --select name from sys.tables;
 --select * from Invoice_20230922050451_0;
 --insert into loginTable(Name,Password,Level) values('admin','admin','admin')
 --insert into loginTable(Name,Password,Level) values('ahsan','ahsan','admin')
 --insert into loginTable(Name,Password,Level) values('rukhsar','8002','admin')
 --insert into loginTable(Name,Password) values('hammad','6804')
---select * from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='mainLedger';
+select * from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='stockTable';
+select * from stockTable where Sr='2';
