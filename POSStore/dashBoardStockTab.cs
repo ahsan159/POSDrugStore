@@ -33,6 +33,7 @@ namespace POSStore
 
         private void initializeStockTableTab()
         {
+            stockCollection = dWrap.getTable("stockTable");
             DataTable drugList = dWrap.executeQuery("mainLedger", new List<string>() { "name", "id" });
             //drugSelection.ItemsSource = drugList.AsEnumerable().Select(r => r.Field<string>("name")).ToList();
             drugListBinding = drugList.Rows.Cast<DataRow>().Select(r => r.ItemArray[0].ToString()).ToList<string>();
@@ -67,6 +68,7 @@ namespace POSStore
                 retailPrice.Clear();
                 purchasePrice.Clear();
                 drugSelection.Focus();
+                refreshStocks();
 
             }
             catch (Exception exp)
@@ -131,6 +133,15 @@ namespace POSStore
         private void stockTable_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
 
+        }
+        private void refreshStocks()
+        {
+            stockCollection.Rows.Clear();
+            DataTable updated = dWrap.getTable("stockTable");
+            foreach (DataRow dr in updated.Rows)
+            {
+                stockCollection.Rows.Add(dr.ItemArray);
+            }
         }
     }
 }

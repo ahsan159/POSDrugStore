@@ -25,5 +25,14 @@ namespace POSStore
         {
             customerList = dWrap.getCustumerData();
         }
+        private void refreshCustomers()
+        {
+            customerList.Rows.Clear();
+            DataTable update = dWrap.getCustumerData();
+            foreach(DataRow dr in update.Rows)
+            {
+                customerList.Rows.Add(dr.ItemArray);
+            }
+        }
     }
 }

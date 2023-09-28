@@ -15,16 +15,18 @@ using System.Windows.Shapes;
 using System.Data;
 using System.Data.SqlClient;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace POSStore
 {
     /// <summary>
     /// Interaction logic for dashBoard.xaml
     /// </summary>
-    public partial class dashBoard : Window
+    public partial class dashBoard : Window,INotifyPropertyChanged
     {
         sqlWrapper wrap = sqlWrapper.getInstance();
         sqlWrapper dWrap = sqlWrapper.getInstance();
+        
         public DataTable displaySaleTableDT { get; set; } = new DataTable();
         public DataTable invoiceSaleTableDT { get; set; } = new DataTable();
         public dashBoard()
@@ -34,11 +36,10 @@ namespace POSStore
             dashBoardOpen(this, new RoutedEventArgs());
             this.DataContext = this;
 
-            // for stock Tab
-            stockCollection = dWrap.getTable("stockTable");
+            // for stock Tab            
             //DataRow dr = stockCollection.NewRow();
             //stockCollection.Rows.Add(dr);
-            stockTable.ItemsSource = stockCollection.DefaultView;
+            //stockTable.ItemsSource = stockCollection.DefaultView;
             initializeStockTableTab();
 
             // for sale Tab
@@ -56,7 +57,7 @@ namespace POSStore
 
             // for cutomer tab initialization
             updateCustomerTable();
-        }        
+        }
         private void closeWindow(object sender, RoutedEventArgs evt)
         {
             this.Close();
@@ -74,27 +75,27 @@ namespace POSStore
             //mw.ShowDialog();
             //this.Show();
             producttab.Focus();
-            updateDashText();            
+            updateDashText();
         }
         private void openCustomerList(object sender, RoutedEventArgs evt)
         {
-            updateDashText();            
+            updateDashText();
         }
         private void openSaleList(object sender, RoutedEventArgs evt)
         {
             saletab.Focus();
             updateDashText();
-            
+
         }
         private void openStockList(object sender, RoutedEventArgs evt)
         {
             stockstab.Focus();
             updateDashText();
-            
+
         }
         private void dashBoardOpen(object sender, RoutedEventArgs evt)
         {
-            updateDashText();            
+            updateDashText();
         }
         private void updateDashText()
         {
@@ -107,6 +108,31 @@ namespace POSStore
             int customerCount = 0;
             cBtn.Content = "Customer " + Environment.NewLine + "(" + customerCount.ToString() + ")";
         }
+        private void updateTables()
+        {
+            // this function is to update all the tables across various tabs
+        }
 
+        private void ProductTab_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //MessageBox.Show("Product Tab Selected");
+            refreshProducts();
+        }
+        private void SaleTab_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            refreshSales();
+        }
+        private void StockTab_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            refreshStocks();
+        }
+        private void CustomerTab_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            refreshCustomers();
+        }
+        private void NewSaleTab_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            refreshNewSale();
+        }
     }
 }

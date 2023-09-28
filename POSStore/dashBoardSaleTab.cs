@@ -95,5 +95,10 @@ namespace POSStore
             catch (Exception) { }
 
         }
+
+        private void refreshSales()
+        {
+            initializeSaleTableTab();
+        }
     }
 }

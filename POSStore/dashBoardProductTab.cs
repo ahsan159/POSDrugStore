@@ -20,7 +20,7 @@ namespace POSStore
 {
     public partial class dashBoard : Window
     {
-        public DataTable productListDT { get; set; } = new DataTable("productList");
+        public DataTable? productListDT { get; set; } = new DataTable("productList");
         public int selectitemIndex { get; set; } = 0;
         public void initializeDrugListTab()
         {
@@ -59,9 +59,9 @@ namespace POSStore
             dv.ShowDialog();
             //productListDT.Reset();
             //productListDT = dWrap.getTable("mainLedger");            
-            refresh();
+            refreshProducts();
         }
-        void refresh()
+        void refreshProducts()
         {
             productListDT.Rows.Clear();
             DataTable updated = dWrap.getTable("mainLedger");
@@ -76,7 +76,8 @@ namespace POSStore
         }
         private void updateProductTable(object sender, RoutedEventArgs evt)
         {
-            // refresh();
+            //MessageBox.Show("Updating");
+            //refresh();
         }
     }
 }

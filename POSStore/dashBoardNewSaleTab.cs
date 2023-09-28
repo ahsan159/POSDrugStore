@@ -15,15 +15,17 @@ using System.Windows.Shapes;
 using System.Data;
 using System.Data.SqlClient;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace POSStore
 {
-    public partial class dashBoard : Window
+    public partial class dashBoard : Window, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
         public DataTable newSaleCollection { get; set; } = new DataTable("NewSale");
-        string saleTableName = string.Empty;
-        public List<string?> drugListComboItems { get; set; } = new List<string?>();
-        public List<int> drugListComboID { get; set; } = new List<int>();
+        string saleTableName = string.Empty;        
+        public List<string?> drugListComboItems { get;set;}  = new List<string?>();
+        public List<int>? drugListComboID { get; set; } = new List<int>();
         public string selectValueBind { get; set; }
         public int indexSelected { get; set; } = 0;
         public string selectedProduct { get; set; } = string.Empty;
@@ -83,8 +85,7 @@ namespace POSStore
                            [ID] INT NULL,
                            [Stock] INT NULL
                         )";
-            dWrap.executeNonQuery(query);
-            //MessageBox.Show(sWrap.errorMessage);
+            dWrap.executeNonQuery(query);            
         }
         private void newSaleTable_SelectionChanged(object sender, SelectedCellsChangedEventArgs evt)
         {
@@ -109,13 +110,13 @@ namespace POSStore
         {
             DataTable dt = dWrap.executeBasicQuery("SELECT DISTINCT(name),id FROM mainLedger");
             drugListComboItems = dt.Rows.Cast<DataRow>().Select(r => r.Field<string>("name")).ToList();
-            drugListComboID = dt.Rows.Cast<DataRow>().Select(r => r.Field<int>("id")).ToList();
+            drugListComboID = dt.Rows.Cast<DataRow>().Select(r => r.Field<int>("id")).ToList();            
             //MessageBox.Show(drugListComboItems.Count.ToString(), "Populate", MessageBoxButton.OK);
         }
 
         private void deleteDataRow(object sender, RoutedEventArgs evt)
         {
-
+            newSaleCollection.Rows.RemoveAt(indexSelected);
         }
 
         private void checkOut(object sender, RoutedEventArgs evt)
@@ -179,16 +180,6 @@ namespace POSStore
                 checkOut(this, new RoutedEventArgs());
             }
         }
-        //private DataGridCell getCell(DataGridCellInfo info)
-        //{
-        //    var cellContent = info.Column.GetCellContent(info.Item);
-        //    if (cellContent != null)
-        //    {
-        //        return cellContent.Parent as DataGridCell;
-        //    }
-        //    return null;
-
-        //}
         private void validateRows()
         {
             foreach (DataRow dr in newSaleCollection.Rows)
@@ -271,10 +262,8 @@ namespace POSStore
                     newSaleCollection.Rows.Count.ToString() + "','" +
                     DateTime.Now.ToString("yyyy-MM-dd") + "','" +
                     DateTime.Now.ToString("hh:mm:ss") + "','" +
-                    saleTableName + "');";
-                // MessageBox.Show(invoiceString);
-                dWrap.executeNonQuery(invoiceString);
-                //MessageBox.Show(dWrap.commandStatus + Environment.NewLine + dWrap.errorMessage);
+                    saleTableName + "');";                
+                dWrap.executeNonQuery(invoiceString);                
                 ClearForNewSale();
 
             }
@@ -292,29 +281,24 @@ namespace POSStore
             discountTotal.Text = "";
             paidTotal.Text = "";
             balanceTotal.Text = "";
-            string dateCode = DateTime.Now.ToString("yyyyMMddhhmmss");
-            // invoiceNo.Text = @"Invoice\" + dateCode + @"\" + dWrap.itemCount("invoiceLedger").ToString();
+            string dateCode = DateTime.Now.ToString("yyyyMMddhhmmss");            
             nsSaleTableName = @"Invoice\" + dateCode + @"\" + dWrap.itemCount("invoiceLedger").ToString();
             saleTableName = nsSaleTableName.Replace(@"\", "_");
             invoiceNo.Text = nsSaleTableName;
 
         }
-
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (newSaleTab.IsSelected)
-            {
-                MessageBox.Show("Selecting New Sale Tab");
-                populateDrugListCombo();
-            }
-        }
-
         private void newProductEntry_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 MessageBox.Show("Enter is pressed");
             }
+        }
+        private void refreshNewSale()
+        {
+            DataTable dt = dWrap.executeBasicQuery("SELECT DISTINCT(name),id FROM mainLedger");
+            drugListComboItems = dt.Rows.Cast<DataRow>().Select(r => r.Field<string>("name")).ToList();
+            drugListComboID = dt.Rows.Cast<DataRow>().Select(r => r.Field<int>("id")).ToList();  
         }
 
     }

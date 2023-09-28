@@ -25,7 +25,7 @@
                     Margin="10"
                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                     >
-                        <!--SelectionChanged="TabControl_SelectionChanged"-->
+                    <!--SelectionChanged="TabControl_SelectionChanged"-->
                 <TabItem 
                      Height="40"                     
                      GotFocus="dashBoardOpen"
@@ -85,7 +85,8 @@
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="./img/newSalesTab.png" Height="30"></Image>
-                            <Label Content="New Sale"></Label>
+                            <Label Content="New Sale"
+                                   MouseLeftButtonDown="NewSaleTab_MouseLeftButtonDown"></Label>
                         </StackPanel>
                     </TabItem.Header>
                     <Grid Background="#FFE5E5E5">
@@ -125,14 +126,13 @@
                                     <DockPanel>
                                         <Label Content="Products" Margin="0,10,0,10" HorizontalAlignment="Left"></Label>
                                         <ComboBox 
-                                            x:Name="newProductEntry"
+                                            Name="newProductEntry"
                                             HorizontalAlignment="Right" 
                                             Margin="10,10,10,10" 
                                             Width="180"                                          
                                             IsEditable="True"
-                                            ItemsSource="{Binding drugListComboItems}"  
-                                            KeyDown="newProductEntry_KeyDown"
-                                            
+                                            ItemsSource="{Binding drugListComboItems,Mode=TwoWay}"  
+                                            KeyDown="newProductEntry_KeyDown"                                            
                                             ></ComboBox>
                                     </DockPanel>
                                     <DockPanel>
@@ -195,6 +195,13 @@
                                                                 IsReadOnly="True"
                                                                 Binding="{Binding Total}"
                                                                 ></DataGridTextColumn>
+                                    <DataGridTemplateColumn Header="Delete">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Click="deleteDataRow">Delete</Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                             <DockPanel                                
@@ -208,7 +215,7 @@
                                     ></Label>
                                     <Label Name="drugStock" Margin="10,10,10,10" FontSize="20" FontWeight="Normal"
                                     ></Label>
-                                    
+
                                 </DockPanel>
                                 <DockPanel HorizontalAlignment="Stretch">
                                     <Label Content="Total:" Margin="10,20,10,10" FontSize="20" FontWeight="Bold"></Label>
@@ -216,7 +223,7 @@
                                     ></Label>
                                 </DockPanel>
                                 <DockPanel HorizontalAlignment="Stretch">
-                                    
+
                                     <Label Content="Discount" Margin="10,20,10,10" FontSize="20" FontWeight="Bold"                                                   
                                                 HorizontalAlignment="Left"
                                                 ></Label>
@@ -266,7 +273,9 @@
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal" >
                             <Image Source="./img/salesTab.png" Height="30" HorizontalAlignment="Left"></Image>
-                            <Label Content="Sales"></Label>
+                            <Label Content="Sales"
+                                   MouseLeftButtonDown="SaleTab_MouseLeftButtonDown"
+                                   ></Label>
                         </StackPanel>
                     </TabItem.Header>
                     <Grid Background="#FFE5E5E5">
@@ -377,14 +386,17 @@
                      Height="40"
                      Name="producttab"
                      >
+                     <!--GotFocus="updateProductTable"-->
                     <!--Header="Products"-->
-                    <TabItem.Header>
+                    <TabItem.Header
+                        >
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <Image Source="./img/products.png" Height="30"></Image>
-                            <Label Content="Products"></Label>
+                            <Label Content="Products"
+                                   MouseLeftButtonDown="ProductTab_MouseLeftButtonDown"
+                                   ></Label>
                         </StackPanel>
                     </TabItem.Header>
-                    <!--GotFocus="updateProductTable"-->
                     <Grid Background="#FFE5E5E5">
                         <StackPanel>
                             <Button 
@@ -483,7 +495,8 @@
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="./img/stocks.png" Height="30"></Image>
-                            <Label Content="Stocks"></Label>
+                            <Label Content="Stocks"
+                                   MouseLeftButtonDown="StockTab_MouseLeftButtonDown"></Label>
                         </StackPanel>
                     </TabItem.Header>
                     <Grid Background="#FFE5E5E5">
@@ -584,7 +597,7 @@
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Stretch"
                                 AutoGenerateColumns="False"
-                                ItemsSource="{Binding}"
+                                ItemsSource="{Binding stockCollection}"
                                 SelectedCellsChanged="stockTable_SelectedCellsChanged"
                                 Name="stockTable"
                                 SelectionUnit="FullRow"
@@ -648,7 +661,8 @@
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="./img/customers.png" Height="30"></Image>
-                            <Label Content="Customers"></Label>
+                            <Label Content="Customers"
+                                   MouseLeftButtonDown="CustomerTab_MouseLeftButtonDown"></Label>
                         </StackPanel>
                     </TabItem.Header>
                     <Grid Background="#FFE5E5E5">
