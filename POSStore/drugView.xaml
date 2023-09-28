@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        Title="Companion POS: Drug View" Height="600" Width="450"
+        Title="Companion POS: Drug View" Height="550" Width="350"
         Icon="./img/RX.png"
         >
     <Grid Background="Azure">
@@ -24,17 +24,17 @@
                     </StackPanel>
                 </Label>
             </DockPanel>
-            <DockPanel Margin="0,0,0,0"  MinHeight="200" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">                
+            <DockPanel Margin="0,0,0,0"  MinHeight="200" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
                 <Grid Grid.Column="1" Margin="10,10,10,0" MaxWidth="300">
                     <StackPanel>
                         <Label Content="Name" Height="30" Margin="0 10 0 0"></Label>
                         <Label Content="Formula" Height="30" Margin="0 10 0 0"></Label>
-                        <Label Content="Quantity" Height="30" Margin="0 10 0 0"></Label>
-                        <Label Content="Price" Height="30" Margin="0 10 0 0"></Label>
+                        <Label Content="No. of Packs" Height="30" Margin="0 10 0 0"></Label>
+                        <Label Content="Retail Price/Pack" Height="30" Margin="0 10 0 0"></Label>
                         <Label Content="Manufacturer" Height="30" Margin="0 10 0 0"></Label>
                         <Label Content="Expiry" Height="30" Margin="0 10 0 0"></Label>
                         <Label Content="Supplier" Height="30" Margin="0 10 0 0"></Label>
-                        <Label Content="Purchase" Height="30" Margin="0 10 0 0"></Label>
+                        <Label Content="Purchase Price/Pack" Height="30" Margin="0 10 0 0"></Label>
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Column="2" Margin="10,10,10,0">
@@ -51,26 +51,27 @@
                     </StackPanel>
                 </Grid>
             </DockPanel>
-            <DockPanel Width="400" HorizontalAlignment="Stretch">
-                <Button Name="Update"
-                        Margin="10,10,10,10" Height="60" Width="100" HorizontalAlignment="Left" Click="update"
+            <Label Content="" Name="messageLabel" Margin="10" Foreground="Red"></Label>
+            <DockPanel Width="250" HorizontalAlignment="Right" Margin="0,0,50,0">
+                <Button Name="Close" 
+                        Margin="10,10,10,10" Height="40" Width="100" HorizontalAlignment="Right" Click="close"
                         >
                     <StackPanel Orientation="Vertical">
-                        <Image Source="./img/save.png" Height="20" Width="20"></Image>
+                        <Image Source="./img/delete.png" Height="15" Width="20"></Image>
+                        <Label
+                            Content="Cancel" 
+                            >
+                        </Label>
+                    </StackPanel>
+                </Button>
+                <Button Name="Update"
+                        Margin="10,10,10,10" Height="40" Width="100" HorizontalAlignment="Right" Click="update"
+                        >
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="./img/save.png" Height="15" Width="20"></Image>
                         <Label 
                             Content="Update/Save"                            
                             ></Label>
-                    </StackPanel>
-                </Button>
-                <Button Name="Close" 
-                        Margin="10,10,10,10" Height="60" Width="100" HorizontalAlignment="Right" Click="close"
-                        >
-                    <StackPanel Orientation="Vertical">
-                        <Image Source="./img/delete.png" Height="20" Width="20"></Image>
-                        <Label
-                            Content="Cancel" 
-                            >                            
-                        </Label>
                     </StackPanel>
                 </Button>
             </DockPanel>

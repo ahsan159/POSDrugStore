@@ -205,5 +205,16 @@ namespace POSStore
         {
 
         }
+        public bool IsUniqueDrugName(string name)
+        {
+            //List<string> drugNames;
+            string query = @"select * from mainLedger where name='" + name + @"'";
+            DataTable dt = executeBasicQuery(query);
+            if (dt.Rows.Count==0)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

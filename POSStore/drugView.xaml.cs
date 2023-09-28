@@ -26,12 +26,13 @@ namespace POSStore
         // string  connectionString = "Data Source=AHSAN-PC\\SQLExpress;Initial Catalog=DSPOS;Integrated Security=True;Pooling=False";
         private int sqlID = -1;
         sqlWrapper sWrap = sqlWrapper.getInstance();
+        private Brushes brush;
 
         public drugView()
         {
             InitializeComponent();
             sqlID = -1;
-            Update.IsEnabled = false;
+            Update.IsEnabled = false;            
         }
         public drugView(bool allowEdit = false)
         {
@@ -65,8 +66,57 @@ namespace POSStore
             }
             //MessageBox.Show(sqlID.ToString());
         }
+        private bool validatedData()
+        {
+            int error = 0;
+            nameData.ClearValue(TextBox.BorderBrushProperty);
+            quantityData.ClearValue(TextBox.BorderBrushProperty);
+            manufacturerData.ClearValue(TextBox.BorderBrushProperty);
+            priceData.ClearValue(TextBox.BorderBrushProperty);
+            if (string.IsNullOrEmpty(nameData.Text.Trim()))
+            {
+                nameData.BorderBrush = Brushes.Red;
+                error++;
+            }
+            if (string.IsNullOrEmpty(quantityData.Text.Trim()))
+            {
+                quantityData.BorderBrush = Brushes.Red;
+                error++;
+            }
+            if (string.IsNullOrEmpty(manufacturerData.Text.Trim()))
+            {
+                manufacturerData.BorderBrush = Brushes.Red;
+                error++;
+            }
+            if (string.IsNullOrEmpty(priceData.Text.Trim()))
+            {
+                priceData.BorderBrush = Brushes.Red;
+                error++;
+            }
+            if (error>0)
+            {
+                return false;
+            }
+            return true;
+        }
         public void update(object sender, RoutedEventArgs rea)
         {
+            if (!validatedData())
+            {
+                messageLabel.Content = "**Kindly input the required fields";
+                return;
+            }
+            if (!sWrap.IsUniqueDrugName(nameData.Text.Trim()))
+            {
+                messageLabel.Content = "**Product already exist";
+                nameData.BorderBrush = Brushes.Red;
+                return;
+            }
+            nameData.ClearValue(TextBox.BorderBrushProperty);
+            quantityData.ClearValue(TextBox.BorderBrushProperty);
+            manufacturerData.ClearValue(TextBox.BorderBrushProperty);
+            priceData.ClearValue(TextBox.BorderBrushProperty);
+            messageLabel.Content = "";
             Dictionary<string, string> dict = new Dictionary<string, string>();
             dict.Add("name", nameData.Text);
             dict.Add("formula", formulaData.Text);
