@@ -20,7 +20,7 @@ namespace POSStore
 {
     public partial class dashBoard : Window
     {
-        public DataTable? productListDT { get; set; } = new DataTable("productList");
+        
         public int selectitemIndex { get; set; } = 0;
         public void initializeDrugListTab()
         {

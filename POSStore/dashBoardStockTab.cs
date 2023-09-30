@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using System.Data;
 using System.Data.SqlClient;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace POSStore
 {
@@ -25,32 +27,36 @@ namespace POSStore
         public string quantitytobeAdded { get; set; }
         public string retailPriceT { get; set; }
         public string purchasePriceT { get; set; }
-        public List<string> drugListBinding { get; set; }
+        //public List<string?> drugListBinding { get; set; }
+        //public List<string> drugListID = new List<string>();
         public string selectDrug { get; set; }
         public int selectDrugIndex { get; set; } = 0;
 
-        public List<string> drugListID = new List<string>();
 
         private void initializeStockTableTab()
         {
             stockCollection = dWrap.getTable("stockTable");
-            DataTable drugList = dWrap.executeQuery("mainLedger", new List<string>() { "name", "id" });
+            //DataTable drugList = dWrap.executeQuery("mainLedger", new List<string>() { "name", "id" });
             //drugSelection.ItemsSource = drugList.AsEnumerable().Select(r => r.Field<string>("name")).ToList();
-            drugListBinding = drugList.Rows.Cast<DataRow>().Select(r => r.ItemArray[0].ToString()).ToList<string>();
-            drugListID = drugList.Rows.Cast<DataRow>().Select(r => r.ItemArray[1].ToString()).ToList();
+            //drugListBinding = drugList.Rows.Cast<DataRow>().Select(r => r.ItemArray[0].ToString()).ToList<string>();
+            //drugListID = drugList.Rows.Cast<DataRow>().Select(r => r.ItemArray[1].ToString()).ToList();
+
+            //drugListBinding = productListDT.AsEnumerable().Select(r => r.Field<string?>("name")).ToList();
+            //drugListID = productListDT.AsEnumerable().Select(r => r.Field<int>("id").ToString()).ToList();
+
         }
         private void updateStockBtn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 string query = @"select quantity from " + " mainLedger " + " where id='" +
-                    drugListID[selectDrugIndex].ToString()+"';";
+                    drugListComboID[selectDrugIndex].ToString()+"';";
                 //MessageBox.Show(query);
                 string previousQuantity = dWrap.executeBasicQuery(query).Rows[0]["quantity"].ToString();
                 int pQ = int.Parse(previousQuantity);
                 int aQ = int.Parse(quantitytobeAdded);
                 DataRow dr = stockCollection.NewRow();
-                dr["ProductID"] = drugListID[selectDrugIndex].ToString();
+                dr["ProductID"] = drugListComboID[selectDrugIndex].ToString();
                 dr["QuantityAdded"] = aQ.ToString();
                 dr["Purchase"] = purchasePriceT;
                 dr["Retail"] = retailPriceT;
@@ -60,8 +66,8 @@ namespace POSStore
                 uploadToDB();
                 // I still need to update retail price.
                 string query2 = "Update mainLedger set quantity='" + 
-                    (aQ+pQ).ToString() + "' where id='" + 
-                    drugListID[selectDrugIndex].ToString() + "';";
+                    (aQ+pQ).ToString() + "' where id='" +
+                    drugListComboID[selectDrugIndex].ToString() + "';";
                 dWrap.executeNonQuery(query2);
 
                 addedQuantity.Clear();
@@ -142,6 +148,10 @@ namespace POSStore
             {
                 stockCollection.Rows.Add(dr.ItemArray);
             }
+            //DataTable drugList = dWrap.executeQuery("mainLedger", new List<string>() { "name", "id" });
+            ////drugSelection.ItemsSource = drugList.AsEnumerable().Select(r => r.Field<string>("name")).ToList();
+            //drugListBinding = drugList.Rows.Cast<DataRow>().Select(r => r.ItemArray[0].ToString()).ToList<string>();
+            //drugListID = drugList.Rows.Cast<DataRow>().Select(r => r.ItemArray[1].ToString()).ToList();
         }
         private void deleteStock(object sender, RoutedEventArgs e)
         {

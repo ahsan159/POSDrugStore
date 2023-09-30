@@ -27,7 +27,30 @@ namespace POSStore
     {
         sqlWrapper wrap = sqlWrapper.getInstance();
         sqlWrapper dWrap = sqlWrapper.getInstance();
-        
+        public DataTable? productListDT { get; set; } = new DataTable("productList");
+        public List<string?> _drugListComboItems { get; set; } = new();
+        public List<string?> drugListComboItems
+        {
+            get
+            {
+                return _drugListComboItems;
+            }
+            set
+            {
+                _drugListComboItems = value;
+                NotifyPropertyChanged("drugListComboItems");
+            }
+        }
+
+        private void NotifyPropertyChanged(string v)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(v));
+            }
+        }
+
+        public List<int>? drugListComboID { get; set; } = new List<int>();
         public DataTable displaySaleTableDT { get; set; } = new DataTable();
         public DataTable invoiceSaleTableDT { get; set; } = new DataTable();
         public dashBoard()
@@ -174,7 +197,7 @@ namespace POSStore
             }
             
             
-            MessageBox.Show(GetDaySales(dt,"2023-09-30").ToString());
+            //MessageBox.Show(GetDaySales(dt,"2023-09-30").ToString());
 
 
         }

@@ -23,9 +23,7 @@ namespace POSStore
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public DataTable newSaleCollection { get; set; } = new DataTable("NewSale");
-        string saleTableName = string.Empty;        
-        public List<string?> drugListComboItems { get;set;}  = new List<string?>();
-        public List<int>? drugListComboID { get; set; } = new List<int>();
+        string saleTableName = string.Empty;
         public string selectValueBind { get; set; }
         public int indexSelected { get; set; } = 0;
         public string selectedProduct { get; set; } = string.Empty;
@@ -43,7 +41,7 @@ namespace POSStore
             // invoiceNo.Text = @"Invoice\" + dateCode + @"\" + dWrap.itemCount("invoiceLedger").ToString();
             nsSaleTableName = @"Invoice\" + dateCode + @"\" + dWrap.itemCount("invoiceLedger").ToString();
             saleTableName = nsSaleTableName.Replace(@"\", "_");
-            populateDrugListCombo();
+            //populateDrugListCombo();
 
             newSaleCollection.Columns.Add("Name", typeof(string));
             newSaleCollection.Columns.Add("Quantity", typeof(string));
@@ -85,7 +83,7 @@ namespace POSStore
                            [ID] INT NULL,
                            [Stock] INT NULL
                         )";
-            dWrap.executeNonQuery(query);            
+            dWrap.executeNonQuery(query);
         }
         private void newSaleTable_SelectionChanged(object sender, SelectedCellsChangedEventArgs evt)
         {
@@ -106,13 +104,16 @@ namespace POSStore
             catch (Exception e) { }
         }
 
-        private void populateDrugListCombo()
-        {
-            DataTable dt = dWrap.executeBasicQuery("SELECT DISTINCT(name),id FROM mainLedger");
-            drugListComboItems = dt.Rows.Cast<DataRow>().Select(r => r.Field<string>("name")).ToList();
-            drugListComboID = dt.Rows.Cast<DataRow>().Select(r => r.Field<int>("id")).ToList();            
-            //MessageBox.Show(drugListComboItems.Count.ToString(), "Populate", MessageBoxButton.OK);
-        }
+        //private void populateDrugListCombo()
+        //{
+        //    DataTable dt = dWrap.executeBasicQuery("SELECT DISTINCT(name),id FROM mainLedger");
+        //    List<string> sList = dt.Rows.Cast<DataRow>().Select(r => r.Field<string>("name")).ToList(); ;
+        //    foreach (string s in sList) {
+        //        drugListComboItems.Add(s);
+        //            }
+        //    drugListComboID = dt.Rows.Cast<DataRow>().Select(r => r.Field<int>("id")).ToList();
+        //    //MessageBox.Show(drugListComboItems.Count.ToString(), "Populate", MessageBoxButton.OK);
+        //}
 
         private void deleteDataRow(object sender, RoutedEventArgs evt)
         {
@@ -262,8 +263,8 @@ namespace POSStore
                     newSaleCollection.Rows.Count.ToString() + "','" +
                     DateTime.Now.ToString("yyyy-MM-dd") + "','" +
                     DateTime.Now.ToString("hh:mm:ss") + "','" +
-                    saleTableName + "');";                
-                dWrap.executeNonQuery(invoiceString);                
+                    saleTableName + "');";
+                dWrap.executeNonQuery(invoiceString);
                 ClearForNewSale();
 
             }
@@ -281,7 +282,7 @@ namespace POSStore
             discountTotal.Text = "";
             paidTotal.Text = "";
             balanceTotal.Text = "";
-            string dateCode = DateTime.Now.ToString("yyyyMMddhhmmss");            
+            string dateCode = DateTime.Now.ToString("yyyyMMddhhmmss");
             nsSaleTableName = @"Invoice\" + dateCode + @"\" + dWrap.itemCount("invoiceLedger").ToString();
             saleTableName = nsSaleTableName.Replace(@"\", "_");
             invoiceNo.Text = nsSaleTableName;
@@ -296,9 +297,11 @@ namespace POSStore
         }
         private void refreshNewSale()
         {
+            //MessageBox.Show("updating");
             DataTable dt = dWrap.executeBasicQuery("SELECT DISTINCT(name),id FROM mainLedger");
-            drugListComboItems = dt.Rows.Cast<DataRow>().Select(r => r.Field<string>("name")).ToList();
-            drugListComboID = dt.Rows.Cast<DataRow>().Select(r => r.Field<int>("id")).ToList();  
+            drugListComboItems = dt.Rows.Cast<DataRow>().Select(r => r.Field<string>("name")).ToList(); ;
+            drugListComboID = dt.Rows.Cast<DataRow>().Select(r => r.Field<int>("id")).ToList();
+            (newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
         }
 
     }
