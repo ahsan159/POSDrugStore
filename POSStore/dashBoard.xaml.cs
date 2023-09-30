@@ -16,6 +16,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO.Pipes;
 
 namespace POSStore
 {
@@ -57,6 +58,8 @@ namespace POSStore
 
             // for cutomer tab initialization
             updateCustomerTable();
+
+            SetGraphs();
         }
         private void closeWindow(object sender, RoutedEventArgs evt)
         {
@@ -133,6 +136,58 @@ namespace POSStore
         private void NewSaleTab_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             refreshNewSale();
+        }
+
+        private void SetGraphs()
+        {
+            List<string> stack = new List<String>();
+            List<string> dateLabel = new List<string>();
+            List<string> graphLabel = new List<string>();
+            List<string> moneyLabel = new List<string>();
+            for (int  i = 0; i< 7; i++)
+            {
+                stack.Add("G" + (i + 1).ToString());
+                dateLabel.Add("GD" + (i + 1).ToString());
+                graphLabel.Add("GG" + (i + 1).ToString());
+                moneyLabel.Add("GA" + (i + 1).ToString());
+
+            }    
+            foreach(string s in stack)
+            {
+                StackPanel c = this.FindName(s) as StackPanel;
+                c.Visibility = Visibility.Hidden;
+            }
+            DataTable dt = dWrap.getTable("invoiceLedger");
+            int index = 0;
+            foreach(DataRow dr in dt.Rows)
+            {
+                Label l1 = this.FindName(dateLabel[index]) as Label;
+                l1.Content = dr["DBName"].ToString();
+                Label l2 = this.FindName(moneyLabel[index]) as Label;
+                l2.Content = dr["Total"].ToString();
+                StackPanel s = this.FindName(stack[index]) as StackPanel;
+                s.Visibility = Visibility.Visible;
+                int length1 = int.Parse(dr["Total"].ToString())/10;
+                Label l3 = this.FindName(graphLabel[index]) as Label;
+                l3.Content = new string(' ', length1);
+                index++;
+            }
+            
+            
+            MessageBox.Show(GetDaySales(dt,"2023-09-30").ToString());
+
+
+        }
+
+        private int GetDaySales(DataTable dt, string day)
+        {
+            int sum = 0;
+            var result = dt.AsEnumerable().Where(r => r.Field<DateTime>("CheckoutDate") == DateTime.Parse(day));
+            foreach (DataRow d in result)
+            {
+                sum += int.Parse(d["Total"].ToString());
+            }
+            return sum;
         }
     }
 }
