@@ -121,10 +121,11 @@ namespace POSStore
         {
             ComboBox cbox = sender as ComboBox;
             cbox.IsDropDownOpen = true;
-            //if(e.Key==Key.Tab)
-            //{
-            //    drugSelection.IsDropDownOpen = false;
-            //}
+            if (e.Key!=Key.Enter)
+            {
+                drugListComboItems = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((drugSelection.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<string>("name")).ToList();
+                drugListComboID = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((drugSelection.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<int>("id")).ToList();
+            }
         }
 
         private void drugSelection_LostFocus(object sender, RoutedEventArgs e)

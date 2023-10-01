@@ -290,9 +290,12 @@ namespace POSStore
         }
         private void newProductEntry_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (e.Key != Key.Enter)
             {
-                MessageBox.Show("Enter is pressed");
+                ComboBox c = sender as ComboBox;
+                c.IsDropDownOpen = true;
+                drugListComboItems = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((newProductEntry.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<string>("name")).ToList();
+                drugListComboID = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((newProductEntry.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<int>("id")).ToList();
             }
         }
         private void refreshNewSale()
