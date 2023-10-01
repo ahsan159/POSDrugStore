@@ -30,7 +30,7 @@ namespace POSStore
         //public List<string?> drugListBinding { get; set; }
         //public List<string> drugListID = new List<string>();
         public string selectDrug { get; set; }
-        public int selectDrugIndex { get; set; } = 0;
+        public int selectDrugIndex { get; set; } = -1;
 
 
         private void initializeStockTableTab()
@@ -50,7 +50,7 @@ namespace POSStore
             try
             {
                 string query = @"select quantity from " + " mainLedger " + " where id='" +
-                    drugListComboID[selectDrugIndex].ToString()+"';";
+                    drugListComboID[selectDrugIndex].ToString() + "';";
                 //MessageBox.Show(query);
                 string previousQuantity = dWrap.executeBasicQuery(query).Rows[0]["quantity"].ToString();
                 int pQ = int.Parse(previousQuantity);
@@ -65,8 +65,8 @@ namespace POSStore
 
                 uploadToDB();
                 // I still need to update retail price.
-                string query2 = "Update mainLedger set quantity='" + 
-                    (aQ+pQ).ToString() + "' where id='" +
+                string query2 = "Update mainLedger set quantity='" +
+                    (aQ + pQ).ToString() + "' where id='" +
                     drugListComboID[selectDrugIndex].ToString() + "';";
                 dWrap.executeNonQuery(query2);
 
@@ -92,10 +92,10 @@ namespace POSStore
             {
                 if (string.IsNullOrEmpty(dataRow["Sr"].ToString()))
                 {
-                    List<string> fvalues = dataRow.ItemArray.Select(i=>i.ToString()).ToList();
+                    List<string> fvalues = dataRow.ItemArray.Select(i => i.ToString()).ToList();
                     fvalues.RemoveAt(0);
                     string query = @"INSERT INTO stockTable (" +
-                        string.Join(",", fields ) +
+                        string.Join(",", fields) +
                         @") VALUES ('" +
                         string.Join("','", fvalues) +
                         "');";
@@ -119,12 +119,14 @@ namespace POSStore
 
         private void drugSelection_KeyDown(object sender, KeyEventArgs e)
         {
-            ComboBox cbox = sender as ComboBox;
-            cbox.IsDropDownOpen = true;
-            //if(e.Key==Key.Tab)
-            //{
-            //    drugSelection.IsDropDownOpen = false;
-            //}
+            if (e.Key != Key.Enter)
+            {
+                ComboBox cbox = sender as ComboBox;
+                cbox.IsDropDownOpen = true;
+                // this linq query filters the drop down display item by altering the dropdown list
+                drugListComboItems = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((drugSelection.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<string>("name")).ToList();
+                drugListComboID = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((drugSelection.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<int>("id")).ToList();
+            }
         }
 
         private void drugSelection_LostFocus(object sender, RoutedEventArgs e)
@@ -134,7 +136,7 @@ namespace POSStore
         }
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-          
+
         }
         private void stockTable_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {

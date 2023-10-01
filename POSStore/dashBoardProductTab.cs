@@ -50,7 +50,9 @@ namespace POSStore
                 {
                     productListDT.Rows.RemoveAt(selectitemIndex);
                 }
-            }            
+            }
+            refreshProducts();
+            refreshNewSale();
             //refresh();
         }
         public void addNewDrug(object sender, RoutedEventArgs evt)
@@ -60,6 +62,7 @@ namespace POSStore
             //productListDT.Reset();
             //productListDT = dWrap.getTable("mainLedger");            
             refreshProducts();
+            refreshNewSale();
         }
         void refreshProducts()
         {
