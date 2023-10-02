@@ -184,13 +184,16 @@ namespace POSStore
             int index = 0;
             foreach(DataRow dr in dt.Rows)
             {
+                if (index>6) { break; }
+                //MessageBox.Show(dateLabel.Count().ToString() + Environment.NewLine + index);
                 Label l1 = this.FindName(dateLabel[index]) as Label;
                 l1.Content = dr["DBName"].ToString();
                 Label l2 = this.FindName(moneyLabel[index]) as Label;
                 l2.Content = dr["Total"].ToString();
                 StackPanel s = this.FindName(stack[index]) as StackPanel;
                 s.Visibility = Visibility.Visible;
-                int length1 = int.Parse(dr["Total"].ToString())/10;
+                //MessageBox.Show(dr["Total"].ToString());
+                int length1 = (int)double.Parse(dr["Total"].ToString())/10;
                 Label l3 = this.FindName(graphLabel[index]) as Label;
                 l3.Content = new string(' ', length1);
                 index++;

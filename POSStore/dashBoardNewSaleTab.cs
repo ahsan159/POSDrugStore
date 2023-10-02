@@ -62,7 +62,7 @@ namespace POSStore
             newSaleDataGrid.ItemsSource = newSaleCollection.DefaultView;
             //MessageBox.Show(drugListComboItems.Count.ToString());
 
-            (newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
+            //(newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
             // MessageBox.Show("I am called");
 
         }
@@ -290,12 +290,14 @@ namespace POSStore
         }
         private void newProductEntry_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key != Key.Enter)
+            //MessageBox.Show("Key down");
+            if (e.Key != Key.Enter && !char.IsLetterOrDigit((char)e.Key))
             {
                 ComboBox c = sender as ComboBox;
                 c.IsDropDownOpen = true;
-                drugListComboItems = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((newProductEntry.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<string>("name")).ToList();
-                drugListComboID = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((newProductEntry.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<int>("id")).ToList();
+                //MessageBox.Show(c.Text.ToString(),"Combo");
+                drugListComboItems = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((c.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<string>("name")).ToList();
+                drugListComboID = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((c.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<int>("id")).ToList();
             }
         }
         private void refreshNewSale()
@@ -304,7 +306,7 @@ namespace POSStore
             DataTable dt = dWrap.executeBasicQuery("SELECT DISTINCT(name),id FROM mainLedger");
             drugListComboItems = dt.Rows.Cast<DataRow>().Select(r => r.Field<string>("name")).ToList(); ;
             drugListComboID = dt.Rows.Cast<DataRow>().Select(r => r.Field<int>("id")).ToList();
-            (newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
+            //(newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
         }
 
     }

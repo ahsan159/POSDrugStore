@@ -203,14 +203,15 @@
                                 <DataGrid.Columns>
                                     <DataGridComboBoxColumn Header="Product"        
                                                             ItemsSource="{Binding drugListComboItems,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                            SelectedItemBinding="{Binding selectedProduct}"                                                            
                                                                 >
-                                        <!--SelectedItemBinding="{Binding selectedProduct}"-->
                                         <DataGridComboBoxColumn.EditingElementStyle>
                                             <Style TargetType="ComboBox">
                                                 <EventSetter Event="GotFocus" Handler="comboFocused"></EventSetter>
                                                 <EventSetter Event="SelectionChanged" Handler="comboSelected"></EventSetter>
+                                                <EventSetter Event="KeyDown" Handler="newProductEntry_KeyDown"></EventSetter>
                                                 <Setter Property="SelectedIndex" Value="{Binding selectedComboIndex}"></Setter>
-                                                <Setter Property="IsEditable" Value="True"></Setter>
+                                                <Setter Property="IsEditable" Value="True"></Setter>                                                
                                             </Style>
                                         </DataGridComboBoxColumn.EditingElementStyle>
                                     </DataGridComboBoxColumn>
@@ -679,6 +680,13 @@
                             Binding="{Binding User}"
                             IsReadOnly="True"
                             ></DataGridTextColumn>
+                                    <DataGridTemplateColumn Header="Delete">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Click="deleteStock">Delete</Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </StackPanel>
