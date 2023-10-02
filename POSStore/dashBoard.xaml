@@ -171,7 +171,7 @@
                                             Width="180"                                          
                                             IsEditable="True"
                                             ItemsSource="{Binding drugListComboItems,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"                                             
-                                            KeyDown="newProductEntry_KeyDown"
+                                            KeyDown="newProductEntry_KeyDown"                                            
                                             ></ComboBox>
                                     </DockPanel>
                                     <DockPanel>
@@ -201,28 +201,15 @@
                                         >
                                 <!--SelectionChanged="newSaleTable_SelectionChanged"-->
                                 <DataGrid.Columns>
-                                    <!--<DataGridTemplateColumn Header="Product">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                            --><!--HorizontalAlignment="Right"--> 
-                                            <!--x:Name="--><!--newProductEntry--><!--"--><!--
-                                                <ComboBox 
-                                            Margin="0" 
-                                            Width="100"                                          
-                                            IsEditable="True"
-                                            ItemsSource="{Binding drugListComboItems,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
-                                            KeyDown="newProductEntryDataGrid_KeyDown"
-                                            ></ComboBox>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>                                                
-                                    </DataGridTemplateColumn>-->
-                                                            <!--ItemsSource="{Binding drugListComboItems,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"--> 
+                                    <!--ItemsSource="{Binding drugListComboItems,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"--> 
+                                    <!--using binding with ItemSource is not working i donot know why but i have directly set itemsource in code 
+                                    which is working.-->
                                     <DataGridComboBoxColumn Header="Product"        
                                                             SelectedItemBinding="{Binding selectedProduct}"                                                            
                                                                 >
                                         <DataGridComboBoxColumn.EditingElementStyle>
                                             <Style TargetType="ComboBox">
-                                                <EventSetter Event="GotFocus" Handler="comboFocused"></EventSetter>
+                                                <EventSetter Event="GotFocus" Handler="DataGridComboFocused"></EventSetter>
                                                 <EventSetter Event="SelectionChanged" Handler="comboSelected"></EventSetter>
                                                 <EventSetter Event="KeyDown" Handler="newProductEntry_KeyDown"></EventSetter>
                                                 <Setter Property="SelectedIndex" Value="{Binding selectedComboIndex}"></Setter>
@@ -251,6 +238,16 @@
                                                                 IsReadOnly="True"
                                                                 Binding="{Binding Total}"
                                                                 ></DataGridTextColumn>
+                                    <DataGridTemplateColumn Header="Delete">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    Content="Delete"
+                                                    Click="deleteDataRow"
+                                                    ></Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>                                        
+                                    </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                             <DockPanel                                
@@ -577,7 +574,7 @@
                                         IsEditable="True"
                                         AllowDrop="True"
                                         KeyDown="drugSelection_KeyDown"
-                                        LostFocus="drugSelection_LostFocus"
+                                        LostFocus="drugSelection_LostFocus"                                            
                             ></ComboBox>
                                     </DockPanel>
                                     <DockPanel VerticalAlignment="Top">

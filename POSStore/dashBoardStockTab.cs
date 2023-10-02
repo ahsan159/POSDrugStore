@@ -125,13 +125,15 @@ namespace POSStore
             {
                 drugListComboItems = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((drugSelection.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<string>("name")).ToList();
                 drugListComboID = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((drugSelection.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<int>("id")).ToList();
+                //selectDrug = drugListComboItems[selectDrugIndex];
             }
         }
 
         private void drugSelection_LostFocus(object sender, RoutedEventArgs e)
         {
-            ComboBox cbox = sender as ComboBox;
-            cbox.IsDropDownOpen = false;
+            //ComboBox cbox = sender as ComboBox;
+            //cbox.IsDropDownOpen = false;
+            //cbox.Text = "Risek";
         }
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
