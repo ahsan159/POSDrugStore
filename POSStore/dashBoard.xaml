@@ -170,7 +170,7 @@
                                             Margin="10,10,10,10" 
                                             Width="180"                                          
                                             IsEditable="True"
-                                            ItemsSource="{Binding drugListComboItems,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                            ItemsSource="{Binding drugListComboItems,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"                                             
                                             KeyDown="newProductEntry_KeyDown"
                                             ></ComboBox>
                                     </DockPanel>
@@ -201,8 +201,23 @@
                                         >
                                 <!--SelectionChanged="newSaleTable_SelectionChanged"-->
                                 <DataGrid.Columns>
+                                    <!--<DataGridTemplateColumn Header="Product">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                            --><!--HorizontalAlignment="Right"--> 
+                                            <!--x:Name="--><!--newProductEntry--><!--"--><!--
+                                                <ComboBox 
+                                            Margin="0" 
+                                            Width="100"                                          
+                                            IsEditable="True"
+                                            ItemsSource="{Binding drugListComboItems,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                            KeyDown="newProductEntryDataGrid_KeyDown"
+                                            ></ComboBox>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>                                                
+                                    </DataGridTemplateColumn>-->
+                                                            <!--ItemsSource="{Binding drugListComboItems,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"--> 
                                     <DataGridComboBoxColumn Header="Product"        
-                                                            ItemsSource="{Binding drugListComboItems,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
                                                             SelectedItemBinding="{Binding selectedProduct}"                                                            
                                                                 >
                                         <DataGridComboBoxColumn.EditingElementStyle>
