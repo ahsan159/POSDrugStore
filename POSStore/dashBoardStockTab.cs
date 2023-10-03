@@ -27,11 +27,8 @@ namespace POSStore
         public string quantitytobeAdded { get; set; }
         public string retailPriceT { get; set; }
         public string purchasePriceT { get; set; }
-        //public List<string?> drugListBinding { get; set; }
-        //public List<string> drugListID = new List<string>();
         public string selectDrug { get; set; }
         public int selectDrugIndex { get; set; } = 0;
-
 
         private void initializeStockTableTab()
         {
@@ -49,24 +46,33 @@ namespace POSStore
         {
             try
             {
+                //MessageBox.Show(drugListComboID.Count().ToString() + Environment.NewLine +
+                //                drugListComboItems.Count().ToString() + Environment.NewLine +
+                //                selectDrugIndex.ToString() + Environment.NewLine, "error");
+
+
                 string query = @"select quantity from " + " mainLedger " + " where id='" +
-                    drugListComboID[selectDrugIndex].ToString()+"';";
+                    drugListComboID[selectDrugIndex].ToString() + "';";
                 //MessageBox.Show(query);
                 string previousQuantity = dWrap.executeBasicQuery(query).Rows[0]["quantity"].ToString();
                 int pQ = int.Parse(previousQuantity);
                 int aQ = int.Parse(quantitytobeAdded);
+
+
                 DataRow dr = stockCollection.NewRow();
                 dr["ProductID"] = drugListComboID[selectDrugIndex].ToString();
                 dr["QuantityAdded"] = aQ.ToString();
                 dr["Purchase"] = purchasePriceT;
                 dr["Retail"] = retailPriceT;
                 dr["Added"] = DateTime.Today.ToString("yyyy-MM-dd");
+                dr["Users"] = User;
                 stockCollection.Rows.Add(dr);
 
                 uploadToDB();
+                // Update mainLedger where product table is saved
                 // I still need to update retail price.
-                string query2 = "Update mainLedger set quantity='" + 
-                    (aQ+pQ).ToString() + "' where id='" +
+                string query2 = "Update mainLedger set quantity='" +
+                    (aQ + pQ).ToString() + "' where id='" +
                     drugListComboID[selectDrugIndex].ToString() + "';";
                 dWrap.executeNonQuery(query2);
 
@@ -79,36 +85,41 @@ namespace POSStore
             }
             catch (Exception exp)
             {
-                MessageBox.Show(exp.Message + Environment.NewLine +
+                MessageBox.Show("Err3001: Unable to update quantity in mainLedger" + Environment.NewLine +
+                    exp.Message + Environment.NewLine +
                     exp.Source + Environment.NewLine +
                     exp.StackTrace, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void uploadToDB()
         {
+            // upload the stock to database table stockTable;
+
             List<string> fields = stockCollection.Columns.Cast<DataColumn>().Select(c => c.ColumnName).ToList<string>();
-            fields.RemoveAt(0);
+            fields.RemoveAt(0); // remove serial No as it will be automatically assigned by sql server
             foreach (DataRow dataRow in stockCollection.Rows)
             {
                 if (string.IsNullOrEmpty(dataRow["Sr"].ToString()))
                 {
-                    List<string> fvalues = dataRow.ItemArray.Select(i=>i.ToString()).ToList();
+                    List<string> fvalues = dataRow.ItemArray.Select(i => i.ToString()).ToList();
                     fvalues.RemoveAt(0);
                     string query = @"INSERT INTO stockTable (" +
-                        string.Join(",", fields ) +
+                        string.Join(",", fields) +
                         @") VALUES ('" +
                         string.Join("','", fvalues) +
                         "');";
                     //MessageBox.Show(query);
-                    sqlWrapper Wrap = sqlWrapper.getInstance();
-                    Wrap.executeNonQuery(query);
-                    if (Wrap.commandStatus != "Success")
+                    //sqlWrapper Wrap = sqlWrapper.getInstance();
+                    dWrap.executeNonQuery(query);
+                    if (dWrap.commandStatus != "Success")
                     {
-                        MessageBox.Show(Wrap.errorMessage + Environment.NewLine +
+                        MessageBox.Show("Err3002: Unable to upload stockTable." + Environment.NewLine +
+                            dWrap.errorMessage + Environment.NewLine +
                             query);
                     }
                 }
             }
+
         }
         private void viewDrugList(object sender, RoutedEventArgs e)
         {
@@ -121,12 +132,27 @@ namespace POSStore
         {
             ComboBox cbox = sender as ComboBox;
             cbox.IsDropDownOpen = true;
-            if (e.Key!=Key.Enter)
+            //if (e.Key!=Key.Enter)
+            //{
+            //    drugListComboItems = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((drugSelection.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<string>("name")).ToList();
+            //    drugListComboID = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((drugSelection.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<int>("id")).ToList();
+            //    //selectDrug = drugListComboItems[selectDrugIndex];
+            //}
+            if (e.Key != Key.Enter)
             {
-                drugListComboItems = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((drugSelection.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<string>("name")).ToList();
-                drugListComboID = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((drugSelection.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<int>("id")).ToList();
+                if ((e.Key >= Key.A && e.Key <= Key.Z) || (e.Key >= Key.D0 && e.Key<=Key.D9)) // accept only letters
+                {
+                    //MessageBox.Show(e.Key.ToString(), "E1");
+                    string sSearch = (drugSelection.Text + e.Key.ToString()).ToUpper();
+                    drugListComboItems = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith(sSearch)).Select(r => r.Field<string>("name")).ToList();
+                    drugListComboID = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith(sSearch)).Select(r => r.Field<int>("id")).ToList();
+                }
+                else
+                {
+                    //MessageBox.Show(e.Key.ToString(), "E2");
+                }
                 //selectDrug = drugListComboItems[selectDrugIndex];
-            }
+            }            
         }
 
         private void drugSelection_LostFocus(object sender, RoutedEventArgs e)
@@ -137,7 +163,7 @@ namespace POSStore
         }
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-          
+
         }
         private void stockTable_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {

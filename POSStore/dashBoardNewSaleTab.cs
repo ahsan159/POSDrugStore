@@ -65,6 +65,10 @@ namespace POSStore
             //MessageBox.Show(drugListComboItems.Count.ToString());
 
             (newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
+
+            //ComboBox cb = newSaleDataGrid.Columns[0].GetCellContent(newSaleDataGrid.Items[0]) as ComboBox;
+            //cb.Text = "Cells";
+            
             // MessageBox.Show("I am called");
 
         }
@@ -302,44 +306,36 @@ namespace POSStore
             invoiceNo.Text = nsSaleTableName;
 
         }
-        private void newProductEntry_KeyDown(object sender, KeyEventArgs e)
+        private void newProductQuantity_KeyDown(object sender, KeyEventArgs e)
         {
-            //MessageBox.Show("Key down");
-                ComboBox c = sender as ComboBox;
-                c.IsDropDownOpen = true;
-            if (e.Key != Key.Enter)
+            if (e.Key == Key.Enter)
             {
-                //MessageBox.Show(c.Text.ToString(),"Combo");
-                drugListComboItems = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((c.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<string>("name")).ToList();
-                drugListComboID = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith((c.Text + e.Key.ToString()).ToUpper())).Select(r => r.Field<int>("id")).ToList();
-                (newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
-            }
-            else if (e.Key == Key.Enter)
-            {
-                if (c.SelectedIndex!=-1)
+                int q;
+                bool b = int.TryParse(newProductQuantity.Text, out q);
+                if (b)
                 {
-                    int index = c.SelectedIndex;
-                    newSaleDataGrid.SelectedIndex = newSaleCollection.Rows.Count - 1;
-                    DataTable dt = dWrap.getProductData(drugListComboID[index].ToString());
-                    newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Name"] = drugListComboItems[index];
-                    newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Quantity"] = 1;
-                    newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Discount100"] = 0;
-                    newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Discount"] = 0;
-                    newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Price"] = dt.Rows[0]["Cost"];
-                    newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["ID"] = drugListComboID[index];
-                    newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["SaleTax"] = 0;
-                    newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Stock"] = 0;
-
-                    drugName.Content = newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Name"].ToString();
-                    drugPrice.Content = newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Price"].ToString();
-                    drugStock.Content = newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Stock"].ToString();
-
-
+                    int index = newProductEntry.SelectedIndex;
+                    MessageBox.Show(index.ToString() + Environment.NewLine +
+                        drugListComboItems[index] + Environment.NewLine +
+                        drugListComboID[index]);
+                    string sSearch = newProductEntry.Text.ToUpper();                    
+                    DataRow dr = newSaleCollection.NewRow();
+                    dr["Name"] = drugListComboItems[index].ToString();
+                    dr["Quantity"] = q.ToString();
+                    dr["Discount100"] = 0;
+                    dr["Discount"] = 0;
+                    dr["Price"] = drugListComboCost[index].ToString();
+                    dr["ID"] = drugListComboID[index].ToString();
+                    dr["SaleTax"] = 0;
+                    dr["Stock"] = 0;
+                    newSaleCollection.Rows.Add(dr);
                     try
                     {
 
                         validateRows();
                         totalCost.Content = grandTotal().ToString();
+                        newProductEntry.Text = "";
+                        newProductQuantity.Text = "";
                     }
                     catch (Exception exp)
                     {
@@ -347,8 +343,35 @@ namespace POSStore
                     }
                 }
             }
-    }
-    private void refreshNewSale()
+        }
+        private void newProductEntry_KeyDown(object sender, KeyEventArgs e)
+        {
+            //MessageBox.Show("Key down");
+            ComboBox c = sender as ComboBox;
+            c.IsDropDownOpen = true;
+            if (e.Key != Key.Enter)
+            {
+                if ((e.Key >= Key.A && e.Key <= Key.Z) || (e.Key >= Key.D0 && e.Key <= Key.D9)) // accept only letters
+                {
+                    //MessageBox.Show(e.Key.ToString(), "E1");
+                    string sSearch = (newProductEntry.Text + e.Key.ToString()).ToUpper();
+                    drugListComboItems = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith(sSearch)).Select(r => r.Field<string>("name")).ToList();
+                    drugListComboID = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith(sSearch)).Select(r => r.Field<int>("id")).ToList();
+                    drugListComboCost = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith(sSearch)).Select(r => r.Field<Single>("Cost")).ToList();
+                    (newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
+                }
+                else
+                {
+                    //MessageBox.Show(e.Key.ToString(), "E2");
+                }
+                //selectDrug = drugListComboItems[selectDrugIndex];
+            }
+            else if (e.Key == Key.Enter)
+            {
+                newProductQuantity.Focus();
+            }
+        }
+        private void refreshNewSale()
         {
             //MessageBox.Show("updating");
             //DataTable dt = dWrap.executeBasicQuery("SELECT DISTINCT(name),id FROM mainLedger");

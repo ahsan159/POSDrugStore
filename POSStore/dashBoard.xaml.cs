@@ -17,6 +17,7 @@ using System.Data.SqlClient;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO.Pipes;
+using registryData;
 
 namespace POSStore
 {
@@ -27,6 +28,7 @@ namespace POSStore
     {
         sqlWrapper wrap = sqlWrapper.getInstance();
         sqlWrapper dWrap = sqlWrapper.getInstance();
+        registryDataClass regClass = new();
         public DataTable? productListDT { get; set; } = new DataTable("productList");
         public List<string?> _drugListComboItems { get; set; } = new();
         public List<string?> drugListComboItems
@@ -51,14 +53,17 @@ namespace POSStore
         }
 
         public List<int>? drugListComboID { get; set; } = new List<int>();
+        public List<Single>? drugListComboCost { get; set; } = new List<Single>();
         public DataTable displaySaleTableDT { get; set; } = new DataTable();
         public DataTable invoiceSaleTableDT { get; set; } = new DataTable();
+        public string? User { get; set; } = string.Empty;
         public dashBoard()
         {
             InitializeComponent();
             this.WindowState = WindowState.Maximized;
             dashBoardOpen(this, new RoutedEventArgs());
             this.DataContext = this;
+            User = regClass.getLoginName();
 
             // for stock Tab            
             //DataRow dr = stockCollection.NewRow();

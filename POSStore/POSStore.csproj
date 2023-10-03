@@ -62,6 +62,7 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\registryData\registryData.csproj" />
     <ProjectReference Include="..\XMLReportGenerator\XMLReportGenerator.csproj" />
   </ItemGroup>
 </Project>

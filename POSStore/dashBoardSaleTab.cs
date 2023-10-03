@@ -74,7 +74,7 @@ namespace POSStore
         {
             try
             {
-                if (selectedInvoiceIndex > 0)
+                if (selectedInvoiceIndex >= 0)
                 {
                     string str = invoiceSaleTableDT.Rows[selectedInvoiceIndex]["DBName"].ToString();
                     if (!string.IsNullOrEmpty(str))
