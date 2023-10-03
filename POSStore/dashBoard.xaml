@@ -195,7 +195,7 @@
                                 Height="300"
                                 AutoGenerateColumns="False"
                                 CanUserSortColumns="False"
-                                ItemsSource="{Binding}"
+                                ItemsSource="{Binding .}"
                                 SelectionUnit="FullRow"
                                 SelectedIndex="{Binding indexSelected}"
                                 SelectedCellsChanged="newSaleTable_SelectionChanged"                                              
@@ -205,8 +205,9 @@
                                     <!--ItemsSource="{Binding drugListComboItems,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"--> 
                                     <!--using binding with ItemSource is not working i donot know why but i have directly set itemsource in code 
                                     which is working.-->
+                                                            <!--SelectedItemBinding="{Binding Name}"-->                                                                                                                        
                                     <DataGridComboBoxColumn Header="Product"        
-                                                            SelectedItemBinding="{Binding selectedProduct}"                                                            
+                                                            SelectedItemBinding="{Binding name}"                                                                                                                        
                                                                 >
                                         <DataGridComboBoxColumn.EditingElementStyle>
                                             <Style TargetType="ComboBox">
@@ -219,6 +220,10 @@
                                             </Style>
                                         </DataGridComboBoxColumn.EditingElementStyle>
                                     </DataGridComboBoxColumn>
+                                    <!--<DataGridTextColumn Header="Name"
+                                                                Binding="{Binding Name}"
+                                                                IsReadOnly="True"
+                                                                ></DataGridTextColumn>-->
                                     <DataGridTextColumn Header="Quantity"
                                                                 Binding="{Binding Quantity}"
                                                                 ></DataGridTextColumn>

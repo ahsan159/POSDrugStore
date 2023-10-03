@@ -2,31 +2,31 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="Setup">
-            <Component Id="cmp50BAAA22296664561A94271A5153C77F" Guid="{60B4657A-6A1A-4529-8909-547728A20D06}">
+            <Component Id="cmp50BAAA22296664561A94271A5153C77F" Guid="{2342682A-92FF-40B8-A7EA-83DB16E971D6}">
                 <File Id="fil3B0124E7085BFEF33A959210D264CD5B" KeyPath="yes" Source="$(var.BasePath3)\registryData.dll" />
             </Component>
-            <Component Id="cmp2A78A1C97352A9B0AC6E48608057686A" Guid="{1B160BB2-874C-4A4E-B574-45FB10F4594F}">
+            <Component Id="cmp2A78A1C97352A9B0AC6E48608057686A" Guid="{795B4826-5C50-4333-8C10-5AD7B9648AB9}">
                 <File Id="filBAB120784585CB5952459A5B827ABD6D" KeyPath="yes" Source="$(var.BasePath3)\registryData.pdb" />
             </Component>
-            <Component Id="cmp5CD4C66CDA1A7AD7EF094F4F0B33962D" Guid="{D65EF726-3AAC-4CFE-AE45-0A4973341F24}">
+            <Component Id="cmp5CD4C66CDA1A7AD7EF094F4F0B33962D" Guid="{6B0AF269-9580-42BF-B144-983CA15FE14C}">
                 <File Id="fil48CEE1F15E7267E7BAD5E90D80C14E21" KeyPath="yes" Source="$(var.BasePath3)\setupEnvironment.deps.json" />
             </Component>
-            <Component Id="cmpDAFBB9EF4A15554E749E566587612CA0" Guid="{C50C438F-2872-46F6-8415-590ACD3AE2BB}">
+            <Component Id="cmpDAFBB9EF4A15554E749E566587612CA0" Guid="{FB13C2EF-241B-48B7-8F03-1646CE03F65E}">
                 <File Id="filCF63134562DE4E6B70398992B013E2B6" KeyPath="yes" Source="$(var.BasePath3)\setupEnvironment.dll" />
             </Component>
-            <Component Id="cmpEF2E9EAE9610FD3D15BCF837BFD59039" Guid="{D664D16A-B7E3-422F-B566-3EF6A5620342}">
+            <Component Id="cmpEF2E9EAE9610FD3D15BCF837BFD59039" Guid="{0B250C1C-B640-413E-8AED-ADEF6D9107ED}">
                 <File Id="fil30E3591C57D30F34796BD9BF627259B7" KeyPath="yes" Source="$(var.BasePath3)\setupEnvironment.exe" />
             </Component>
-            <Component Id="cmpB58293F0E1DA2FA4F0C0DCE78F8220E9" Guid="{0DFE757D-20E2-4C58-8390-AFB96ECCF9A8}">
+            <Component Id="cmpB58293F0E1DA2FA4F0C0DCE78F8220E9" Guid="{33D86972-9AEC-4A09-80B8-6E8FB2D1017F}">
                 <File Id="fil609A192F08536723733884C5F38CC84D" KeyPath="yes" Source="$(var.BasePath3)\setupEnvironment.pdb" />
             </Component>
-            <Component Id="cmp1A77932C78C50A6351F90F28D3D391A1" Guid="{1EC321DA-2506-4FAF-9BF9-F1740567519E}">
+            <Component Id="cmp1A77932C78C50A6351F90F28D3D391A1" Guid="{B2CBB8E7-2018-4184-91B6-485EB9122847}">
                 <File Id="fil68CF66BD156A59D56EF22471581222A7" KeyPath="yes" Source="$(var.BasePath3)\setupEnvironment.runtimeconfig.json" />
             </Component>
-            <Component Id="cmp69D1255E03993BEA0C6445A730F51ABD" Guid="{546ACBDC-FA45-4C1C-8D54-617A3F84F386}">
+            <Component Id="cmp69D1255E03993BEA0C6445A730F51ABD" Guid="{B6657511-6AEB-48E1-8F2C-BAF88463904D}">
                 <File Id="fil40EF6380C38C5A30943B7F00B837C659" KeyPath="yes" Source="$(var.BasePath3)\sni.dll" />
             </Component>
-            <Component Id="cmpC4ABC6CE7992ECE375BE062026F877B3" Guid="{0AEBBF3E-F3F4-4D9B-9484-5F15E46CF80D}">
+            <Component Id="cmpC4ABC6CE7992ECE375BE062026F877B3" Guid="{301176FE-3BA2-48DA-837A-0831E00D9CEC}">
                 <File Id="fil9871FC30A1863CFB19B32DCB1F4C799F" KeyPath="yes" Source="$(var.BasePath3)\System.Data.SqlClient.dll" />
             </Component>
         </DirectoryRef>
