@@ -146,6 +146,7 @@ namespace POSStore
                     string sSearch = (drugSelection.Text + e.Key.ToString()).ToUpper();
                     drugListComboItems = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith(sSearch)).Select(r => r.Field<string>("name")).ToList();
                     drugListComboID = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith(sSearch)).Select(r => r.Field<int>("id")).ToList();
+                    //drugSelection.Text = drugSelection.Text + e.Key.ToString();
                 }
                 else
                 {

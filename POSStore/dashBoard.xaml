@@ -195,7 +195,7 @@
                                 Height="300"
                                 AutoGenerateColumns="False"
                                 CanUserSortColumns="False"
-                                ItemsSource="{Binding .}"
+                                ItemsSource="{Binding newSaleCollection,Mode=TwoWay}"
                                 SelectionUnit="FullRow"
                                 SelectedIndex="{Binding indexSelected}"
                                 SelectedCellsChanged="newSaleTable_SelectionChanged"                                              
@@ -215,15 +215,15 @@
                                                 <EventSetter Event="SelectionChanged" Handler="comboSelected"></EventSetter>
                                                 <EventSetter Event="KeyDown" Handler="newProductEntry_KeyDown"></EventSetter>
                                                 <Setter Property="SelectedIndex" Value="{Binding selectedComboIndex}"></Setter>
-                                                <!--<Setter Property="Text" Value="Cells"></Setter>-->
+                                                <!--<Setter Property="Text" Value="{Binding Name}"></Setter>-->
                                                 <Setter Property="IsEditable" Value="True"></Setter>                                                
                                             </Style>
                                         </DataGridComboBoxColumn.EditingElementStyle>
                                     </DataGridComboBoxColumn>
-                                    <!--<DataGridTextColumn Header="Name"
+                                    <DataGridTextColumn Header="Name"
                                                                 Binding="{Binding Name}"
                                                                 IsReadOnly="True"
-                                                                ></DataGridTextColumn>-->
+                                                                ></DataGridTextColumn>
                                     <DataGridTextColumn Header="Quantity"
                                                                 Binding="{Binding Quantity}"
                                                                 ></DataGridTextColumn>

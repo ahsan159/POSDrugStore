@@ -61,7 +61,7 @@ namespace POSStore
             //DataRow dr2 = newSaleCollection.NewRow();
             //dr2["Discount"] = "Data2";
             //newSaleCollection.Rows.Add(dr2);
-            newSaleDataGrid.ItemsSource = newSaleCollection.DefaultView;
+            //newSaleDataGrid.ItemsSource = newSaleCollection.DefaultView;
             //MessageBox.Show(drugListComboItems.Count.ToString());
 
             (newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
