@@ -1,6 +1,7 @@
 ﻿using System.Xml.Linq;
 using System.Xml;
-namespace persons
+
+namespace person
 {
     public enum genderType
     {
@@ -260,8 +261,8 @@ namespace persons
         public void setDOB(DateTime _dt)
         {
             dob = _dt;
-            int y = (DateTime.Now.Year - dob.Year);
-            int z = (DateTime.Now.Month > dob.Month) && (DateTime.Now.Day > dob.Day) ? 0 : 1;
+            int y = DateTime.Now.Year - dob.Year;
+            int z = DateTime.Now.Month > dob.Month && DateTime.Now.Day > dob.Day ? 0 : 1;
             //age = a.Duration;
             age = y - z;
         }

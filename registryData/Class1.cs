@@ -29,6 +29,7 @@ namespace registryData
                 createLiscenceKeys();
                 createLoginKey();
                 createsqlKey();
+                createFolderKey();
                 if (firstRun)
                 {
                     setfirstRun();
@@ -54,6 +55,7 @@ namespace registryData
             configKey.SetValue("Customer", "Name");
             configKey.SetValue("CustomerID", "12397");
             configKey.SetValue("InstallLocation", @"C:\Users\muhammadahsan\source\repos\POSStore\POSStore\bin\Debug\netcoreapp3.1\POSStore.exe");
+            configKey.SetValue("dataLocation", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\CPOS\");
             configKey.Close();
 
         }
@@ -73,14 +75,42 @@ namespace registryData
         {
             RegistryKey sqlKey = Registry.CurrentUser.CreateSubKey(root + @"sql");
             sqlKey.SetValue("Connection", @"(LocalDB)\MSSQLLocalDB");
-            sqlKey.SetValue("Database","DSPOS");
+            sqlKey.SetValue("Database", "DSPOS");
             sqlKey.SetValue("Product", "mainLedger");
             sqlKey.SetValue("Stock", "stockTable");
             sqlKey.SetValue("Invoice", "invoiceLedger");
             sqlKey.SetValue("Sale", "saleLedger");
             sqlKey.Close();
         }
-
+        private void createFolderKey()
+        {
+            RegistryKey folderKey = Registry.CurrentUser.CreateSubKey(root + @"folders");
+            folderKey.SetValue("dataLocation", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\CPOS\");
+            folderKey.SetValue("InstallLocation", @"C:\Users\muhammadahsan\source\repos\POSStore\POSStore\bin\Debug\netcoreapp3.1\POSStore.exe");
+            folderKey.Close();
+        }
+        public string? getDataFolder()
+        {
+            var reg = Registry.CurrentUser.OpenSubKey(root + @"folders");
+            string? str = string.Empty;
+            if (reg != null)
+            {
+                str = reg.GetValue("dataLocation").ToString();
+                reg.Close();
+            }
+            return str;
+        }
+        public string? getInsallFolder()
+        {
+            var reg = Registry.CurrentUser.OpenSubKey(root + @"folders");
+            string? str = string.Empty;
+            if (reg != null)
+            {
+                str = reg.GetValue("IntallLocation").ToString();
+                reg.Close();
+            }
+            return str;
+        }
         public string getLoginName()
         {
             var reg = Registry.CurrentUser.OpenSubKey(root + @"login");
@@ -210,7 +240,7 @@ namespace registryData
                 if (registryKey.GetValue("installLevel") != null)
                 {
                     // if value exist get value and compare
-                    string strInstallLevel = registryKey.GetValue("installLevel").ToString(); 
+                    string strInstallLevel = registryKey.GetValue("installLevel").ToString();
                     if (strInstallLevel.Equals("firstRun"))
                     {
                         registryKey.Close();
@@ -223,9 +253,9 @@ namespace registryData
                     }
                 }
                 else
-                { 
+                {
                     // if value does not exist
-                    return true; 
+                    return true;
                 }
             }
             else

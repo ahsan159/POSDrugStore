@@ -6,6 +6,7 @@ using DataWrapper;
 using System.Data;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Xsl;
 
 namespace XMLReportGenerator
 {
@@ -26,6 +27,7 @@ namespace XMLReportGenerator
             dataEle.Add(new XElement("Payment",iData["Payment"]));
             dataEle.Add(new XElement("Balance",iData["Balance"]));
             ele.Add(dataEle);
+            
             foreach(DataRow dr in Invoice.Rows)
             {
                 XElement dEle = new XElement("Drug");
@@ -43,7 +45,13 @@ namespace XMLReportGenerator
             }
             XDocument doc = new XDocument();
             doc.Add(ele);
-            doc.Save("Report.xml");
+            string pathXML = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\CPOS\report.xml";
+            string pathXSL = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\CPOS\report.xsl";
+            string pathHTM = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\CPOS\report.html";
+            doc.Save(pathXML);
+            XslCompiledTransform trans = new XslCompiledTransform();
+            trans.Load(pathXSL);
+            trans.Transform(pathXML, pathHTM);
         }
     }
 }

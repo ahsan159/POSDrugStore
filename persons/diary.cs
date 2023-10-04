@@ -5,7 +5,7 @@ using System.Xml.Linq;
 //using persons;
 
 
-namespace persons
+namespace person
 {
     public class diary
     {
@@ -140,7 +140,7 @@ namespace persons
                     {
                         added = DateTime.ParseExact(e.Value, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
                     }
-                    catch (Exception )
+                    catch (Exception)
                     {
                         added = DateTime.ParseExact(e.Value, "dd-MM-yyyy", System.Globalization.CultureInfo.InvariantCulture);
                     }
@@ -151,7 +151,7 @@ namespace persons
                     {
                         dob = DateTime.ParseExact(e.Value, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
                     }
-                    catch (Exception )
+                    catch (Exception)
                     {
                         dob = DateTime.ParseExact(e.Value, "dd-MM-yyyy", System.Globalization.CultureInfo.InvariantCulture);
                     }

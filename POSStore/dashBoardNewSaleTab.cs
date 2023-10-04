@@ -129,7 +129,10 @@ namespace POSStore
 
         private void checkOut(object sender, RoutedEventArgs evt)
         {
-            executeSale();
+            //MessageBox.Show(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)+@"\CPOS\");
+            
+            executeSale();            
+
         }
         private void DataGridComboFocused(object sender, RoutedEventArgs evt)
         {
@@ -243,9 +246,13 @@ namespace POSStore
         }
         private void executeSale()
         {
-            string cUser = "ahsan";
+            //string cUser = "ahsan";
             try
             {
+                if(newSaleCollection.Rows.Count<=0)
+                {
+                    return;
+                }
                 if (balanceTotal.Text.IndexOf('-') >= 0)
                 {
                     //MessageBox.Show("balance negative");
@@ -272,7 +279,7 @@ namespace POSStore
                     " (Invoice,UserName,Customer,Contact,Total,Discount,Payment,Balance,DrugCount,CheckoutDate,CheckoutTime,DBName) " +
                     " values ('" +
                     invoiceNo.Text + "','" +
-                    cUser + "','" +
+                    User + "','" +
                     customerName.Text + "','" +
                     contactNo.Text + "','" +
                     totalCost.Content + "','" +
@@ -284,12 +291,13 @@ namespace POSStore
                     DateTime.Now.ToString("hh:mm:ss") + "','" +
                     saleTableName + "');";
                 dWrap.executeNonQuery(invoiceString);
+                XMLReportGenerator.ReportGenerator rg = new(saleTableName);
                 ClearForNewSale();
 
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                MessageBox.Show("ERR4001:Printing Error " + e.Message + e.StackTrace,"Error",MessageBoxButton.OK,MessageBoxImage.Error);
             }
         }
         private void ClearForNewSale()

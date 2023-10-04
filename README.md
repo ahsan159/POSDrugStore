@@ -81,3 +81,5 @@ Made small changes in *.csproj files to update the output and software assembly
 Using Wixv3 requires a full project process to make the msi installer. However, I am trying to get along. I can not understand that Wix and VS 2022 has not properly integrated. I can either compile for x64 or x86 and that by changing the wix project file. Tutorial I am following is asking to use "Typora" for creating license agreement files for installation UI display.
 ## 27-Sep-2023
 Next step is to use wixv3 for setting up registry files. next step will be set up sql server files physically on different location. 
+## 04-Oct-2023
+Also using xslt transformation from C# to generate html directly. Using Microsoft HTML Object Library for print of report.
