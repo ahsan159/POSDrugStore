@@ -37,6 +37,7 @@ namespace POSStore
         public string currentProductPrice { get; set; } = string.Empty;
         public string currentProductStock { get; set; } = string.Empty;
         public string nsGrandTotal { get; set; } = "";
+        public string selectedValueBind { get; set; } = string.Empty;
         public void initializeNewSale()
         {
             string dateCode = DateTime.Now.ToString("yyyyMMddhhmmss");
@@ -55,7 +56,7 @@ namespace POSStore
             newSaleCollection.Columns.Add("ID", typeof(string));
             newSaleCollection.Columns.Add("Stock", typeof(string));
             DataRow dr = newSaleCollection.NewRow();
-            newSaleCollection.Rows.Add(newSaleCollection.NewRow());
+            //newSaleCollection.Rows.Add(newSaleCollection.NewRow());
             //dr["Discount"] = "Data1";
             //newSaleCollection.Rows.Add(dr);
             //DataRow dr2 = newSaleCollection.NewRow();
@@ -64,7 +65,7 @@ namespace POSStore
             //newSaleDataGrid.ItemsSource = newSaleCollection.DefaultView;
             //MessageBox.Show(drugListComboItems.Count.ToString());
 
-            (newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
+            //(newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
 
             //ComboBox cb = newSaleDataGrid.Columns[0].GetCellContent(newSaleDataGrid.Items[0]) as ComboBox;
             //cb.Text = "Cells";
@@ -150,11 +151,11 @@ namespace POSStore
             //                drugListComboID.Count() + Environment.NewLine + 
             //                drugListComboItems.Count() + Environment.NewLine
             //                );
-            DataTable dt = dWrap.getProductData(drugListComboID[index].ToString());
+            //DataRow dr = productListDT.AsEnumerable().Where(r=>r.Field<string>("id")
             newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Name"] = drugListComboItems[index];
             newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Discount100"] = 0;
             newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Discount"] = 0;
-            newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Price"] = dt.Rows[0]["Cost"];
+            newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Price"] = "100";// dt.Rows[0]["Cost"];
             newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["ID"] = drugListComboID[index];
             newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["SaleTax"] = 0;
             newSaleCollection.Rows[newSaleDataGrid.SelectedIndex]["Stock"] = 0;
@@ -358,7 +359,7 @@ namespace POSStore
                     drugListComboItems = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith(sSearch)).Select(r => r.Field<string>("name")).ToList();
                     drugListComboID = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith(sSearch)).Select(r => r.Field<int>("id")).ToList();
                     drugListComboCost = productListDT.AsEnumerable().Where(r => r.Field<string>("name").ToUpper().StartsWith(sSearch)).Select(r => r.Field<Single>("Cost")).ToList();
-                    (newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
+                    //(newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
                 }
                 else
                 {
@@ -377,7 +378,7 @@ namespace POSStore
             //DataTable dt = dWrap.executeBasicQuery("SELECT DISTINCT(name),id FROM mainLedger");
             drugListComboItems = productListDT.Rows.Cast<DataRow>().Select(r => r.Field<string>("name")).ToList(); ;
             drugListComboID = productListDT.Rows.Cast<DataRow>().Select(r => r.Field<int>("id")).ToList();
-            (newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
+            //(newSaleDataGrid.Columns[0] as DataGridComboBoxColumn).ItemsSource = drugListComboItems;
         }
 
     }

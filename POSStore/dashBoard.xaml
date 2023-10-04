@@ -195,31 +195,53 @@
                                 Height="300"
                                 AutoGenerateColumns="False"
                                 CanUserSortColumns="False"
-                                ItemsSource="{Binding newSaleCollection,Mode=TwoWay}"
+                                ItemsSource="{Binding newSaleCollection}"
                                 SelectionUnit="FullRow"
                                 SelectedIndex="{Binding indexSelected}"
-                                SelectedCellsChanged="newSaleTable_SelectionChanged"                                              
                                         >
+                                <!--SelectedCellsChanged="newSaleTable_SelectionChanged"-->                                              
                                 <!--SelectionChanged="newSaleTable_SelectionChanged"-->
                                 <DataGrid.Columns>
                                     <!--ItemsSource="{Binding drugListComboItems,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"--> 
                                     <!--using binding with ItemSource is not working i donot know why but i have directly set itemsource in code 
                                     which is working.-->
                                                             <!--SelectedItemBinding="{Binding Name}"-->                                                                                                                        
-                                    <DataGridComboBoxColumn Header="Product"        
-                                                            SelectedItemBinding="{Binding name}"                                                                                                                        
+                                                            <!--SelectedItemBinding="{Binding name}"-->                                                                                                                        
+                                    <!--<DataGridComboBoxColumn Header="Product"        
+                                                            SelectedValueBinding="{Binding selectedValueBind}"
                                                                 >
+                                        <DataGridComboBoxColumn.ElementStyle>
+                                            <Style TargetType="ComboBox">
+                                                <Setter Property="ItemsSource" Value="{Binding drugListComboItems}"></Setter>
+                                                <Setter Property="IsReadOnly" Value="False"></Setter>
+                                                <Setter Property="ItemTemplate">
+                                                    <Setter.Value>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="CAllll"></TextBlock>
+                                                        </DataTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </DataGridComboBoxColumn.ElementStyle>
                                         <DataGridComboBoxColumn.EditingElementStyle>
                                             <Style TargetType="ComboBox">
-                                                <EventSetter Event="GotFocus" Handler="DataGridComboFocused"></EventSetter>
+                                                <Setter Property="ItemsSource" Value="{Binding drugListComboItems}"></Setter>
+                                                --><!--<EventSetter Event="GotFocus" Handler="DataGridComboFocused"></EventSetter>--><!--
                                                 <EventSetter Event="SelectionChanged" Handler="comboSelected"></EventSetter>
                                                 <EventSetter Event="KeyDown" Handler="newProductEntry_KeyDown"></EventSetter>
-                                                <Setter Property="SelectedIndex" Value="{Binding selectedComboIndex}"></Setter>
-                                                <!--<Setter Property="Text" Value="{Binding Name}"></Setter>-->
-                                                <Setter Property="IsEditable" Value="True"></Setter>                                                
+                                                --><!--<Setter Property="SelectedIndex" Value="{Binding selectedComboIndex}"></Setter>-->
+                                                <!--<Setter Property="Text" Value="{Binding Name}"></Setter>--><!--
+                                                <Setter Property="IsEditable" Value="True"></Setter>
+                                                <Setter Property="ItemTemplate">
+                                                    <Setter.Value>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="CAll"></TextBlock>
+                                                        </DataTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
                                             </Style>
                                         </DataGridComboBoxColumn.EditingElementStyle>
-                                    </DataGridComboBoxColumn>
+                                    </DataGridComboBoxColumn>-->
                                     <DataGridTextColumn Header="Name"
                                                                 Binding="{Binding Name}"
                                                                 IsReadOnly="True"
