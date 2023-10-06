@@ -95,7 +95,11 @@ namespace POSStore
             catch (Exception) { }
 
         }
-
+        public void printSalesReport(object sender, RoutedEventArgs evt)
+        {            
+            XMLReportGenerator.ReportGenerator rep = new XMLReportGenerator.ReportGenerator();
+            rep.SalesReportGenerator(invoiceSaleTableDT, startDatesaleTab.SelectedDate.Value.ToString("yyyy-MM-dd"), endDatesaleTab.SelectedDate.Value.ToString("yyyy-MM-dd"), totalSalesaleTab.Text);
+        }
         private void refreshSales()
         {
             initializeSaleTableTab();

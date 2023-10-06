@@ -121,5 +121,51 @@ namespace XMLReportGenerator
             trans.Load(pathXSL);
             trans.Transform(pathXML, pathHTM);
         }
+
+        public void SalesReportGenerator(DataTable saleTable,string from, string to, string totalSales)
+        {
+            Dictionary<string, string> SalesDict = new Dictionary<string, string>();
+            SalesDict.Add("Invoice", "InvoiceNo");
+            SalesDict.Add("Customer", "CustomerName");
+            SalesDict.Add("Total", "Total");
+            SalesDict.Add("Discount", "Discount");
+            SalesDict.Add("DrugCount", "ItemsCount");
+            SalesDict.Add("Contact", "CustomerContact");
+            SalesDict.Add("CheckoutDate", "Date");
+            SalesDict.Add("CheckoutTime", "Time");
+            SalesDict.Add("UserName", "Personal");
+
+            XElement SalesXElement = new XElement("SalesData");
+
+            XElement DataXElement = new XElement("Data");
+            DataXElement.Add(new XElement("FromDate", from));
+            DataXElement.Add(new XElement("ToDate", to));
+            DataXElement.Add(new XElement("TotalSales", totalSales));
+            SalesXElement.Add(DataXElement);
+
+            int i = 0;
+            foreach(DataRow dr in saleTable.Rows)
+            {
+                XElement SaleElement = new XElement("Sale");
+                SaleElement.Add(new XElement("Sr", i++));
+                foreach (KeyValuePair<string, string> kvp in SalesDict)
+                {
+                    SaleElement.Add(new XElement(kvp.Value, dr[kvp.Key]));
+                }
+                SalesXElement.Add(SaleElement);
+            }
+
+            XDocument doc = new XDocument();
+            doc.Add(SalesXElement);
+
+            string pathXML = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\CPOS\salesreport.xml";
+            string pathXSL = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\CPOS\sales.xsl";
+            string pathHTM = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\CPOS\report.html";
+
+            doc.Save(pathXML);
+            XslCompiledTransform trans = new XslCompiledTransform();
+            trans.Load(pathXSL);
+            trans.Transform(pathXML, pathHTM);
+        }
     }
 }

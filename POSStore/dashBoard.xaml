@@ -368,7 +368,8 @@
                             </DockPanel>
                             <DockPanel DockPanel.Dock="Top">
                                 <Label Content="Total Sales: "    ></Label>
-                                <TextBox Name="totalSalesaleTab" Margin="10,10,10,10"></TextBox>
+                                <TextBox Name="totalSalesaleTab" Margin="10,10,10,10" Width="180"></TextBox>
+                                <Button Content="Print Report" Click="printSalesReport" Width="80"  Margin="10"></Button>
                             </DockPanel>
                             <DockPanel DockPanel.Dock="Top" Margin="0 0 10 10">
                                 <DataGrid
