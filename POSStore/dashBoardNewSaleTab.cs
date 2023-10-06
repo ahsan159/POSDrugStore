@@ -291,7 +291,7 @@ namespace POSStore
                     DateTime.Now.ToString("hh:mm:ss") + "','" +
                     saleTableName + "');";
                 dWrap.executeNonQuery(invoiceString);
-                XMLReportGenerator.ReportGenerator rg = new(saleTableName);
+                //XMLReportGenerator.ReportGenerator rg = new(saleTableName);
                 ClearForNewSale();
 
             }

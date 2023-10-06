@@ -29,6 +29,8 @@ namespace POSStore
         public void viewEntry(object sender, RoutedEventArgs evt)
         {
             string  idSelected = productListDT.Rows[selectitemIndex]["id"].ToString();
+            XMLReportGenerator.ReportGenerator rep = new XMLReportGenerator.ReportGenerator();
+            rep.PrductReportGenerator(idSelected);
             drugView dv = new drugView(dWrap.executeBasicQuery("SELECT * FROM mainLedger WHERE id='" + idSelected + "';"));
             dv.ShowDialog();
         }

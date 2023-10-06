@@ -33,12 +33,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		sqlscripts\insertdata.sql = sqlscripts\insertdata.sql
 		sqlscripts\loginTable.sql = sqlscripts\loginTable.sql
 		README.md = README.md
+		transformation\report.xsl = transformation\report.xsl
 		sqlscripts\select_all.sql = sqlscripts\select_all.sql
+		transformation\stock.xsl = transformation\stock.xsl
 		sqlscripts\stockTable.sql = sqlscripts\stockTable.sql
 		sqlscripts\testTable.sql = sqlscripts\testTable.sql
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportPrinter", "ReportPrinter\ReportPrinter.csproj", "{27A39FB3-A881-4316-AAD5-2F3FA3FC0CFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportPrinter", "ReportPrinter\ReportPrinter.csproj", "{27A39FB3-A881-4316-AAD5-2F3FA3FC0CFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

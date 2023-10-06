@@ -188,7 +188,13 @@ namespace DataWrapper
         {
             string query = @"select * from invoiceLedger where DBName='" + InvoiceNo + @"';";
             return executeBasicQuery(query);
-        }        
+        }
+
+        public DataTable getProductStock(string ProductID)
+        {
+            string query = @"select * from stockTable where ProductID='" + ProductID + @"';";
+            return executeBasicQuery(query);
+        }
         public void tableExist(string tableName)
         {
 
