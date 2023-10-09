@@ -180,7 +180,7 @@ namespace registryData
             {
                 regKey.SetValue("Username", user);
                 regKey.SetValue("Userlevel", level);
-                regKey.SetValue("Status", "active");
+                setActivityStatus("LoggedIn");
                 regKey.SetValue("lastActive", DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss"));
             }
             regKey.Close();
@@ -203,7 +203,7 @@ namespace registryData
             }
             return string.Empty;
         }
-        public string activityStatus()
+        public string getActivityStatus()
         {
             RegistryKey regKey = Registry.CurrentUser.OpenSubKey(@"Software\CompanionPOS\login");
             if (regKey != null)
@@ -212,9 +212,9 @@ namespace registryData
             }
             return string.Empty;
         }
-        public void updateActivity(string status)
+        public void setActivityStatus(string status)
         {
-            RegistryKey regKey = Registry.LocalMachine.OpenSubKey(@"Software\CompanionPOS\login", true);
+            RegistryKey regKey = Registry.CurrentUser.OpenSubKey(@"Software\CompanionPOS\login", true);
             if (regKey != null)
             {
                 regKey.SetValue("Status", status);

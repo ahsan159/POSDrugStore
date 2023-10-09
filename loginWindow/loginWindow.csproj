@@ -13,12 +13,6 @@
   <ItemGroup>
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="registryData">
-  <HintPath>../registryData/registryData.dll</HintPath>
-  </Reference>
-  </ItemGroup>
-
  <ItemGroup>
     <None Remove="img\add.png" />
     <None Remove="img\checkout.png" />
@@ -36,6 +30,9 @@
     <None Remove="img\view.png" />
     <None Remove="img\yes.png" />
   </ItemGroup>
+ <ItemGroup>
+   <ProjectReference Include="..\registryData\registryData.csproj" />
+ </ItemGroup>
   <ItemGroup>
     <Resource Include="img\add.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

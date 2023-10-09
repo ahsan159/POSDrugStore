@@ -70,7 +70,7 @@ namespace loginWindow
                     //MessageBox.Show(result + Environment.NewLine + resultExpected);
                     if (result.Equals(resultExpected))
                     {
-                        MessageBox.Show("sql server started successfully");
+                        //MessageBox.Show("sql server started successfully");
                         p.Close();
                     }
                     else
@@ -103,6 +103,7 @@ namespace loginWindow
                 if (passwordString == str[0])
                 {
                     reg.setUser(usernameString, str[1]);
+                    reg.setActivityStatus("LoggedIn");
                     exeLocation = @"..\POSStore\POSStore.exe";
                     System.Diagnostics.Process.Start(exeLocation);
                     this.Close();

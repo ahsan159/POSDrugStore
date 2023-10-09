@@ -64,7 +64,19 @@ namespace POSStore
             dashBoardOpen(this, new RoutedEventArgs());
             this.DataContext = this;
             User = regClass.getLoginName();
-
+            string userlevel = regClass.getLevel();
+            if (regClass.getActivityStatus() != "LoggedIn")
+            {
+                this.Close();
+            }
+            if(userlevel!="admin")
+            {
+                ConfigTab.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                ConfigTab.Visibility = Visibility.Visible;
+            }
             // for stock Tab            
             //DataRow dr = stockCollection.NewRow();
             //stockCollection.Rows.Add(dr);
@@ -221,6 +233,12 @@ namespace POSStore
                 sum += int.Parse(d["Total"].ToString());
             }
             return sum;
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            MessageBox.Show("exiting");
+            regClass.setActivityStatus("LoggedOut");
         }
     }
 }

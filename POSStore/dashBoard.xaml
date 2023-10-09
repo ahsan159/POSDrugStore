@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:POSStore"
         mc:Ignorable="d"
-        Title="Companion POS" Height="750" Width="1050">
+        Title="Companion POS" Height="750" Width="1050"        
+        Closing="Window_Closing"
+        >
     <Grid>
         <Viewbox Stretch="Fill" StretchDirection="Both"></Viewbox>
         <DockPanel>
