@@ -87,6 +87,8 @@ namespace POSStore
             // for cutomer tab initialization
             updateCustomerTable();
 
+            initializeConfigTab();
+
             SetGraphs();
         }
         private void closeWindow(object sender, RoutedEventArgs evt)

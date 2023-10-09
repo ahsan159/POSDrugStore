@@ -47,7 +47,8 @@
                                 Height="100" Width="100" 
                                 FontSize="18" FontWeight="Bold"
                                 Margin="30"         
-                                Click="openDrugList"></Button>
+                                Click="openDrugList"
+                                                ></Button>
                                         <Button Content="Customers" Name="cBtn"
                                 Height="100" Width="100" 
                                 FontSize="18" FontWeight="Bold"                                
@@ -769,6 +770,99 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                         </DockPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem
+                    Height="40"
+                    Name="ConfigTab"
+                    >
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Source="./img/customers.png" Height="30"
+                                MouseLeftButtonDown="ConfigTab_Clicked"></Image>
+                            <Label
+                                Content="Configuration"
+                                MouseLeftButtonDown="ConfigTab_Clicked"></Label>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid>
+                        <DockPanel>
+                            <DockPanel DockPanel.Dock="Top">
+                                <DataGrid
+                                    AutoGenerateColumns="False"
+                                    Name="LoginTable"
+                                    ItemsSource="{Binding ActiveLoginTable}"
+                                    SelectedIndex="{Binding LoginTable_SelectedIndex}"
+                                    SelectionUnit="FullRow"
+                                    Margin="10"
+                                    DockPanel.Dock="Left"
+                                    Width="400"
+                                    IsReadOnly="True"
+                                    >
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn
+                                            Header="Sr"           
+                                            Binding="{Binding Sr}"
+                                            ></DataGridTextColumn>
+                                        <DataGridTextColumn
+                                            Header="Name"          
+                                            Binding="{Binding Name}"
+                                            ></DataGridTextColumn>
+                                        <DataGridTextColumn
+                                            Header="Level"                                        
+                                            Binding="{Binding Level}"
+                                            ></DataGridTextColumn>
+                                        <DataGridTextColumn
+                                            Header="Added"      
+                                            Binding="{Binding Added}"
+                                            ></DataGridTextColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            <DockPanel DockPanel.Dock="Right" Margin="10">
+                                    <DockPanel DockPanel.Dock="Top">                                        
+                                        <Label Content="New Username" Margin="10" DockPanel.Dock="Left"></Label>
+                                        <TextBox Name="newuser" ToolTip="Insert New Username" DockPanel.Dock="Right" Margin="10" MinWidth="350" HorizontalAlignment="Right"></TextBox>
+                                    </DockPanel>
+                                    <DockPanel DockPanel.Dock="Top">
+                                        <Label Content="Level" Margin="10" DockPanel.Dock="Left"></Label>
+                                        <ComboBox
+                                            ItemsSource="{Binding LoginLevelDropDownItems}"
+                                            SelectedIndex="{Binding LoginLevelDropDownIndex}"
+                                            DockPanel.Dock="Right" Margin="10" MinWidth="350" HorizontalAlignment="Right"
+                                            ></ComboBox>
+                                        <!--<TextBox Name="newuser" ToolTip="Insert New Username" DockPanel.Dock="Right" Margin="10" MinWidth="350" HorizontalAlignment="Right"></TextBox>-->
+                                    </DockPanel>
+                                    <DockPanel DockPanel.Dock="Top">
+                                        <Label Content="Insert Password" Margin="10" DockPanel.Dock="Left"></Label>
+                                        <PasswordBox Name="newpassword1" ToolTip="Insert New Password" DockPanel.Dock="Top" Margin="10" MinWidth="350" HorizontalAlignment="Right"></PasswordBox>
+                                    </DockPanel>
+                                    <DockPanel DockPanel.Dock="Top">
+                                        <Label Content="Reinsert Password" Margin="10" DockPanel.Dock="Left"></Label>
+                                        <PasswordBox Name="newpassword2" ToolTip="Insert New Password" DockPanel.Dock="Top" Margin="10" MinWidth="350" HorizontalAlignment="Right"></PasswordBox>
+                                    </DockPanel>
+                                    <Button 
+                                    Content="Delete"
+                                    Width="140"
+                                    Height="40"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Margin="40 10 10 10"
+                                Click="DeleteUser"
+                                ></Button>
+                                <Button 
+                                    Content="Add"
+                                    Width="140"
+                                    Height="40"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Margin="10"
+                                    Click="AddUser"
+                                ></Button>
+                            </DockPanel>
+                            </DockPanel>
+                        </DockPanel>
+                            
                     </Grid>
                 </TabItem>
             </TabControl>
